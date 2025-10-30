@@ -3,7 +3,7 @@
 Thư mục này chứa các file dữ liệu cho Project OOP.
 
 ## Cấu trúc
-- `sample_data.json` - Dữ liệu mẫu cho testing
+- Tất cả các file đều là .json
 - Các file JSON khác sẽ được thêm vào khi cần
 
 ## Sử dụng
