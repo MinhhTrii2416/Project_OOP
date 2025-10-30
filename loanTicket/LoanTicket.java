@@ -1,5 +1,5 @@
 package loanTicket;
 
-public class LoantTicket {
+public class LoanTicket {
     
 }
