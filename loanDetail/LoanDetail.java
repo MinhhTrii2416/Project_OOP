@@ -30,7 +30,7 @@ public class LoanDetail  {
         
         System.out.println("\t- Sách/Vật phẩm: " + itemName + " - Số lượng: " + this.quantity);
         if (this.actualReturnDate != null) {
-            // Đã sửa lỗi cú pháp: dùng getActualReturnDate()
+           
             System.out.println("\t  Đã trả ngày: " + this.getActualReturnDate()); 
         } else {
             System.out.println("\t  Trạng thái: Chưa trả");
