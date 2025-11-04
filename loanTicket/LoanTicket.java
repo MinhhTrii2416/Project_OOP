@@ -16,7 +16,14 @@ public class LoanTicket {
     private List<LoanDetail> loanDetails;
 
     // Constructor
-    public LoanTicket() {}
+    public LoanTicket() {       
+        this.ticketID = "null";
+        this.dueDate = null;
+        this.reader = "null";
+        this.librarian = "null";
+        this.borrowDate = null;
+        this.loanDetails = null;
+    }
 
     public LoanTicket(String ticketID, LocalDate dueDate, String reader, String librarian, LocalDate borrowDate,
             List<LoanDetail> loanDetails) {
