@@ -7,8 +7,12 @@ public class LoanDetail  {
     public String item;       // - (Book) item; cập nhật sau
     private LocalDate actualReturnDate; // - actualReturnDate
 
-    
-    public LoanDetail() {}
+    // Constructor
+    public LoanDetail() {
+        this.quantity = 0;
+        this.item = "null";
+        this.actualReturnDate = null;
+    }
 
     public LoanDetail(int quantity, String item, LocalDate actualReturnDate) {
         this.quantity = quantity;
@@ -16,6 +20,7 @@ public class LoanDetail  {
         this.actualReturnDate = actualReturnDate;
     }
 
+    // Getters và Setters
     public int getQuantity() { return this.quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
     public String getItem() { return this.item; }
