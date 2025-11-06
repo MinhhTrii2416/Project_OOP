@@ -24,6 +24,7 @@ public class Main{
         // login
         Librarian lib = LoginLibrarian();
 
+        if(lib == null) return;
 
         System.out.println("Chao mung quay lai, "+ lib.getName());
         // show menu
@@ -60,11 +61,18 @@ public class Main{
         int count = 1;
         boolean flag = false;
         do{
+
+            
+            if(count >= 5) {
+                System.out.println("Qua gioi han dang nhap!\n");
+                return null;
+            }
+
             System.out.print("Nhap vao id cua thu thu: ");
             librarianID = sc.nextLine();
             if(!checkID(librarianID)){
                 System.out.println("Khong tim thay id nay! Try again\n");
-                count ++;
+                ++count;
                 continue;
             }
 
@@ -77,14 +85,11 @@ public class Main{
             }
             else {
                 System.out.println("Mat khau khong dung! Try again\n");        
-                count ++;
+                ++count;
             }
 
-
-            if(count >= 5) {
-                flag = true;
-            }
         }while(!flag);
+
         for(int i=0; i<list_librarians.size(); i++){
             if( list_librarians.get(i).getLibrarianID().equals(librarianID)){
                 return list_librarians.get(i);
