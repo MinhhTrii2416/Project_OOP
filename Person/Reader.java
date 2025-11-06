@@ -1,3 +1,4 @@
+package Person;
 public class Reader extends Person{
     private String readerID;
     // set & get 
