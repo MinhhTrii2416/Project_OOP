@@ -3,22 +3,30 @@ package book;
 
 // Truyện tranh
 public class ComicBook  extends Book{
-    
-    // properties
+
+// properties
     private String artist; // Họa sĩ
     private int volumeNumber; // số tập
 
-    // Constructor
+// getter - setter
+    public void setArtist(String artist) {this.artist = artist;}
+    public void setVolumeNumber(int volumeNumber) {this.volumeNumber = volumeNumber;}
+    public int getVolumeNumber() {return volumeNumber;}
+    public String getArtist() {return artist;}
+
+// Constructor
     public ComicBook() {
         super();
         this.artist = "null";
         this.volumeNumber = 0;
+        this.setBookType("Comic Book");
         bookID = "comicB_" + (split_ID() + 1);
     }  
     public ComicBook(String name, String author, int quantity, int remaining, String artist, int volNumber) {
         super(author, name, quantity, remaining);
         this.artist = artist;
         this.volumeNumber = volNumber;
+        this.setBookType("Comic Book");
         bookID = "comicB_" + (split_ID() + 1);
     }
     public ComicBook(ComicBook comicBook) {
@@ -28,12 +36,29 @@ public class ComicBook  extends Book{
         this.remaining = comicBook.remaining;
         this.artist = comicBook.artist;
         this.volumeNumber = comicBook.volumeNumber;
+        this.bookType = comicBook.bookType;
         bookID = "comicB_" + (split_ID() + 1);
     }
 
+
+// methods
+    @Override
     public double calcFine() {
         double result = 0;
         
         return result;
+    }
+
+    @Override
+    public void showINFO() {
+        System.out.println("ID: " + Book.bookID);
+        System.out.println("Ten sach: " + this.getName());
+        System.out.println("The loai: " + this.getBookType());
+        System.out.println("Tac gia: " + this.getAuthor());
+        System.out.println("So luong: " + this.getQuantity());
+        System.out.println("So luong con lai: " + this.getRemaining());
+        System.out.println("Hoa si: " + this.getArtist());
+        System.out.println("So tap: " + this.getVolumeNumber());
+        
     }
 }

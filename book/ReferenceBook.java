@@ -6,15 +6,20 @@ public class ReferenceBook extends Book{
     // properties
     private boolean isReadOnly; // chỉ đọc
 
+    public void setReadOnly(boolean isReadOnly) {this.isReadOnly = isReadOnly;}
+    public boolean isReadOnly() {return this.isReadOnly;}
+
     // Constructor
     public ReferenceBook() {
         super();
         this.isReadOnly = true;
+        this.setBookType("Reference Book");
         bookID = "referenceB_" + (split_ID() + 1);
     }  
     public ReferenceBook(String name, String author, int quantity, int remaining, Boolean isReadOnly) {
         super(author, name, quantity, remaining);
         this.isReadOnly = isReadOnly;
+        this.setBookType("Reference Book");
         bookID = "referenceB_" + (split_ID() + 1);
     }
     public ReferenceBook(ReferenceBook referBook) {
@@ -23,12 +28,28 @@ public class ReferenceBook extends Book{
         this.quantity = referBook.quantity;
         this.remaining = referBook.remaining;
         this.isReadOnly = referBook.isReadOnly;
+        this.bookType = referBook.bookType;
         bookID = "referenceB_" + (split_ID() + 1);
     }
 
+
+// methods
+    @Override
     public double calcFine() {
         double result = 0;
         
         return result;
+    }
+    
+    @Override
+    public void showINFO() {
+        System.out.println("ID: " + Book.bookID);
+        System.out.println("Ten sach: " + this.getName());
+        System.out.println("The loai: " + this.getBookType());
+        System.out.println("Tac gia: " + this.getAuthor());
+        System.out.println("So luong: " + this.getQuantity());
+        System.out.println("So luong con lai: " + this.getRemaining());
+        String text = this.isReadOnly ? "Chi doc" : "Duoc phep muon/mua";
+        System.out.println("The loai phu: " + text);
     }
 }
