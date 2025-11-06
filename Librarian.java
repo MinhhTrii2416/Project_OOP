@@ -14,8 +14,8 @@ public class Librarian extends Person {
     public String getPassword(){return this.password;}
     // constructor  
     public Librarian(){}
-    public Librarian(String Name, String personID, String gender, String phoneNumber, String email, String address, String librarianID, String shift, double salary, String password){
-        super(Name, personID, gender, phoneNumber, email, address);
+    public Librarian(String Name, String gender, String phoneNumber, String email, String address, String librarianID, String shift, double salary, String password){
+        super(Name, gender, phoneNumber, email, address);
         this.librarianID = librarianID;     
         this.shift = shift;
         this.salary = salary;
@@ -23,6 +23,7 @@ public class Librarian extends Person {
     }
     @Override
     public void showINFO(){
+        System.out.println("Thong tin thu thu");
         System.out.println('Name: ' + this.Name);
         System.out.println('Person ID: ' + this.personID);  
         System.out.println('Gender: ' + this.gender);

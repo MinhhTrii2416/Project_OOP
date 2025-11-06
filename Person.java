@@ -1,6 +1,5 @@
 abstract public class Person {
     protected String Name;
-    protected String personID;
     protected String gender;
     protected String phoneNumber;
     protected String email;
@@ -8,8 +7,6 @@ abstract public class Person {
     // set & get
     public void setName(String name){ this.Name = name;}
     public String getName(){ return this.Name;}
-    public void setPersonID(String personID){this.personID = personID;}
-    public String getPersonID(){return this.personID;}
     public void setGender(String gender){this.gender = gender;}
     public String getGender(){return this.gender;}
     public void setPhoneNumber(String phoneNumber){this.phoneNumber = phoneNumber;}
@@ -20,9 +17,8 @@ abstract public class Person {
     public String getAddress(){return this.address;}    
     // contructor
     public Person(){}
-    public Person(String Name, String personID, String gender, String phoneNumber, String email, String address){
-        this.Name = Name;
-        this.personID = personID;               
+    public Person(String Name, String gender, String phoneNumber, String email, String address){
+        this.Name = Name;               
         this.gender = gender;
         this.phoneNumber = phoneNumber;     
         this.email = email;
