@@ -1,7 +1,8 @@
+import Person.*;
+
 import java.util.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 import Person.Librarian;
 public class Main{
@@ -10,6 +11,7 @@ public class Main{
         list = loadListLib("./data/Librarian.csv");
         for( int i=0; i<list.size(); i++){
             list.get(i).showINFO();
+            System.out.println();
         }
     }
 

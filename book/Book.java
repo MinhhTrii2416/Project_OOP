@@ -11,6 +11,7 @@ public abstract class Book {
     protected String author;
     protected int quantity;
     protected int remaining;
+    protected String bookType;
 
 // Getter - Setter
     public String getAuthor() {return author;}
@@ -21,6 +22,8 @@ public abstract class Book {
     public void setName(String name) {this.name = name;}
     public void setQuantity(int quantity) {this.quantity = quantity;}
     public void setRemaining(int remaining) {this.remaining = remaining;}
+    public String getBookType() {return bookType;}
+    public void setBookType(String bookType) {this.bookType = bookType;}
 
 // Constructor
     public Book() {
@@ -69,7 +72,10 @@ public abstract class Book {
 
 // methods - funtions
     public abstract double calcFine(); // Calculate the fine;
+    public abstract void showINFO();
 
+
+// helper funtions
     public int split_ID(){
         int id = Integer.parseInt(bookID.substring(bookID.indexOf("_")+1));
         return id;

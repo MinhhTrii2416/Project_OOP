@@ -38,7 +38,7 @@ public class Librarian extends Person {
     }
     // đăng nhập
     public void Login(){
-          
+        
     }
     // làm menu chính cho thủ thư
     public void menuMain(){
@@ -62,8 +62,8 @@ public class Librarian extends Person {
                 case 5: break;
                 case 0: System.out.println("Xac nhan thhoat"); return;
                 default:
-                 System.out.println("Ban da nhap sai hay nhap lai!");
-                 lua_chon = -1;
+                    System.out.println("Ban da nhap sai hay nhap lai!");
+                    lua_chon = -1;
             }
         }while(lua_chon == -1);
     }
