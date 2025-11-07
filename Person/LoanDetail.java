@@ -6,7 +6,7 @@ import book.Book;
 
 public class LoanDetail  {
     private int quantity;    
-    public Book item;       
+    private Book item;       
     private LocalDate actualReturnDate; 
 
     // Constructor
@@ -30,10 +30,8 @@ public class LoanDetail  {
     }
 
     // Getters và Setters
-    public int getQuantity() { return this.quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
-    public Book getItem() { return this.item; }
-    public void setItem(Book item) { this.item = item; }
+    public int getQuantity() { return this.quantity; }  
+    public Book getItem() { return this.item; }  
     public LocalDate getActualReturnDate() { return this.actualReturnDate; }
     public void setActualReturnDate(LocalDate actualReturnDate) { this.actualReturnDate = actualReturnDate; }
 

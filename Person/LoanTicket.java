@@ -1,13 +1,14 @@
 package Person;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoanTicket {
     private String ticketID; 
     private LocalDate dueDate; 
-    public Reader reader; 
-    public Librarian librarian;
+    private Reader reader; 
+    private Librarian librarian;
     private LocalDate borrowDate; 
 
     
@@ -21,6 +22,7 @@ public class LoanTicket {
         this.librarian = null;
         this.borrowDate = null;
         this.loanDetails = null;
+        this.loanDetails = new ArrayList<>();
     }
 
     public LoanTicket(String ticketID, LocalDate dueDate, Reader reader, Librarian librarian, LocalDate borrowDate,
@@ -46,13 +48,13 @@ public class LoanTicket {
         this.loanDetails = loanDetails;
     }
 
-    // Getters và Setters
-    public String getTicketID() { return this.ticketID; }
-    public void setTicketID(String ticketID) { this.ticketID = ticketID; }
+    // Getters
+    public String getTicketID() { return this.ticketID; } 
     public LocalDate getDueDate() { return this.dueDate; }
-    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
     public LocalDate getBorrowDate() { return this.borrowDate; }
-    public void setBorrowDate(LocalDate borrowDate) { this.borrowDate = borrowDate; }
+    public Reader getReader() { return this.reader; }
+    public Librarian getLibrarian() { return this.librarian; }
+    
 
     // + showLoanTicket()
     public void showLoanTicket() {
