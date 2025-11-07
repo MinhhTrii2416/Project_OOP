@@ -6,34 +6,18 @@ import java.util.List;
 import java.util.Scanner;
 import Person.Librarian;
 public class Main{
-
-
-// các biến cục bộ
-
+    // các biến cục bộ
     private static ArrayList<Librarian> list_librarians = loadListLib("./data/Librarian.csv");
-
-
-
     public static void main( String[] args){
-
-        for(Librarian librarian : list_librarians) {
-            librarian.showINFO();
-            System.out.println();
-        }
-
         // login
         Librarian lib = LoginLibrarian();
-
         if(lib == null) return;
-
         System.out.println("Chao mung quay lai, "+ lib.getName());
         // show menu
         lib.menuMain();
     }
 
-
-
-// hàm đọc dữ liệu từ file
+    // hàm đọc dữ liệu từ file
     public static ArrayList<Librarian> loadListLib (String filename){
         ArrayList<Librarian> list = new ArrayList<>();
         try(BufferedReader br = new BufferedReader(new FileReader(filename))){
@@ -51,56 +35,57 @@ public class Main{
         return list;
     }
 
-
-
-// hàm đăng nhập
+    // hàm đăng nhập
     public static Librarian LoginLibrarian(){
-        String librarianID;
-        String password;
-        Scanner sc = new Scanner(System.in);
-        int count = 1;
+        int count = 0;
+        String librarianID = null, password = null;
         boolean flag = false;
-        do{
+        Scanner sc = new Scanner(System.in);
+        while(count<5){
+            if(!flag){
+                System.out.print("Nhap id: ");
+                librarianID = sc.nextLine();
+                if(!checkID(librarianID)){
+                    System.out.println("Loi Id!");
+                    System.out.println("So lan nhap id con lai " + (5-count) + "/5");
+                    ++count;
 
-            
-            if(count >= 5) {
-                System.out.println("Qua gioi han dang nhap!\n");
+                    if(count<5){ System.out.println("Hay nhap lai id!\n"); }
+                    else{
+                        System.out.println("\nDA QUA SO LAN DUOC SAI!");
+                        return null;
+                    }
+                    continue;
+                }
+                else{ flag = true; count = 0;}
+            }
+
+            System.out.print("Nhap password: ");
+            password = sc.nextLine();
+            if(!checkPassword(password, librarianID)){
+                System.out.println("Loi password!");
+                System.out.println("So lan nhap password con lai " + (5-count) + "/5");
+                ++count;
+            }
+            else{
+                System.out.println("\nDANG NHAP THANH CONG!");
+                for( Librarian lib: list_librarians){
+                    if(lib.getLibrarianID().equals(librarianID)){
+                        return lib;
+                    }
+                }
+            }
+
+            if(count<5){ System.out.println("Hay nhap lai password!\n"); }
+            else{
+                System.out.println("\nDA QUA SO LAN DUOC SAI!");
                 return null;
             }
-
-            System.out.print("Nhap vao id cua thu thu: ");
-            librarianID = sc.nextLine();
-            if(!checkID(librarianID)){
-                System.out.println("Khong tim thay id nay! Try again\n");
-                ++count;
-                continue;
-            }
-
-
-            System.out.print("Nhap vao password: ");
-            password = sc.nextLine();
-            if(CheckPassword(password)){
-                System.out.println("Dang nhap thanh cong!!!\n");
-                flag = true;
-            }
-            else {
-                System.out.println("Mat khau khong dung! Try again\n");        
-                ++count;
-            }
-
-        }while(!flag);
-
-        for(int i=0; i<list_librarians.size(); i++){
-            if( list_librarians.get(i).getLibrarianID().equals(librarianID)){
-                return list_librarians.get(i);
-            }
-        } 
-        return null;  
+        }
+        return null;
     }
 
-
-
-// hàm kiểm tra id
+    // hàm kiểm tra id
     public static boolean checkID(String librarianID) {
         for(Librarian lib : list_librarians) {
             if(lib.getLibrarianID().equals(librarianID)) {
@@ -110,11 +95,10 @@ public class Main{
         return false;  // Không tìm thấy ID nào khớp
     }
 
-
-// hàm kiểm tra password
-    public static boolean CheckPassword(String password){
+    // hàm kiểm tra password
+    public static boolean checkPassword(String password, String librarianID){
         for(Librarian lib: list_librarians) {
-            if(lib.getPassword().equals(password)) {
+            if(lib.getLibrarianID().equals(librarianID)  && lib.getPassword().equals(password)){
                 return true;  // Tìm thấy password khớp
             }
         }
