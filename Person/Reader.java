@@ -17,15 +17,14 @@ public class Reader extends Person{
         super(Name, gender, phoneNumber, email, address);
         this.readerID = readerID;
     }
-    @Override
+    //@Override
     public void showINFO(){
         System.out.println("Thong tin nguoi doc: ");
-        System.out.println('Name: ' + this.Name);
-        System.out.println('Person ID: ' + this.personID);  
-        System.out.println('Gender: ' + this.gender);
-        System.out.println('Phone Number: ' + this.phoneNumber);        
-        System.out.println('Email: ' + this.email);    
-        System.out.println('Address: ' + this.address);
-        System.out.println('ReaderID: ' + this.readerID);
+        System.out.println("Name: " + this.Name);
+        System.out.println("Gender: " + this.gender);
+        System.out.println("Phone Number: " + this.phoneNumber);        
+        System.out.println("Email: " + this.email);    
+        System.out.println("Address: " + this.address);
+        System.out.println("ReaderID: " + this.readerID);
     }
 }
