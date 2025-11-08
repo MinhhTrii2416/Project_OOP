@@ -53,7 +53,7 @@ public class Librarian extends Person {
             System.out.println("-       5. Quan li thu thu.              -");
             System.out.println("-       0. Dang xuat.                    -");
             System.out.println("------------------------------------------");
-            System.out.println("Hay nhap vao lua chon: ");
+            System.out.print("Hay nhap vao lua chon: ");
             lua_chon = sc.nextInt();
             // lọc lựa chọn
             switch(lua_chon){

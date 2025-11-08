@@ -1,4 +1,4 @@
 readerID,Name,gender,address,phoneNumber,email
-R001,Nguyen Van A,Male,123 Le Loi,0123456789,a@gmail.com
-R002,Tran Thi B,Female,456 Nguyen Trai,0987654321,b@gmail.com
-R003,Le Van C,Male,789 Tran Hung Dao,0112233445,c@gmail.com
+R001,Nguyen Van A,Male,123 Le Loi/Quan 1/TP.HCM,0123456789,a@gmail.com
+R002,Tran Thi B,Female,456 Nguyen Trai/Quan 5/TP.HCM,0987654321,b@gmail.com
+R003,Le Van C,Male,789 Tran Hung Dao/Quan Hai Chau/Da Nang,0112233445,c@gmail.com

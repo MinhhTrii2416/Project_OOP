@@ -13,7 +13,7 @@ public class Reader extends Person{
         super();
         this.readerID = null;
     }
-    public Reader(String Name, String gender, String phoneNumber, String email, String address, String readerID){
+    public Reader(String readerID, String Name, String gender, String address, String phoneNumber, String email){
         super(Name, gender, phoneNumber, email, address);
         this.readerID = readerID;
     }
