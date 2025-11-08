@@ -64,9 +64,12 @@ public class Librarian extends Person {
                 case 2: break;
                 case 3: break;
                 case 4: break;
-                case 5: break;
+                case 5: 
+                    LibrarianManager LM = new LibrarianManager(); 
+                    LM.menu();
+                    break;
                 case 0: 
-                    System.out.println("Xac nhan thhoat"); 
+                    System.out.println("Xac nhan thoat"); 
                     return;
                 default:
                     System.out.println("Ban da nhap sai hay nhap lai!");

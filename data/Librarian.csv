@@ -1,6 +1,5 @@
 Name,gender,phoneNumber,email,address,librarianID,shift,salary,password
-Nguyen Van A,Male,0901234567,a@gmail.com,Hanoi,L001,Morning,8000000,1234
-Tran Thi B,Female,0902345678,b@gmail.com,Danang,L002,Evening,8200000,abcd
-Le Van C,Male,0903456789,c@gmail.com,Hue,L003,Morning,7800000,pass1
-Pham Thi D,Female,0904567890,d@gmail.com,Saigon,L004,Night,8500000,pass2
-Hoang Van E,Male,0905678901,e@gmail.com,Haiphong,L005,Evening,8300000,12345
+Nguyen Van A,Male,0901234567,a@gmail.com,Hanoi,L001,Morning,8000000.0,1234
+Tran Thi B,Female,0902345678,b@gmail.com,Danang,L002,Evening,8200000.0,abcd
+Le Van C,Male,0903456789,c@gmail.com,Hue,L003,Morning,7800000.0,pass1
+Pham Thi D,Female,0904567890,d@gmail.com,Saigon,L004,Night,8500000.0,pass2

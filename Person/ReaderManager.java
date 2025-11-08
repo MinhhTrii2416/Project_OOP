@@ -77,6 +77,7 @@ public class ReaderManager implements DataService{
         readerID = sc.nextLine();
         for( Reader r: list){
             if(r.getReaderID().equals(readerID)){
+                System.out.println("---------------THONG TIN NGUOI DOC-------------");
                 r.showINFO();
                 return;
             }
@@ -191,6 +192,7 @@ public class ReaderManager implements DataService{
         id = sc.nextLine();
         for(Reader r: list){
             if(r.getReaderID().equals(id)){
+                System.out.println("----------------THONG TIN NGUOI DOC---------------------");
                 r.showINFO();
                 int xac_nhan = -1;
                 while(xac_nhan != 0){
@@ -326,7 +328,7 @@ public class ReaderManager implements DataService{
         }
         catch( IOException e){
             e.printStackTrace();
-        }
+        } 
         return list;
     }
     // hàm cập nhập dữ liệu file Librarian
