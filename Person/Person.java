@@ -1,6 +1,6 @@
 package Person;
 
-
+    
 abstract public class Person {
     protected String Name;
     protected String gender;
