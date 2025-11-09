@@ -19,6 +19,7 @@ public class LibrarianManager {
             System.out.println("-            2.Tim thu thu.            -");
             System.out.println("-            3.Them thu thu.           -");
             System.out.println("-            4.Xoa thu thu.            -");
+            System.out.println("-        5.Sua thong tin thu thu.      -");
             System.out.println("-              0.Thoat.                -");
             System.out.println("----------------------------------------");
             System.out.print("Hay nhap vao lua chon cua ban: ");
@@ -28,9 +29,10 @@ public class LibrarianManager {
                 case 2: search(); break;
                 case 3: add(); break;
                 case 4: remove(); break;
+                case 5: update(); break;
                 case 0: break;
                 default: 
-                    System.out.println("Khong co lua chon nay hay nha     p lai!");
+                    System.out.println("Khong co lua chon nay hay nhap lai!");
             }
         }
     }
@@ -100,7 +102,7 @@ public class LibrarianManager {
         else showList(kq);
     }
 
-    //hàm thủ thư
+    //hàm them thủ thư
     private void add(){
         sc.nextLine();
         String name, gender, phoneNumber, address, email, librarianID = null, shift, password = null;
@@ -109,7 +111,7 @@ public class LibrarianManager {
         while(!flag){
             System.out.print("Nhap vao id thu thu ban can tao: ");  
             librarianID = sc.nextLine();
-            if(!checkID(librarianID)){
+            if(checkID(librarianID)){
                 System.out.println("Id nay da duoc tao hay nhap ID khac!");
             }
             else flag = true;
@@ -168,10 +170,10 @@ public class LibrarianManager {
     private boolean checkID(String id){
         for(Librarian l: list){
             if(l.getLibrarianID().equals(id)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     // hàm xóa thủ thư
@@ -199,8 +201,7 @@ public class LibrarianManager {
             }
         }
     }
-
-
+    // xóa theo id
     private void RemoveID() {
         sc.nextLine();
         String id;
@@ -232,8 +233,7 @@ public class LibrarianManager {
         }
         System.out.println("Khong tim thay thu thu nao co id nay!");
     }
-
-    // ==================== XÓA THEO TÊN ====================
+    // xóa theo tên
     private void RemoveName() {
         sc.nextLine();
         String name;
@@ -330,6 +330,146 @@ public class LibrarianManager {
         }
     }
 
+    // hàm sửa thông tin thủ thư
+    private void update(){
+        String id = null;
+        boolean flag = false;
+        sc.nextLine();
+        while(!flag){
+            System.out.print("Nhap vao ma thu thu ban muon sua: ");
+            id = sc.nextLine();
+            if(!checkID(id)){
+                System.out.println("Khong tim thay id thu thu nay!Hay nhap lai!");
+            }
+            else flag = true;
+        }
+        Librarian ul  = new Librarian(); 
+        for( Librarian l: list){
+            if( l.getLibrarianID().equals(id)){
+                ul = l; 
+                break;
+            }
+        }
+
+        int choose = -1;
+        while(choose!=0){
+            System.out.println("---------------------Update Librarian-----------------");
+            System.out.println("-                  1.Sua ma thu thu.                 -");
+            System.out.println("-                  2.Sua ten thu thu.                -");
+            System.out.println("-                  3.Sua gioi tinh thu thu.          -");
+            System.out.println("-                  4.Sua dia chi thu thu.            -");
+            System.out.println("-                  5.Sua so dien thoai thu thu.      -");
+            System.out.println("-                  6.Sua email thu thu.              -");
+            System.out.println("-                  7.Sua ca lam thu thu.             -");
+            System.out.println("-                  8.Sua luong thu thu.              -");
+            System.out.println("-                  0.Thoat.                          -");
+            System.out.println("------------------------------------------------------");
+            System.out.print("Nhap vao lua chon cua ban: ");
+            choose = sc.nextInt();
+            sc.nextLine();
+            switch(choose){
+                case 1:
+                    updateLibrarianID(ul); 
+                    break;
+                case 2: 
+                    updateName(ul);
+                    break;
+                case 3:
+                    updateGender(ul); 
+                    break;
+                case 4:
+                    updateAddress(ul); 
+                    break;
+                case 5:
+                    updatePhoneNumber(ul); 
+                    break;
+                case 6:
+                    updateEmail(ul); 
+                    break;
+                case 7:
+                    updateShift(ul); 
+                    break;
+                case 8:
+                    updateSalary(ul); 
+                    break;
+                default:
+                    System.out.println("Khong co lua chon nay ban hay nhap lai!");
+            }
+            updateLib();
+        }
+    }
+    // update ma
+    private void updateLibrarianID(Librarian ul){
+        String id;
+        boolean flag = false;
+        while(!flag){
+            System.out.print("Nhap vao ma ban muon sua: ");
+            id = sc.nextLine();
+            if(checkID(id)){
+                System.out.println("Ma id nay da ton tai hay sua thanh ma id khac!");
+            }
+            else{
+                ul.setLibrarianID(id);  
+                flag = true;
+            }
+        }
+    }
+    //update ten
+    private void updateName(Librarian ul){
+        String name;
+        System.out.print("Hay nhap ten ban muôn sua: ");
+        name = sc.nextLine();
+        ul.setName(name);
+    }
+    // update sua gioi tinh
+    private void updateGender(Librarian ul){
+        String gender;
+        System.out.print("Nhap vao gioi tinh ban muon sua: ");
+        gender = sc.nextLine();
+        ul.setGender(gender);
+    }
+    // update dia chi
+    private void updateAddress(Librarian ul){
+        String address;
+        System.out.print("Nhap vao dia chi moi ban muon sua: ");
+        address = sc.nextLine();
+        ul.setAddress(address);
+    }
+    // update so dien thoai 
+    private void updatePhoneNumber(Librarian ul){
+        String phoneNumber;
+        System.out.print("Nhap vao so dien thoai ban muon sua: ");
+        phoneNumber = sc.nextLine();
+        ul.setPhoneNumber(phoneNumber);
+    }
+    // update email
+    private void updateEmail(Librarian ul){
+        String email;
+        System.out.print("Nhap vao email moi: ");
+        email = sc.nextLine();
+        ul.setEmail(email);
+    }
+    //update ca lam
+    private void updateShift(Librarian ul){
+        String shift;
+        System.out.print("Nhap vao ca lam ban muon doi: ");
+        shift = sc.nextLine();
+        ul.setShift(shift);
+    }
+    // update luong
+    private void updateSalary(Librarian ul){
+        double salary = 0;
+        while(true) {
+            try {
+                System.out.print("Hay nhap vao luong cua thu thu nay: ");
+                salary = Double.parseDouble(sc.nextLine());
+                ul.setSalary(salary);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Luong phai la so, hay nhap lai!");
+            }
+        }
+    }
     // hàm đọc dữ liệu thủ thư
     private ArrayList<Librarian> loadListLib (){
         ArrayList<Librarian> list = new ArrayList<>();

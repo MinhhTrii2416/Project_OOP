@@ -24,6 +24,7 @@ public class ReaderManager implements DataService{
             System.out.println("-          2.Tim thong tin nguoi doc.           -");
             System.out.println("-          3.Them nguoi doc.                    -");
             System.out.println("-          4.Xoa nguoi doc.                     -");
+            System.out.println("-          5.Sua thong tin nguoi doc.           -");
             System.out.println("-          0. Thoat.                            -");
             System.out.println("-------------------------------------------------");
             System.out.print("Nhap vao lua chon: ");
@@ -33,6 +34,7 @@ public class ReaderManager implements DataService{
                 case 2: search(); break;
                 case 3: add(); break;
                 case 4: remove(); break;
+                case 5: update(); break;
                 case 0: System.out.println("Thoat chuc nang quan li nguoi doc!\n"); break;
                 default:
                     System.out.println("Khon co lua chon ban nhap hay nhap lai!");
@@ -311,6 +313,122 @@ public class ReaderManager implements DataService{
                 }
             }
         }
+    }
+
+    // hàm update thông tin người đọc
+    private void update(){
+        String id = null;
+        boolean flag = false;
+        sc.nextLine();
+        while(!flag){
+            System.out.print("Nhap vao ma nguoi doc ban muon sua: ");
+            id = sc.nextLine();
+            if(checkID(id)){
+                flag = true;
+            }
+            else{
+                System.out.println("Khong tim thay ma nguoi doc nay!");
+                return;
+            }
+        }
+
+        Reader ur = new Reader();
+        for(Reader r: list){
+            if( r.getReaderID().equals(id)){
+                ur = r;
+            }
+        }
+        // in menu chinh sua
+        int choose = -1;
+        while(choose!=0){
+            System.out.println("------------------UPDATE READER-----------------");
+            System.out.println("-              1.Sua ma nguoi doc.             -");
+            System.out.println("-              2.Sua ten nguoi doc.            -");
+            System.out.println("-              3.Sua gioi tinh nguoi doc.      -");
+            System.out.println("-              4.Sua dia chi nguoi doc.        -");
+            System.out.println("-              5.Sua so dien thoai nguoi doc.  -");
+            System.out.println("-              6.Sua email nguoi doc.          -");
+            System.out.println("-              0.Thoat.                        -");
+            System.out.println("------------------------------------------------");
+            System.out.print("Nhap vao lua chon cua ban: ");
+            choose = sc.nextInt();
+            sc.nextLine();
+            switch(choose){
+                case 0: break;
+                case 1:
+                    updateReaderID(ur); 
+                    break;
+                case 2:
+                    updateName(ur); 
+                    break;
+                case 3: 
+                    updateGender(ur);
+                    break;
+                case 4:
+                    updateAddress(ur); 
+                    break;
+                case 5:
+                    updatePhoneNumber(ur); 
+                    break;
+                case 6: 
+                    updateEmail(ur);
+                    break;
+                default: 
+                    System.out.println("Khong co lua chon nay hay nhap lai!");
+            }
+            updateReader();
+        }
+    }
+    // update ma
+    private void updateReaderID(Reader ur){
+        String id;
+        boolean flag = false;
+        while(!flag){
+            System.out.print("Nhap vao ma ban muon sua: ");
+            id = sc.nextLine();
+            if(checkID(id)){
+                System.out.println("Ma id nay da ton tai hay sua thanh ma id khac!");
+            }
+            else{
+                ur.setReaderID(id);
+                flag = true;
+            }
+        }
+    }
+    //update ten
+    private void updateName(Reader ur){
+        String name;
+        System.out.print("Hay nhap ten ban muôn sua: ");
+        name = sc.nextLine();
+        ur.setName(name);
+    }
+    // update sua gioi tinh
+    private void updateGender(Reader ur){
+        String gender;
+        System.out.print("Nhap vao gioi tinh ban muon sua: ");
+        gender = sc.nextLine();
+        ur.setGender(gender);
+    }
+    // update dia chi
+    private void updateAddress(Reader ur){
+        String address;
+        System.out.print("Nhap vao dia chi moi ban muon sua: ");
+        address = sc.nextLine();
+        ur.setAddress(address);
+    }
+    // update so dien thoai 
+    private void updatePhoneNumber(Reader ur){
+        String phoneNumber;
+        System.out.print("Nhap vao so dien thoai ban muon sua: ");
+        phoneNumber = sc.nextLine();
+        ur.setPhoneNumber(phoneNumber);
+    }
+    // update email
+    private void updateEmail(Reader ur){
+        String email;
+        System.out.print("Nhap vao email moi: ");
+        email = sc.nextLine();
+        ur.setEmail(email);
     }
 
 
