@@ -51,10 +51,13 @@ public class Librarian extends Person {
             System.out.println("-       3. Quan li don hang.             -");
             System.out.println("-       4. Quan li phieu muon.           -");
             System.out.println("-       5. Quan li thu thu.              -");
+            System.out.println("-       6. Doi password.                 -");
+            System.out.println("-       7. Xem thong tin ca nhan.        -");
             System.out.println("-       0. Dang xuat.                    -");
             System.out.println("------------------------------------------");
             System.out.print("Hay nhap vao lua chon: ");
             lua_chon = sc.nextInt();
+            sc.nextLine();
             // lọc lựa chọn
             switch(lua_chon){
                 case 1:
@@ -68,6 +71,13 @@ public class Librarian extends Person {
                     LibrarianManager LM = new LibrarianManager(); 
                     LM.menu();
                     break;
+                case 6:
+                    updatePassword();
+                    break;
+                case 7:
+                    System.out.println("----------------THONG TIN CA NHAN CUA THU THU----------------");
+                    showINFO();
+                    break;
                 case 0: 
                     System.out.println("Xac nhan thoat"); 
                     return;
@@ -77,4 +87,64 @@ public class Librarian extends Person {
             }
         }while(lua_chon != 0);
     }
+
+    // hàm đổi password thủ thư
+    private void updatePassword(){
+        Scanner sc = new Scanner(System.in);
+        String passwordOld = null;
+        String password1 = null, password2 = null;
+        // xac nhan mat khau cu
+        int count = 0; // gioi han nhap mat khau cu 5 lan
+        while(count<5){
+            System.out.print("Nhap vao password cu cua ban: ");
+            passwordOld = sc.nextLine();
+            if(checkPassword(passwordOld)){
+                System.out.println("Khop voi mat khau cu!");
+                break;
+            }
+            else{
+                ++count;
+                System.out.println("Canh bao sai mat khau! Hay nhap lai! Con "+(5-count)+"/5 lan nhap!");
+            }
+        }
+
+        // tạo mật khẩu mới
+        if(count<5){    // Kiểm tra xem nhập password cũ có đúng không
+            count = 0;
+            while(count<5){
+                System.out.print("Nhap vao password moi: ");
+                password1 = sc.nextLine();
+                System.out.print("Xac nhan password moi: ");
+                password2 = sc.nextLine();
+                if( password1.equals(password2) ){
+                    System.out.println("Chuc mung ban da doi mat khau thanh cong!");
+                    setPassword(password1);
+
+                    // cập nhập vô file csv
+                    LibrarianManager LM = new LibrarianManager();
+                    for(Librarian l: LM.list){
+                        System.out.println("TEST!");
+                        if(l.getLibrarianID().equals(this.librarianID)){
+                            l.setPassword(password1);
+                            break;
+                        }
+                    }
+                    LM.updateLib();
+                    break;
+                }
+                else{
+                    ++count;
+                    System.out.println("Hai lan nhap khong khop! Hay nhap lai! Con "+(5-count)+"/5 lan nhap!");
+                }
+            }
+        }
+    }
+    // check password cũ
+    private boolean checkPassword(String id){
+        if( id.equals(this.password) ){
+            return true;
+        }
+        else return false;
+    }
+    
 }
