@@ -40,7 +40,7 @@ public class LoanDetail  {
         
         String itemName = (this.item != null) ? this.item.getName() : "Unknown book";
         
-        System.out.println("\t- Book: " + itemName + " - Quantity: " + this.quantity);
+        System.out.println("\t- Book: " + itemName + " - Quantity: " + this.getQuantity());
         if (this.actualReturnDate != null) {
             System.out.println("\t  Returned on: " + this.getActualReturnDate());
         } else {

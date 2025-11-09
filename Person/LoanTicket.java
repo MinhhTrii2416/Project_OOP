@@ -21,7 +21,6 @@ public class LoanTicket {
         this.reader = null;
         this.librarian = null;
         this.borrowDate = null;
-        this.loanDetails = null;
         this.loanDetails = new ArrayList<>();
     }
 
@@ -29,8 +28,13 @@ public class LoanTicket {
             List<LoanDetail> loanDetails) {
         if(ticketID == null || ticketID.trim().isEmpty())
             throw new IllegalArgumentException("TicketID must not be null or empty."); 
+
         if(dueDate == null) 
             throw new IllegalArgumentException("Due date must not be null.");
+        // Ngày đáo hạn mới phải sau ngày đáo hạn cũ/ngày mượn
+        if (this.dueDate != null && dueDate.isBefore(this.dueDate)) 
+            throw new IllegalArgumentException("New due date must not be before the current due date.");
+        
         if (reader == null)
             throw new IllegalArgumentException("Reader must not be null.");
         if (librarian == null)
@@ -48,20 +52,21 @@ public class LoanTicket {
         this.loanDetails = loanDetails;
     }
 
-    // Getters
-    public String getTicketID() { return this.ticketID; } 
-    public LocalDate getDueDate() { return this.dueDate; }
+    // Getters & setters
+    public String getTicketID() { return this.ticketID; }    
     public LocalDate getBorrowDate() { return this.borrowDate; }
     public Reader getReader() { return this.reader; }
     public Librarian getLibrarian() { return this.librarian; }
-    
+
+    public LocalDate getDueDate() { return this.dueDate; }
+    public void setDueDate(LocalDate dueDate) {this.dueDate = dueDate;}
 
     // + showLoanTicket()
     public void showLoanTicket() {
         System.out.println("--- Loan Ticket Details ---");
         System.out.println("Ticket ID: " + this.getTicketID());
-        System.out.println("Borrower: " + (this.reader != null ? this.reader : "Unknown"));
-        System.out.println("Librarian: " + (this.librarian != null ? this.librarian : "Unknown"));
+        System.out.println("Borrower: " + (this.reader != null ? this.reader.getName() : "Unknown"));
+        System.out.println("Librarian: " + (this.librarian != null ? this.librarian.getName() : "Unknown"));
         System.out.println("Borrow Date: " + this.getBorrowDate()); 
         System.out.println("Due Date: " + this.getDueDate());
 
