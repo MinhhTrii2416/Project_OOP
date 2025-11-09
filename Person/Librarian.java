@@ -45,26 +45,36 @@ public class Librarian extends Person {
         Scanner sc = new Scanner(System.in);
         int lua_chon = 0;
         do{
-            System.out.println("1. Quan li nguoi doc.");
-            System.out.println("2. Quan li sach.");
-            System.out.println("3. Quan li don hang.");
-            System.out.println("4. Quan li phieu muon.");
-            System.out.println("5. Quan li thu thu.");
-            System.out.println("0. Dang xuat.");
-            System.out.println("Hay nhap vao lua chon cua ban: ");
+            System.out.println("----------------MENU----------------------");
+            System.out.println("-       1. Quan li nguoi doc.            -");
+            System.out.println("-       2. Quan li sach.                 -");
+            System.out.println("-       3. Quan li don hang.             -");
+            System.out.println("-       4. Quan li phieu muon.           -");
+            System.out.println("-       5. Quan li thu thu.              -");
+            System.out.println("-       0. Dang xuat.                    -");
+            System.out.println("------------------------------------------");
+            System.out.print("Hay nhap vao lua chon: ");
             lua_chon = sc.nextInt();
             // lọc lựa chọn
             switch(lua_chon){
-                case 1: break;
+                case 1:
+                    ReaderManager RM = new ReaderManager();
+                    RM.menu(); 
+                    break;
                 case 2: break;
                 case 3: break;
                 case 4: break;
-                case 5: break;
-                case 0: System.out.println("Xac nhan thhoat"); return;
+                case 5: 
+                    LibrarianManager LM = new LibrarianManager(); 
+                    LM.menu();
+                    break;
+                case 0: 
+                    System.out.println("Xac nhan thoat"); 
+                    return;
                 default:
                     System.out.println("Ban da nhap sai hay nhap lai!");
                     lua_chon = -1;
             }
-        }while(lua_chon == -1);
+        }while(lua_chon != 0);
     }
 }
