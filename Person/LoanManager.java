@@ -1,16 +1,15 @@
 
 package Person; 
 
-import dataService.DataService;
 import Person.LoanTicket;
 import java.util.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class LoanManager implements DataService{
+public class LoanManager {
     // - <list>(LoanTicket) loanTicketList
-    private ArrayList<LoanTicket> list = loadListLoanTicket();
+    private ArrayList<LoanTicket> list = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
     private final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -20,6 +19,24 @@ public class LoanManager implements DataService{
     }
     public ArrayList<LoanTicket> getList(){
         return this.list;
+    }
+    
+    // Constructor
+    public LoanManager() {
+        this.list = loadListLoanTicket();
+    }
+    
+    // Hàm load danh sách phiếu mượn từ file (cần implement)
+    private ArrayList<LoanTicket> loadListLoanTicket() {
+        ArrayList<LoanTicket> tickets = new ArrayList<>();
+        // TODO: Đọc từ file CSV và tạo LoanTicket objects
+        // try {
+        //     BufferedReader br = new BufferedReader(new FileReader("./data/LoanTicket.csv"));
+        //     // Code đọc file...
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+        return tickets;
     }
 
     // menu
@@ -55,7 +72,6 @@ public class LoanManager implements DataService{
     }
 
     // 1. Hàm in danh sách phiếu mượn (showList)
-    @Override
     public void showList(List<LoanTicket> list1) {
         System.out.println("\n--- DANH SÁCH PHIẾU MƯỢN ---");
         System.out.printf("| %-10s | %-20s | %-20s | %-20s | %-20s |\n",
@@ -82,7 +98,6 @@ public class LoanManager implements DataService{
     }
 
     // 2. Hàm tìm thông tin phiếu mượn (search)
-    @Override
     public void search(){
         sc.nextLine(); // Clear buffer
         String ticketID;
@@ -106,8 +121,21 @@ public class LoanManager implements DataService{
         }
     }
 
+    // 3. Hàm thêm phiếu mượn mới (add)
+    public void add(){
+        sc.nextLine(); // Clear buffer
+        System.out.println("\n--- THÊM PHIẾU MƯỢN MỚI ---");
+        
+        // TODO: Implement logic để tạo phiếu mượn mới
+        // - Nhập thông tin reader, librarian, books
+        // - Tạo LoanTicket object
+        // - Thêm vào list
+        // - Ghi vào file
+        
+        System.out.println("Chức năng đang được phát triển!");
+    }
+
     // 4. Hàm xóa phiếu mượn (remove)
-    @Override
     public void remove(){
         sc.nextLine(); // Clear buffer
         String ticketID;
