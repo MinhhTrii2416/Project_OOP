@@ -43,8 +43,9 @@ public class Librarian extends Person {
     }
     // làm menu chính cho thủ thư
     public void menuMain(){
+        String s;
         Scanner sc = new Scanner(System.in);
-        int lua_chon = 0;
+        int lua_chon = -1;
         do{
             System.out.println("----------------MENU----------------------");
             System.out.println("-       1. Quan li nguoi doc.            -");
@@ -57,8 +58,13 @@ public class Librarian extends Person {
             System.out.println("-       0. Dang xuat.                    -");
             System.out.println("------------------------------------------");
             System.out.print("Hay nhap vao lua chon: ");
-            lua_chon = sc.nextInt();
-            sc.nextLine();
+            s = sc.nextLine();
+            try {
+                lua_chon = Integer.parseInt(s); // chuyển sang int
+                break; // thoát vòng lặp nếu hợp lệ
+            } catch (NumberFormatException e) {
+                System.out.println("Loi! Ban phai nhap so nguyen!");
+            }
             // lọc lựa chọn
             switch(lua_chon){
                 case 1:
@@ -70,8 +76,8 @@ public class Librarian extends Person {
                     BM.menu();
                     break;
                 case 3:
-                    BillManager BM1 = new BillManager(); 
-                    BM1.menu();
+                    // BillManager BM1 = new BillManager(); 
+                    // BM1.menu();
                     break;
                 case 4:
                     LoanManager LM1 = new LoanManager();

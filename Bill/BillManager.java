@@ -1,4 +1,4 @@
-package Bill;
+package bill;
 
 import dataService.DataService;
 import java.util.*;
@@ -8,13 +8,13 @@ import Person.Librarian;
 
 public class BillManager implements DataService {
     private ArrayList<Bill> list = loadListBill();
-    Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
-    // ======= Getter & Setter =======
+    
     public ArrayList<Bill> getList() { return list; }
     public void setList(ArrayList<Bill> list) { this.list = list; }
 
-    // ======= MENU =======
+    
     public void menu() {
         int choose = -1;
         do {
@@ -41,7 +41,7 @@ public class BillManager implements DataService {
         } while (choose != 0);
     }
 
-    // ======= HIỂN THỊ DANH SÁCH =======
+   
     public void showList(ArrayList<Bill> list1) {
         if (list1.isEmpty()) {
             System.out.println("Danh sách hóa đơn trống!");
@@ -60,7 +60,7 @@ public class BillManager implements DataService {
         }
     }
 
-    // ======= THÊM HÓA ĐƠN =======
+    
     public void add() {
         System.out.print("Nhập mã hóa đơn: ");
         String id = sc.nextLine();
@@ -89,7 +89,7 @@ public class BillManager implements DataService {
             double price = sc.nextDouble();
             sc.nextLine();
 
-            // Tạo sách tạm
+            
             book.Book tempBook = new book.Book(author, bookName, 0, 0) {
                 @Override public double calcFine() { return 0; }
                 @Override public void showINFO() {}
@@ -108,10 +108,10 @@ public class BillManager implements DataService {
         bill.calculateTotal();
         list.add(bill);
         updateBillFile();
-        System.out.println("✅ Thêm hóa đơn thành công!");
+        System.out.println("Thêm hóa đơn thành công!");
     }
 
-    // ======= XÓA HÓA ĐƠN =======
+    
     public void remove() {
         System.out.print("Nhập mã hóa đơn cần xóa: ");
         String id = sc.nextLine();
@@ -125,15 +125,15 @@ public class BillManager implements DataService {
                 if (c == 1) {
                     iterator.remove();
                     updateBillFile();
-                    System.out.println("✅ Xóa hóa đơn thành công!");
+                    System.out.println("Xóa hóa đơn thành công!");
                 }
                 return;
             }
         }
-        System.out.println("❌ Không tìm thấy hóa đơn!");
+        System.out.println("Không tìm thấy hóa đơn!");
     }
 
-    // ======= TÌM KIẾM HÓA ĐƠN =======
+    
     public void search() {
         System.out.print("Nhập mã hóa đơn cần tìm: ");
         String id = sc.nextLine();
@@ -143,10 +143,10 @@ public class BillManager implements DataService {
                 return;
             }
         }
-        System.out.println("❌ Không tìm thấy hóa đơn!");
+        System.out.println("Không tìm thấy hóa đơn!");
     }
 
-    // ======= XEM CHI TIẾT =======
+    
     public void viewDetail() {
         System.out.print("Nhập mã hóa đơn cần xem: ");
         String id = sc.nextLine();
@@ -156,17 +156,17 @@ public class BillManager implements DataService {
                 return;
             }
         }
-        System.out.println("❌ Không tìm thấy hóa đơn!");
+        System.out.println("Không tìm thấy hóa đơn!");
     }
 
-    // ======= ĐỌC FILE =======
+   
     private ArrayList<Bill> loadListBill() {
         ArrayList<Bill> list = new ArrayList<>();
         File file = new File("./data/Bill.csv");
         if (!file.exists()) return list;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            br.readLine(); // bỏ dòng tiêu đề
+            br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
@@ -180,7 +180,7 @@ public class BillManager implements DataService {
         return list;
     }
 
-    // ======= GHI FILE =======
+    
     private void updateBillFile() {
         File dataDir = new File("./data");
         if (!dataDir.exists()) dataDir.mkdir();

@@ -30,7 +30,7 @@ public class ReaderManager implements DataService{
             System.out.print("Nhap vao lua chon: ");
             choose  = sc.nextInt();
             switch(choose){
-                case 1:  showList(list); break;
+                case 1:  showList(); break;
                 case 2: search(); break;
                 case 3: add(); break;
                 case 4: remove(); break;
@@ -42,17 +42,26 @@ public class ReaderManager implements DataService{
         }while(choose != 0 );
     }
 
-    // hàm in danh sách người đọc
-    private void showList(ArrayList<Reader> list1){
+    // hàm hỗ trợ
+    public void showList(ArrayList<Reader> list1){
         System.out.printf("| %-10s | %-20s | %-10s | %-40s | %-15s | %-30s |\n", "ID", "Name", "Gender", "Address", "PhoneNumber", "Email");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
         for(Reader r : list1){
             System.out.printf("| %-10s | %-20s | %-10s | %-40s | %-15s | %-30s |\n", r.getReaderID(), r.getName(), r.getGender(), r.getAddress(), r.getPhoneNumber(), r.getEmail());
         }
     }
+    @Override
+    // hàm in danh sách người đọc
+    public void showList(){
+        System.out.printf("| %-10s | %-20s | %-10s | %-40s | %-15s | %-30s |\n", "ID", "Name", "Gender", "Address", "PhoneNumber", "Email");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
+        for(Reader r : list){
+            System.out.printf("| %-10s | %-20s | %-10s | %-40s | %-15s | %-30s |\n", r.getReaderID(), r.getName(), r.getGender(), r.getAddress(), r.getPhoneNumber(), r.getEmail());
+        }
+    }
 
     // hàm tìm thông tin người đọc
-    private void search(){
+    public void search(){
         int choose = -1;
         while(choose!=0){
             System.out.println("----------------Search Reader-------------");
@@ -110,7 +119,7 @@ public class ReaderManager implements DataService{
     }
 
     // hàm thêm người đọc
-    private void add(){
+    public void add(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Hay nhap vao cac thong tin nguoi doc moi");
         String readerID, name, gender, address, phoneNumber, email;
@@ -167,7 +176,7 @@ public class ReaderManager implements DataService{
     }
 
     // hàm xóa người đọc
-    private void remove(){
+    public void remove(){
         int choose = -1;
         while(choose!=0){
             System.out.println("----------------Remove Reader-------------");
