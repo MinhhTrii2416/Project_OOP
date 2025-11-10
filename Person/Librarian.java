@@ -1,6 +1,6 @@
 package Person;
 import java.util.Scanner;
-import bill.*;
+import Bill.*;
 public class Librarian extends Person {
     private String librarianID;
     private String shift;

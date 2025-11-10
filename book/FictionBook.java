@@ -15,14 +15,14 @@ public class FictionBook extends Book{
     public FictionBook() {
         super();
         this.subGenre = "null";
-        bookID = "fictionB_" + (split_ID() + 1);
+        this.bookID = "fictionB_" + automatic_ID;
         setBookType("Fiction Book");
     }  
     public FictionBook(String name, String author, int quantity, int remaining, String subGenre) {
         super(author, name, quantity, remaining);
         this.subGenre = subGenre;
         setBookType("Fiction Book");
-        bookID = "fictionB_" + (split_ID() + 1);
+        this.bookID = "fictionB_" + automatic_ID;
     }
     public FictionBook(FictionBook fictBook) {
         this.author = fictBook.author;
@@ -31,7 +31,7 @@ public class FictionBook extends Book{
         this.remaining = fictBook.remaining;
         this.subGenre = fictBook.subGenre;
         this.bookType = fictBook.bookType;
-        bookID = "fictionB_" + (split_ID() + 1);
+        this.bookID = "fictionB_" + automatic_ID;
     }
 
 
@@ -45,7 +45,7 @@ public class FictionBook extends Book{
 
     @Override
     public void showINFO() {
-        System.out.println("ID: " + Book.bookID);
+        System.out.println("ID: " + this.getBookID());
         System.out.println("Ten sach: " + this.getName());
         System.out.println("The loai: " + this.getBookType());
         System.out.println("Tac gia: " + this.getAuthor());

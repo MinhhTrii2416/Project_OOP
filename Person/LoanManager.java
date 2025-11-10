@@ -433,6 +433,7 @@ public class LoanManager implements DataService {
         return null;
     }
 
+    
     // 4. Hàm xóa phiếu mượn (remove)
     public void remove() {
         sc.nextLine(); // Clear buffer

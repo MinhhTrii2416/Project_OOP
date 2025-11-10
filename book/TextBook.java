@@ -20,14 +20,14 @@ public class TextBook extends Book{
         this.subject = "null";
         this.edition = 0;
         this.setBookType("Text Book");
-        bookID = "textB_" + (split_ID() + 1);
+        this.bookID = "textB_" + automatic_ID;
     }  
     public TextBook(String name, String author, int quantity, int remaining, String subject, int edition) {
         super(author, name, quantity, remaining);
         this.subject  = subject;
         this.edition = edition;
         this.setBookType("Text Book");
-        bookID = "textB_" + (split_ID() + 1);
+        this.bookID = "textB_" + automatic_ID;
     }
     public TextBook(TextBook textBook) {
         this.author = textBook.author;
@@ -37,7 +37,7 @@ public class TextBook extends Book{
         this.subject = textBook.subject;
         this.edition = textBook.edition;
         this.bookType = textBook.bookType;
-        bookID = "textB_" + (split_ID() + 1);
+        this.bookID = "textB_" + automatic_ID;
     }
 
 
@@ -52,7 +52,7 @@ public class TextBook extends Book{
     
     @Override
     public void showINFO() {
-        System.out.println("ID: " + Book.bookID);
+        System.out.println("ID: " + this.getBookID());
         System.out.println("Ten sach: " + this.getName());
         System.out.println("The loai: " + this.getBookType());
         System.out.println("Tac gia: " + this.getAuthor());
