@@ -273,7 +273,9 @@ public class BookManager {
         }
     }
     //Thêm text book
-    public void add
+    public void addTextBook() {
+        
+    }
 
     // 4. Xóa sách
     public void remove() {
