@@ -1,4 +1,4 @@
-package Bill;
+package bill;
 
 import book.Book;
 
