@@ -1,7 +1,8 @@
 
 package Person; 
 
-import Person.LoanTicket;
+import book.Book;
+
 import java.util.*;
 import java.io.*;
 import java.time.LocalDate;
@@ -26,16 +27,120 @@ public class LoanManager {
         this.list = loadListLoanTicket();
     }
     
+
+    // hàm lấy danh sách chi tiết phiếu mượn theo ID
+    private List<LoanDetail> loadLoanDetailsByTicketID(String ticketID) {
+        List<LoanDetail> details = new ArrayList<>();
+        
+        try (BufferedReader br = new BufferedReader(new FileReader("./data/LoanDetail.csv"))) {
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                
+                String csvTicketID = data[0];
+                // Chỉ lấy details của ticketID này
+                if (csvTicketID.equals(ticketID)) {
+                    String bookID = data[1];
+                    int quantity = Integer.parseInt(data[3]);
+                    
+                    // Xử lý actualReturnDate (có thể rỗng)
+                    LocalDate returnDate = (data.length > 4 && !data[4].isEmpty()) 
+                                        ? LocalDate.parse(data[4]) 
+                                        : null;
+                    
+                    // Tìm Book object theo bookID
+                    Book book = findBookByID(bookID);
+                    
+                    // Tạo LoanDetail
+                    LoanDetail detail = new LoanDetail(quantity, book, returnDate);
+                    details.add(detail);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();    
+        }
+        
+        return details;
+    }
+
+
+    // Hàm tìm Book theo ID (cần có BookManager)
+    private Book findBookByID(String bookID) {
+        // TODO: Implement BookManager để tìm sách
+        // Tạm thời return null, cần tích hợp với BookManager sau
+        return null;
+    }
+    
+    // Hàm tìm Reader theo ID
+    private Reader findReaderByID(String readerID) {
+        try (BufferedReader br = new BufferedReader(new FileReader("./data/Reader.csv"))) {
+            br.readLine(); 
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[0].equals(readerID)) {
+                    // readerID,Name,gender,address,phoneNumber,email
+                    return new Reader(data[0], data[1], data[2], data[3], data[4], data[5]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    // Hàm tìm Librarian theo ID
+    private Librarian findLibrarianByID(String librarianID) {
+        try (BufferedReader br = new BufferedReader(new FileReader("./data/Librarian.csv"))) {
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[5].equals(librarianID)) {
+                    // Name,gender,phoneNumber,email,address,librarianID,shift,salary,password
+                    return new Librarian(data[0], data[1], data[2], data[3], data[4], 
+                                       data[5], data[6], Double.parseDouble(data[7]), data[8]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     // Hàm load danh sách phiếu mượn từ file (cần implement)
     private ArrayList<LoanTicket> loadListLoanTicket() {
         ArrayList<LoanTicket> tickets = new ArrayList<>();
-        // TODO: Đọc từ file CSV và tạo LoanTicket objects
-        // try {
-        //     BufferedReader br = new BufferedReader(new FileReader("./data/LoanTicket.csv"));
-        //     // Code đọc file...
-        // } catch (IOException e) {
-        //     e.printStackTrace(); 
-        // }
+        try(BufferedReader br = new BufferedReader(new FileReader("./data/LoanTicket.csv"))){
+            br.readLine();
+            String line;
+            while( (line = br.readLine()) != null ){
+                String[] data = line.split(",");
+                // ticketID,readerID,librarianID,borrowDate,dueDate,status
+                
+                // Tìm Reader và Librarian objects
+                Reader reader = findReaderByID(data[1]);
+                Librarian librarian = findLibrarianByID(data[2]);
+                
+                // Load LoanDetails
+                List<LoanDetail> loanDetails = loadLoanDetailsByTicketID(data[0]);
+                
+                // Tạo LoanTicket với objects (không phải String)
+                LoanTicket ticket = new LoanTicket(
+                    data[0],                    // ticketID
+                    LocalDate.parse(data[4]),   // dueDate
+                    reader,                     // Reader object
+                    librarian,                  // Librarian object
+                    LocalDate.parse(data[3]),   // borrowDate
+                    loanDetails                 // loanDetails
+                );
+                tickets.add(ticket);
+            }
+        }
+        catch( IOException e){
+            e.printStackTrace();
+        } 
         return tickets;
     }
 

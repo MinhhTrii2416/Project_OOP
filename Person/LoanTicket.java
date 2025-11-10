@@ -10,7 +10,6 @@ public class LoanTicket {
     private Reader reader; 
     private Librarian librarian;
     private LocalDate borrowDate;
-    private String status;
 
     
     private List<LoanDetail> loanDetails;
@@ -22,11 +21,10 @@ public class LoanTicket {
         this.reader = null;
         this.librarian = null;
         this.borrowDate = null;
-        this.status = null;
         this.loanDetails = new ArrayList<>();
     }
 
-    public LoanTicket(String ticketID, LocalDate dueDate, Reader reader, Librarian librarian, LocalDate borrowDate, String status,
+    public LoanTicket(String ticketID, LocalDate dueDate, Reader reader, Librarian librarian, LocalDate borrowDate,
             List<LoanDetail> loanDetails) {
         if(ticketID == null || ticketID.trim().isEmpty())
             throw new IllegalArgumentException("TicketID must not be null or empty."); 
@@ -52,7 +50,6 @@ public class LoanTicket {
         this.librarian = librarian;
         this.borrowDate = borrowDate;
         this.loanDetails = loanDetails;
-        this.status = status;
     }
 
     // Getters & setters
@@ -60,7 +57,6 @@ public class LoanTicket {
     public LocalDate getBorrowDate() { return this.borrowDate; }
     public Reader getReader() { return this.reader; }
     public Librarian getLibrarian() { return this.librarian; }
-    public String getStatus() {return this.status; }
     public LocalDate getDueDate() { return this.dueDate; }
     public void setDueDate(LocalDate dueDate) {this.dueDate = dueDate;}
 
