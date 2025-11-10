@@ -1,4 +1,4 @@
-package bill;
+package Bill;
 
 import dataService.DataService;
 import java.util.*;
@@ -42,7 +42,11 @@ public class BillManager implements DataService {
     }
 
     // ======= HIỂN THỊ DANH SÁCH =======
-    private void showList(ArrayList<Bill> list1) {
+    public void showList(ArrayList<Bill> list1) {
+        if (list1.isEmpty()) {
+            System.out.println("Danh sách hóa đơn trống!");
+            return;
+        }
         System.out.printf("| %-10s | %-20s | %-20s | %-15s | %-10s |\n",
                 "Mã HD", "Người đọc", "Thủ thư", "Ngày lập", "Tổng tiền");
         System.out.println("--------------------------------------------------------------------------------");
@@ -57,26 +61,22 @@ public class BillManager implements DataService {
     }
 
     // ======= THÊM HÓA ĐƠN =======
-    private void add() {
+    public void add() {
         System.out.print("Nhập mã hóa đơn: ");
         String id = sc.nextLine();
         System.out.print("Nhập ngày lập (dd/mm/yyyy): ");
         String date = sc.nextLine();
 
-        // Giả lập tạo người đọc và thủ thư (do chưa liên kết DB)
         System.out.print("Nhập tên người đọc: ");
-        String readerName = sc.nextLine();
         Reader reader = new Reader();
-        reader.setName(readerName);
+        reader.setName(sc.nextLine());
 
         System.out.print("Nhập tên thủ thư: ");
-        String librarianName = sc.nextLine();
         Librarian librarian = new Librarian();
-        librarian.setName(librarianName);
+        librarian.setName(sc.nextLine());
 
         Bill bill = new Bill(id, reader, librarian, date);
 
-        // Thêm chi tiết sách
         int addMore;
         do {
             System.out.print("Nhập tên sách: ");
@@ -90,14 +90,13 @@ public class BillManager implements DataService {
             sc.nextLine();
 
             // Tạo sách tạm
-            book.Book book = new book.Book(author, bookName, 0, 0) {
+            book.Book tempBook = new book.Book(author, bookName, 0, 0) {
                 @Override public double calcFine() { return 0; }
                 @Override public void showINFO() {}
                 public double getPrice() { return price; }
             };
 
-            // Tạo chi tiết hóa đơn
-            BillDetail detail = new BillDetail(book, quantity);
+            BillDetail detail = new BillDetail(tempBook, quantity);
             detail.setCost(price * quantity);
             bill.addBillDetail(detail);
 
@@ -109,24 +108,11 @@ public class BillManager implements DataService {
         bill.calculateTotal();
         list.add(bill);
         updateBillFile();
-        System.out.println(" Thêm hóa đơn thành công!");
-    }
-
-    // ======= TÌM KIẾM HÓA ĐƠN =======
-    private void search() {
-        System.out.print("Nhập mã hóa đơn cần tìm: ");
-        String id = sc.nextLine();
-        for (Bill b : list) {
-            if (b.getBill_ID().equals(id)) {
-                b.showINFO();
-                return;
-            }
-        }
-        System.out.println(" Không tìm thấy hóa đơn!");
+        System.out.println("✅ Thêm hóa đơn thành công!");
     }
 
     // ======= XÓA HÓA ĐƠN =======
-    private void remove() {
+    public void remove() {
         System.out.print("Nhập mã hóa đơn cần xóa: ");
         String id = sc.nextLine();
         Iterator<Bill> iterator = list.iterator();
@@ -139,28 +125,41 @@ public class BillManager implements DataService {
                 if (c == 1) {
                     iterator.remove();
                     updateBillFile();
-                    System.out.println(" Xóa hóa đơn thành công!");
+                    System.out.println("✅ Xóa hóa đơn thành công!");
                 }
                 return;
             }
         }
-        System.out.println(" Không tìm thấy hóa đơn!");
+        System.out.println("❌ Không tìm thấy hóa đơn!");
     }
 
-    // ======= XEM CHI TIẾT =======
-    private void viewDetail() {
-        System.out.print("Nhập mã hóa đơn cần xem: ");
+    // ======= TÌM KIẾM HÓA ĐƠN =======
+    public void search() {
+        System.out.print("Nhập mã hóa đơn cần tìm: ");
         String id = sc.nextLine();
         for (Bill b : list) {
-            if (b.getBill_ID().equals(id)) {
+            if (b.getBill_ID().equalsIgnoreCase(id)) {
                 b.showINFO();
                 return;
             }
         }
-        System.out.println(" Không tìm thấy hóa đơn!");
+        System.out.println("❌ Không tìm thấy hóa đơn!");
     }
 
-    // ======= ĐỌC FILE CSV =======
+    // ======= XEM CHI TIẾT =======
+    public void viewDetail() {
+        System.out.print("Nhập mã hóa đơn cần xem: ");
+        String id = sc.nextLine();
+        for (Bill b : list) {
+            if (b.getBill_ID().equalsIgnoreCase(id)) {
+                b.showINFO();
+                return;
+            }
+        }
+        System.out.println("❌ Không tìm thấy hóa đơn!");
+    }
+
+    // ======= ĐỌC FILE =======
     private ArrayList<Bill> loadListBill() {
         ArrayList<Bill> list = new ArrayList<>();
         File file = new File("./data/Bill.csv");
@@ -181,8 +180,11 @@ public class BillManager implements DataService {
         return list;
     }
 
-    // ======= GHI FILE CSV =======
+    // ======= GHI FILE =======
     private void updateBillFile() {
+        File dataDir = new File("./data");
+        if (!dataDir.exists()) dataDir.mkdir();
+
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("./data/Bill.csv"))) {
             bw.write("bill_ID,date,total");
             bw.newLine();

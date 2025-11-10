@@ -65,12 +65,18 @@ public class Librarian extends Person {
                     ReaderManager RM = new ReaderManager();
                     RM.menu(); 
                     break;
-                case 2: break;
-                case 3:
-                    BillManager BM = new Librarian(); 
+                case 2:
+                    BookManager BM = new BookManager();
                     BM.menu();
                     break;
-                case 4: break;
+                case 3:
+                    BillManager BM1 = new BillManager(); 
+                    BM1.menu();
+                    break;
+                case 4:
+                    LoanManager LM1 = new LoanManager();
+                    LM1.menu(); 
+                    break;
                 case 5: 
                     LibrarianManager LM = new LibrarianManager(); 
                     LM.menu();
