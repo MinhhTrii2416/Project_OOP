@@ -1,5 +1,6 @@
 package Person;
 import java.util.Scanner;
+import Bill.*;
 public class Librarian extends Person {
     private String librarianID;
     private String shift;
@@ -65,7 +66,10 @@ public class Librarian extends Person {
                     RM.menu(); 
                     break;
                 case 2: break;
-                case 3: break;
+                case 3:
+                    BillManager BM = new Librarian(); 
+                    BM.menu();
+                    break;
                 case 4: break;
                 case 5: 
                     LibrarianManager LM = new LibrarianManager(); 
