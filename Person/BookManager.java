@@ -264,23 +264,16 @@ public class BookManager {
         
         // TODO: Implement logic thêm sách
         switch (type) {
-            case 1:
-                
-                break;
-            case 2:
-                
-                break;
-            case 3:
-                
-                break;
-            case 4:
-                
-                break;
-            default:
-                System.out.println(type + " khong hop le");
-                return;
+            case 1:     break;
+            case 2:     break;
+            case 3:     break;
+            case 4:     break;
+            default:System.out.println(type + " khong hop le");
+                    return;
         }
     }
+    //Thêm text book
+    public void add
 
     // 4. Xóa sách
     public void remove() {

@@ -20,14 +20,14 @@ public class ComicBook  extends Book{
         this.artist = "null";
         this.volumeNumber = 0;
         this.setBookType("Comic Book");
-        bookID = "comicB_" + (split_ID() + 1);
+        this.bookID = "comicB_" + automatic_ID;
     }  
     public ComicBook(String name, String author, int quantity, int remaining, String artist, int volNumber) {
         super(author, name, quantity, remaining);
         this.artist = artist;
         this.volumeNumber = volNumber;
         this.setBookType("Comic Book");
-        bookID = "comicB_" + (split_ID() + 1);
+        this.bookID = "comicB_" + automatic_ID;
     }
     public ComicBook(ComicBook comicBook) {
         this.author = comicBook.author;
@@ -37,7 +37,7 @@ public class ComicBook  extends Book{
         this.artist = comicBook.artist;
         this.volumeNumber = comicBook.volumeNumber;
         this.bookType = comicBook.bookType;
-        bookID = "comicB_" + (split_ID() + 1);
+        this.bookID = "comicB_" + automatic_ID;
     }
 
 
@@ -51,7 +51,7 @@ public class ComicBook  extends Book{
 
     @Override
     public void showINFO() {
-        System.out.println("ID: " + Book.bookID);
+        System.out.println("ID: " + this.getBookID());
         System.out.println("Ten sach: " + this.getName());
         System.out.println("The loai: " + this.getBookType());
         System.out.println("Tac gia: " + this.getAuthor());

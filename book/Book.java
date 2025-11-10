@@ -7,7 +7,8 @@ public abstract class Book {
 // properties
     protected String name;
     // book ID tự động + 1 khi khởi tạo
-    protected static String bookID = "b_0";
+    protected static int automatic_ID = 0;
+    protected String bookID;
     protected String author;
     protected int quantity;
     protected int remaining;
@@ -32,6 +33,7 @@ public abstract class Book {
         this.name = "null";
         this.quantity = 0;
         this.remaining = 0;
+        Book.automatic_ID++;
     }
     public Book(String author, String name, int quantity, int remaining){
         // kiểm tra params xem có phù hợp không
@@ -63,12 +65,14 @@ public abstract class Book {
 
         this.author = author; this.name = name;
         this.quantity = quantity; this.remaining = remaining;
+        automatic_ID++;
     }
     public Book(Book book) {
         this.author = book.author;
         this.name = book.name;
         this.quantity = book.quantity;
         this.remaining = book.remaining;
+        automatic_ID++;
     }
 
 // methods - funtions
@@ -77,10 +81,6 @@ public abstract class Book {
 
 
 // helper funtions
-    public int split_ID(){
-        int id = Integer.parseInt(bookID.substring(bookID.indexOf("_")+1));
-        return id;
-    }
 
     protected String  capitalizeFirstLetter(String string) {
         // in hoa kí tự đầu
