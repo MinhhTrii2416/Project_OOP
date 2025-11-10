@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 public class LoanManager {
     // - <list>(LoanTicket) loanTicketList
     private ArrayList<LoanTicket> list = new ArrayList<>();
+    private BookManager bookManager;  // Thêm BookManager
     Scanner sc = new Scanner(System.in);
     private final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -24,6 +25,7 @@ public class LoanManager {
     
     // Constructor
     public LoanManager() {
+        this.bookManager = new BookManager();
         this.list = loadListLoanTicket();
     }
     
@@ -65,11 +67,9 @@ public class LoanManager {
     }
 
 
-    // Hàm tìm Book theo ID (cần có BookManager)
+    // Hàm tìm Book theo ID (sử dụng BookManager)
     private Book findBookByID(String bookID) {
-        // TODO: Implement BookManager để tìm sách
-        // Tạm thời return null, cần tích hợp với BookManager sau
-        return null;
+        return bookManager.findBookByID(bookID);
     }
     
     // Hàm tìm Reader theo ID

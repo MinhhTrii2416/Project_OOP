@@ -24,6 +24,7 @@ public abstract class Book {
     public void setRemaining(int remaining) {this.remaining = remaining;}
     public String getBookType() {return bookType;}
     public void setBookType(String bookType) {this.bookType = bookType;}
+    public String getBookID() {return bookID;}
 
 // Constructor
     public Book() {
