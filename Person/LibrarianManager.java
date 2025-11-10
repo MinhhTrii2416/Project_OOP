@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class LibrarianManager {
     Scanner sc = new Scanner(System.in);
-    ArrayList<Librarian> list = loadListLib();
+    protected ArrayList<Librarian> list = loadListLib();    // cập nhập mật khẩu mới của thủ thư bên Librarian.java
     public void menu(){
         int choose = -1;
         while(choose!=0){
@@ -25,7 +25,7 @@ public class LibrarianManager {
             System.out.print("Hay nhap vao lua chon cua ban: ");
             choose  = sc.nextInt();
             switch(choose){
-                case 1: showList(list); break;
+                case 1: showList(this.list); break;
                 case 2: search(); break;
                 case 3: add(); break;
                 case 4: remove(); break;
@@ -154,7 +154,7 @@ public class LibrarianManager {
             xac_nhan = sc.nextInt();
             switch(xac_nhan){
                 case 1: 
-                    list.add(lib);
+                    this.list.add(lib);
                     updateLib();
                     System.out.println("Xac nhan them thu thu nay vo danh sach thu thu!"); 
                     return;
@@ -168,7 +168,7 @@ public class LibrarianManager {
     }
     //checkID
     private boolean checkID(String id){
-        for(Librarian l: list){
+        for(Librarian l: this.list){
             if(l.getLibrarianID().equals(id)){
                 return true;
             }
@@ -207,7 +207,7 @@ public class LibrarianManager {
         String id;
         System.out.print("Hay nhap id ban muon xoa: ");
         id = sc.nextLine();
-        for (Librarian l : list) {
+        for (Librarian l : this.list) {
             if (l.getLibrarianID().equals(id)) {
                 System.out.println("-------------THONG TIN THU THU--------------");
                 l.showINFO();
@@ -221,7 +221,7 @@ public class LibrarianManager {
                             return;
                         case 1:
                             System.out.println("Xoa thanh cong thu thu khoi danh sach!");
-                            list.remove(l);
+                            this.list.remove(l);
                             updateLib(); // cập nhật file CSV
                             return;
                         default:
@@ -241,7 +241,7 @@ public class LibrarianManager {
         boolean flag = false;
         System.out.print("Hay nhap ten thu thu ban muon xoa: ");
         name = sc.nextLine();
-        for (Librarian l : list) {
+        for (Librarian l : this.list) {
             if (l.getName().equalsIgnoreCase(name)) {
                 flag = true;
                 kq.add(l);
@@ -275,7 +275,7 @@ public class LibrarianManager {
                                     return;
                                 case 1:
                                     System.out.println("Xoa thanh cong tat ca thu thu co ten " + name);
-                                    list.removeAll(kq);
+                                    this.list.removeAll(kq);
                                     updateLib();
                                     return;
                                 default:
@@ -294,7 +294,7 @@ public class LibrarianManager {
                         while (!flag2) {
                             System.out.print("Hay nhap vao ma muon xoa o bang tren: ");
                             selectID = sc.nextLine();
-                            for (Librarian l : list) {
+                            for (Librarian l : this.list) {
                                 if (l.getLibrarianID().equals(selectID)) {
                                     flag2 = true;
                                     RemoveLibrarian = l;
@@ -313,7 +313,7 @@ public class LibrarianManager {
                                     return;
                                 case 1:
                                     System.out.println("Xoa thanh cong thu thu khoi danh sach!");
-                                    list.remove(RemoveLibrarian);
+                                    this.list.remove(RemoveLibrarian);
                                     updateLib();
                                     return;
                                 default:
@@ -344,7 +344,7 @@ public class LibrarianManager {
             else flag = true;
         }
         Librarian ul  = new Librarian(); 
-        for( Librarian l: list){
+        for( Librarian l: this.list){
             if( l.getLibrarianID().equals(id)){
                 ul = l; 
                 break;
@@ -471,7 +471,7 @@ public class LibrarianManager {
         }
     }
     // hàm đọc dữ liệu thủ thư
-    private ArrayList<Librarian> loadListLib (){
+    public ArrayList<Librarian> loadListLib (){
         ArrayList<Librarian> list = new ArrayList<>();
         try(BufferedReader br = new BufferedReader(new FileReader("./data/Librarian.csv"))){
             br.readLine();
@@ -488,7 +488,7 @@ public class LibrarianManager {
         return list;
     }
     // hàm cập nhập data thủ thư
-    private void updateLib(){
+    public void updateLib(){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("./data/Librarian.csv"))){
             bw.write("Name,gender,phoneNumber,email,address,librarianID,shift,salary,password");
             bw.newLine();
