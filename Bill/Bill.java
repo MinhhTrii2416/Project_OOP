@@ -1,14 +1,13 @@
 package Bill;
 
 import java.util.*;
-import Person.Reader;
-import Person.Librarian;
+import Person.*;
 
 public class Bill {
     private String bill_ID;
     private double total;
-    private Reader reader;
-    private Librarian librarian;
+    private String reader;
+    private String librarian;
     private String date;
     private ArrayList<BillDetail> billDetails = new ArrayList<>();
 
@@ -19,11 +18,11 @@ public class Bill {
     public double getTotal() { return total; }
     public void setTotal(double total) { this.total = total; }
 
-    public Reader getReader() { return reader; }
-    public void setReader(Reader reader) { this.reader = reader; }
+    public String getReader() { return reader; }
+    public void setReader(String reader) { this.reader = reader; }
 
-    public Librarian getLibrarian() { return librarian; }
-    public void setLibrarian(Librarian librarian) { this.librarian = librarian; }
+    public String getLibrarian() { return librarian; }
+    public void setLibrarian(String librarian) { this.librarian = librarian; }
 
     public String getDate() { return date; }
     public void setDate(String date) { this.date = date; }
@@ -32,7 +31,7 @@ public class Bill {
 
     public Bill() {}
 
-    public Bill(String bill_ID, Reader reader, Librarian librarian, String date) {
+    public Bill(String bill_ID, String reader, String librarian, String date) {
         this.bill_ID = bill_ID;
         this.reader = reader;
         this.librarian = librarian;
@@ -57,16 +56,16 @@ public class Bill {
 
     // Hiển thị thông tin hóa đơn
     public void showINFO() {
-        System.out.println("\n===== HÓA ĐƠN MUA SÁCH =====");
-        System.out.println("Mã hóa đơn: " + bill_ID);
-        System.out.println("Ngày lập: " + date);
-        System.out.println("Người đọc: " + (reader != null ? reader.getName() : "Không rõ"));
-        System.out.println("Thủ thư: " + (librarian != null ? librarian.getName() : "Không rõ"));
+        System.out.println("\n===== HOA ĐON MUA SACH =====");
+        System.out.println("Ma hoa đon: " + bill_ID);
+        System.out.println("Ngay lap: " + date);
+        System.out.println("Ma nguoi doc: " + this.reader);
+        System.out.println("Ma thu thu: " + this.librarian);
         System.out.println("----------------------------------");
         for (BillDetail detail : billDetails) {
             detail.showINFO();
         }
-        System.out.println("TỔNG CỘNG: " + total);
+        System.out.println("TONG CONG: " + total);
         System.out.println("===============================");
     }
 }

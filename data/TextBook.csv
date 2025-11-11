@@ -1,12 +1,11 @@
-name,author,quantity,remaining,price,subject,edition
-Giai Tich 1,Nguyen Dinh Tri,20,15,150000,Toan hoc,3
-Vat Ly Dai Cuong,Tran Van Nam,15,10,120000,Vat ly,2
-Hoa Hoc Co Ban,Le Thi Lan,25,20,135000,Hoa hoc,4
-Lap Trinh Java,Pham Minh Tuan,30,25,200000,Tin hoc,1
-Cau Truc Du Lieu,Vo Thanh Hai,18,12,180000,Tin hoc,2
-Co So Du Lieu,Hoang Van Long,22,18,175000,Tin hoc,3
-Tieng Anh Giao Tiep,Sarah Johnson,28,22,95000,Ngoai ngu,5
-Kinh Te Vi Mo,Nguyen Thanh Phong,16,14,160000,Kinh te,2
-Quan Tri Kinh Doanh,Tran Minh Duc,20,16,190000,Quan tri,1
-Toan Roi Rac,Phan Quoc Khanh,12,8,145000,Toan hoc,22
-Sach Cua tri dep trai,Vo Minh Tri,25,12,999999,ABCD,4
+name,author,quantity,remaining,subject,edition
+Vat Ly Dai Cuong,Tran Van Nam,15,10,Vat ly,2
+Hoa Hoc Co Ban,Le Thi Lan,25,20,Hoa hoc,4
+Lap Trinh Java,Pham Minh Tuan,30,25,Tin hoc,1
+Cau Truc Du Lieu,Vo Thanh Hai,18,12,Tin hoc,2
+Co So Du Lieu,Hoang Van Long,22,18,Tin hoc,3
+Tieng Anh Giao Tiep,Sarah Johnson,28,22,Ngoai ngu,5
+Kinh Te Vi Mo,Nguyen Thanh Phong,16,14,Kinh te,2
+Quan Tri Kinh Doanh,Tran Minh Duc,20,16,Quan tri,1
+Toan Roi Rac,Phan Quoc Khanh,12,8,Toan hoc,22
+>>>>>>> 94ee5b4 (Bill)

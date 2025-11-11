@@ -3,7 +3,9 @@ package Bill;
 import dataService.DataService;
 import java.util.*;
 import java.io.*;
-import Person.Reader;
+import java.time.*;
+import java.time.format.*;
+import Person.*;
 import Person.Librarian;
 import book.Book;
 
@@ -29,7 +31,7 @@ public class BillManager implements DataService {
             choose = sc.nextInt();
             sc.nextLine();
             switch (choose) {
-                case 1 -> showList(list);
+                case 1 -> showList();
                 case 2 -> search();
                 case 3 -> add();
                 case 4 -> remove();
@@ -58,54 +60,125 @@ public class BillManager implements DataService {
         }
     }
 
-    public void add() {
-        System.out.print("Nhap ma hoa don: ");
-        String id = sc.nextLine();
-        System.out.print("Nhap ngay lap (dd/mm/yyyy): ");
-        String date = sc.nextLine();
-
-        System.out.print("Nhap ten nguoi doc: ");
-        Reader reader = new Reader();
-        reader.setName(sc.nextLine());
-
-        System.out.print("Nhap ten thu thu: ");
-        Librarian librarian = new Librarian();
-        librarian.setName(sc.nextLine());
-
-        Bill bill = new Bill(id, reader, librarian, date);
-
-        int addMore;
-        do {
-            System.out.print("Nhap ten sach: ");
-            String bookName = sc.nextLine();
-            System.out.print("Tac gia: ");
-            String author = sc.nextLine();
-            System.out.print("So luong sach: ");
-            int quantity = sc.nextInt();
-            System.out.print("Don gia (moi cuon): ");
-            double price = sc.nextDouble();
-            sc.nextLine();
-
-            Book tempBook = new Book(author, bookName, 0, 0) {
-                @Override public double calcFine() { return 0; }
-                @Override public void showINFO() {}
-                public double getPrice() { return price; }
-            };
-
-            BillDetail detail = new BillDetail(tempBook, quantity);
-            detail.setCost(price * quantity);
-            bill.addBillDetail(detail);
-
-            System.out.print("Them sach khac? (1 = Co, 0 = Khong): ");
-            addMore = sc.nextInt();
-            sc.nextLine();
-        } while (addMore == 1);
-
-        bill.calculateTotal();
-        list.add(bill);
-        updateBillFile();
-        System.out.println("Them hoa don thanh cong!");
+    public void showList() {
+        if (list.isEmpty()) {
+            System.out.println("Danh sach hoa don trong!");
+            return;
+        }
+        System.out.printf("| %-10s | %-20s | %-20s | %-15s | %-10s |\n",
+                "Ma HD", "Nguoi doc", "Thu thu", "Ngay lap", "Tong tien");
+        System.out.println("--------------------------------------------------------------------------------");
+        for (Bill b : list) {
+            System.out.printf("| %-10s | %-20s | %-20s | %-15s | %-10.2f |\n",
+                    b.getBill_ID(),
+                    b.getReader() != null ? b.getReader().getName() : "Khong ro",
+                    b.getLibrarian() != null ? b.getLibrarian().getName() : "Khong ro",
+                    b.getDate(),
+                    b.getTotal());
+        }
     }
+
+    public void add() {
+        String librarianID, readerID, billID=null;
+        int count = 0;
+        while(count<3){
+            System.out.print("Nhap ma hoa don: ");
+            billID = sc.nextLine();
+            if( checkID(billID) ){
+                System.out.println("Ma BillID nay da co hay tao ma BillID moi!");
+                ++count;
+            }
+            else{
+                break;
+            }
+            if( count>3){
+                System.out.println("Da qua so lan nhap!");
+                return;
+            }
+        }
+    
+        ReaderManager RM = new ReaderManager();
+        count = 0;
+        while(count<3){
+            System.out.print("Nhap id nguoi doc: ");
+            readerID = sc.nextLine();
+            if(!RM.checkID(readerID)){
+                System.out.println("Khong co ma nguoi doc nay hay nhap lai!");
+            }
+            else{ break; }
+            if( count>3){
+                System.out.println("Da qua so lan nhap!");
+                return;
+            }
+        }
+
+        
+        LibrarianManager LM = new LibrarianManager();
+        count = 0;
+        while(count<3){
+            System.out.print("Nhap ten thu thu: ");
+            librarianID = sc.nextLine();
+            if(!LM.checkID(librarianID)){
+                System.out.println("Khong tm thay ma thu thu nay hay nhap lai ma khac!");
+            }
+            else{ break; }
+            if( count>3){
+                System.out.println("Da qua so lan nhap!");
+                return;
+            }
+        }
+
+        // tạo ngày tạo bill
+        LocalDate d = LocalDate.now();
+        String date = d.toString();
+        Bill bill = new Bill(billID, readerID, librarianID, date);
+
+        String bookID;
+        int quantity; 
+        BookManager BM = new BookManager();
+        int choose = 1;
+        while(choose==1){
+            boolean flag = false;
+            while(true){
+                System.out.print("Nhap vao ma sach: ");
+                bookID = sc.nextLine();
+                for( Book b : BM.getAllBooks() ){
+                    if( b.getBookID().equals(bookID)){
+                        flag = true;
+                    }
+                    else flag = false;
+                }
+                if(!flag){
+                    System.out.println("Khong cao sach nao co ma nay hay nhap lai!");
+                }
+                else break;
+            }
+
+            System.out.print("Nhap vao so luong cuon sach: ");
+            quantity = sc.nextInt();
+
+            BillDetail bd = new BillDetail(bookID, quantity);
+            bill.addBillDetail(bd);
+
+            System.out.println("Ban van muon them mot chi tiet hoa don (1: Co, 0: Khong): ");
+            choose = sc.nextInt();
+            sc.nextLine();
+        }
+
+
+
+    }
+
+    // check mã hóa đơn đã có hay chưa
+    private boolean checkID(String billID){
+        for(Bill b  : list){
+            if( b.getBill_ID().equals(billID)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void remove() {
         System.out.print("Nhap ma hoa don can xoa: ");

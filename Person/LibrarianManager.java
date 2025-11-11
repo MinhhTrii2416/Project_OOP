@@ -25,7 +25,7 @@ public class LibrarianManager {
             System.out.print("Hay nhap vao lua chon cua ban: ");
             choose  = sc.nextInt();
             switch(choose){
-                case 1: showList(this.list); break;
+                case 1: showList(); break;
                 case 2: search(); break;
                 case 3: add(); break;
                 case 4: remove(); break;
@@ -39,18 +39,29 @@ public class LibrarianManager {
     
     // hàm in danh sách
     private void showList(ArrayList<Librarian> list1) {
-        System.out.printf("| %-20s | %-10s | %-15s | %-25s | %-15s | %-10s | %-10s | %-10s | %-10s |\n",
+        System.out.printf("| %-20s | %-10s | %-10s | %-15s | %-48s | %-10s | %-10s | %-10s | %-10s |\n",
             "Name", "Gender", "Phone", "Email", "Address", "ID", "Shift", "Salary", "Password");
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------");
         for (Librarian l : list1) {
-            System.out.printf("| %-20s | %-10s | %-15s | %-25s | %-15s | %-10s | %-10s | %-10.2f | %-10s |\n",
+            System.out.printf("| %-20s | %-10s | %-10s | %-15s | %-48s | %-10s | %-10s | %-10.2f | %-10s |\n",
+                l.getName(), l.getGender(), l.getPhoneNumber(), l.getEmail(), l.getAddress(),
+                l.getLibrarianID(), l.getShift(), l.getSalary(), l.getPassword());
+        }
+    }
+    
+    public void showList() {
+        System.out.printf("| %-20s | %-10s | %-10s | %-15s | %-48s | %-10s | %-10s | %-10s | %-10s |\n",
+            "Name", "Gender", "Phone", "Email", "Address", "ID", "Shift", "Salary", "Password");
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------");
+        for (Librarian l : list) {
+            System.out.printf("| %-20s | %-10s | %-10s | %-15s | %-48s | %-10s | %-10s | %-10.2f | %-10s |\n",
                 l.getName(), l.getGender(), l.getPhoneNumber(), l.getEmail(), l.getAddress(),
                 l.getLibrarianID(), l.getShift(), l.getSalary(), l.getPassword());
         }
     }
 
     // hàm tìm thủ thư
-    private void search(){
+    public void search(){
         int choose = -1;
         while(choose!=0){
             System.out.println("--------------------Search Menu--------------------");
@@ -70,7 +81,7 @@ public class LibrarianManager {
         }
     }
     // tim kiem theo id
-    private void searchID(){
+    public void searchID(){
         String  id;
         sc.nextLine();
         System.out.print("Nhap vao id thu thu ban can tim: ");
@@ -102,7 +113,7 @@ public class LibrarianManager {
         else showList(kq);
     }
 
-    //hàm them thủ thư
+    //hàm thêm thủ thư
     private void add(){
         sc.nextLine();
         String name, gender, phoneNumber, address, email, librarianID = null, shift, password = null;
@@ -167,7 +178,7 @@ public class LibrarianManager {
         }
     }
     //checkID
-    private boolean checkID(String id){
+    public boolean checkID(String id){
         for(Librarian l: this.list){
             if(l.getLibrarianID().equals(id)){
                 return true;
@@ -177,7 +188,7 @@ public class LibrarianManager {
     }
 
     // hàm xóa thủ thư
-    private void remove() {
+    public void remove() {
         int choose = -1;
         while (choose != 0) {
             System.out.println("----------------Remove Librarian-------------");
@@ -331,7 +342,7 @@ public class LibrarianManager {
     }
 
     // hàm sửa thông tin thủ thư
-    private void update(){
+    public void update(){
         String id = null;
         boolean flag = false;
         sc.nextLine();
@@ -477,7 +488,7 @@ public class LibrarianManager {
             br.readLine();
             String line;
             while( (line = br.readLine()) != null ){
-                String[] data = line.split(",");
+                String[] data = line.split(";");
                 Librarian l = new Librarian( data[0], data[1], data[2], data[3], data[4], data[5], data[6], Double.parseDouble(data[7]), data[8]);
                 list.add(l);
             }
@@ -490,10 +501,10 @@ public class LibrarianManager {
     // hàm cập nhập data thủ thư
     public void updateLib(){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("./data/Librarian.csv"))){
-            bw.write("Name,gender,phoneNumber,email,address,librarianID,shift,salary,password");
+            bw.write("Name;gender;phoneNumber;email;address;librarianID;shift;salary;password");
             bw.newLine();
             for( Librarian l : list){
-                bw.write(l.getName() + "," + l.getGender() + "," + l.getPhoneNumber() + "," + l.getEmail() + "," + l.getAddress() + "," + l.getLibrarianID() + "," + l.getShift() + "," + l.getSalary() + "," + l.getPassword());
+                bw.write(l.getName() + ";" + l.getGender() + ";" + l.getPhoneNumber() + ";" + l.getEmail() + ";" + l.getAddress() + ";" + l.getLibrarianID() + ";" + l.getShift() + ";" + l.getSalary() + ";" + l.getPassword());
                 bw.newLine();
             }
         }

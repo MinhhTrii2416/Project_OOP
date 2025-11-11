@@ -44,19 +44,19 @@ public class ReaderManager implements DataService{
 
     // hàm hỗ trợ
     public void showList(ArrayList<Reader> list1){
-        System.out.printf("| %-10s | %-20s | %-10s | %-40s | %-15s | %-30s |\n", "ID", "Name", "Gender", "Address", "PhoneNumber", "Email");
-        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-10s | %-20s | %-10s | %-45s | %-15s | %-30s |\n", "ID", "Name", "Gender", "Address", "PhoneNumber", "Email");
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------");
         for(Reader r : list1){
-            System.out.printf("| %-10s | %-20s | %-10s | %-40s | %-15s | %-30s |\n", r.getReaderID(), r.getName(), r.getGender(), r.getAddress(), r.getPhoneNumber(), r.getEmail());
+            System.out.printf("| %-10s | %-20s | %-10s | %-45s | %-15s | %-30s |\n", r.getReaderID(), r.getName(), r.getGender(), r.getAddress(), r.getPhoneNumber(), r.getEmail());
         }
     }
     @Override
     // hàm in danh sách người đọc
     public void showList(){
-        System.out.printf("| %-10s | %-20s | %-10s | %-40s | %-15s | %-30s |\n", "ID", "Name", "Gender", "Address", "PhoneNumber", "Email");
-        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-10s | %-20s | %-10s | %-45s | %-15s | %-30s |\n", "ID", "Name", "Gender", "Address", "PhoneNumber", "Email");
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------");
         for(Reader r : list){
-            System.out.printf("| %-10s | %-20s | %-10s | %-40s | %-15s | %-30s |\n", r.getReaderID(), r.getName(), r.getGender(), r.getAddress(), r.getPhoneNumber(), r.getEmail());
+            System.out.printf("| %-10s | %-20s | %-10s | %-45s | %-15s | %-30s |\n", r.getReaderID(), r.getName(), r.getGender(), r.getAddress(), r.getPhoneNumber(), r.getEmail());
         }
     }
 
@@ -166,7 +166,7 @@ public class ReaderManager implements DataService{
     }
 
     // hàm kiểm tra xem mã người đọc có bị trùng không
-    private boolean checkID(String readerID){
+    public boolean checkID(String readerID){
         for( Reader r: list){
             if(r.getReaderID().equals(readerID)){
                 return true;
@@ -448,7 +448,7 @@ public class ReaderManager implements DataService{
             br.readLine();
             String line;
             while( (line = br.readLine()) != null ){
-                String[] data = line.split(",");
+                String[] data = line.split(";");
                 Reader r = new Reader( data[0], data[1], data[2], data[3], data[4], data[5]);
                 list.add(r);
             }
@@ -461,10 +461,10 @@ public class ReaderManager implements DataService{
     // hàm cập nhập dữ liệu file Librarian
     private void updateReader(){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("./data/Reader.csv"))){
-        bw.write("readerID,Name,gender,address,phoneNumber,email");
+        bw.write("readerID;Name;gender;address;phoneNumber;email");
         bw.newLine();
         for(Reader r : list){
-            bw.write(r.getReaderID() + "," + r.getName() + "," + r.getGender() + "," + r.getAddress() + "," + r.getPhoneNumber() + "," + r.getEmail());
+            bw.write(r.getReaderID() + "," + r.getName() + ";" + r.getGender() + ";" + r.getAddress() + ";" + r.getPhoneNumber() + ";" + r.getEmail());
             bw.newLine();
             }
         }
