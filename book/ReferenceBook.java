@@ -43,13 +43,61 @@ public class ReferenceBook extends Book{
     
     @Override
     public void showINFO() {
-        System.out.println("ID: " + this.getBookID());
+        String formatRB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-20s |\n";
+
+        String boolToText = this.isReadOnly() ? "Chi doc" : "Duoc muon/mua";
+        System.out.printf(formatRB, this.getBookID(), this.getName(), this.getAuthor(),
+                                    this.getQuantity(), this.getRemaining(), this.getBookType(),
+                                    boolToText);
+    }
+
+    @Override
+    public void showInfo_1() {
+        System.out.println("Book ID: " + this.getBookID());
         System.out.println("Ten sach: " + this.getName());
-        System.out.println("The loai: " + this.getBookType());
         System.out.println("Tac gia: " + this.getAuthor());
         System.out.println("So luong: " + this.getQuantity());
-        System.out.println("So luong con lai: " + this.getRemaining());
-        String text = this.isReadOnly ? "Chi doc" : "Duoc phep muon/mua";
-        System.out.println("The loai phu: " + text);
+        System.out.println("Con lai: " + this.getRemaining());
+        System.out.println("Loai sach: " + this.getBookType());
+        System.out.println("Trang thai: " + (this.isReadOnly() ? "Chi doc" : "Duoc muon/mua"));
+    }
+
+
+    @Override
+    public void enterInfo(){
+        String name, author;
+        int quantity, remaining;
+        boolean ok, isReadOnly;
+
+        do {
+            ok = true;
+            System.out.print("Nhap ten sach: ");
+            name = scan.nextLine();
+            System.out.print("Nhap tac gia: ");
+            author = scan.nextLine();
+            System.out.print("Sach co duoc mua/muon khong?\n1: Co \n2: Khong");
+            int choice = scan.nextInt();
+            isReadOnly = (choice == 2);  // 2 = Không mua = Chi đọc (ReadOnly)
+            System.out.print("Nhap so luong: ");
+            quantity = scan.nextInt();
+            System.out.print("Nhap so luong con lai: ");
+            remaining = scan.nextInt();
+            scan.nextLine();
+
+            if(name == "" || author == "" || quantity < 0 || remaining < 0 || quantity < remaining) {
+                System.out.println("1 vai thong tin khong hop le!");
+                System.out.println("vui long nhap lai!");
+                ok = false;
+            }
+
+        }while(!ok);
+
+        this.setAuthor(author);
+        this.setBookType("Reference book");
+        this.setName(name);
+        this.setQuantity(quantity);
+        this.setRemaining(remaining);
+        this.setReadOnly(isReadOnly);
+
     }
 }

@@ -2,6 +2,9 @@ package Person;
 
 import book.*;
 import java.util.*;
+
+import org.w3c.dom.Text;
+
 import java.io.*;
 
 public class BookManager {
@@ -156,10 +159,58 @@ public class BookManager {
         }
 
         System.out.println("\n======= DANH SACH TAT CA SACH (" + allBooks.size() + " cuon) =======");
+        boolean once = true;
         for (Book book : allBooks) {
-            book.showINFO();
-            System.out.println("--------------------------------------------------");
-        }
+                if(book instanceof ComicBook && once){
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
+                    System.out.printf(formatCB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Họa sĩ", "vol");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
+                    once = false;
+                }
+                if(book instanceof ComicBook){
+                    book.showINFO();
+                }
+            }
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+\n\n");
+            once = true;
+            for (Book book : allBooks) {
+                if(book instanceof FictionBook && once){
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+");
+                    System.out.printf(formatFB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Sub genre");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+");
+                    once = false;
+                }
+                if(book instanceof FictionBook){
+                    book.showINFO();
+                }
+            }
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+\n\n");
+            once = true;
+            for (Book book : allBooks) {
+                if(book instanceof ReferenceBook && once){
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+");
+                    System.out.printf(formatRB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Muon/Mua");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+");
+                    once = false;
+                }
+                if(book instanceof ReferenceBook){
+                    book.showINFO();
+                }
+            }
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+\n\n");
+            once = true;
+            for (Book book : allBooks) {
+                if(book instanceof TextBook && once){
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+");
+                    System.out.printf(formatTB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Mon hoc", "Xuat ban");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+");
+                    once = false;
+                }
+                if(book instanceof TextBook){
+                    book.showINFO();
+                }
+            }
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+\n\n");
     }
 
     // 2. Tìm kiếm sách
@@ -220,22 +271,78 @@ public class BookManager {
         Book book = findBookByID(id);
         if (book != null) {
             System.out.println("\n--- THONG TIN SACH ---");
-            book.showINFO();
+            book.showInfo_1();
         } else {
             System.out.println("Khong tim thay sach co ID: " + id);
         }
     }
 
+    // Header bảng
+    //                  book id - name - author - soluong - remain - type - ...
+    String formatCB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-20s | %-5s |\n";
+    String formatTB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-25s | %-10s |\n";
+    String formatRB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-20s |\n";
+    String formatFB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-25s |\n";
     // Hiển thị kết quả tìm kiếm
     private void displaySearchResults(List<Book> results) {
         if (results.isEmpty()) {
             System.out.println("Khong tim thay sach nao!");
         } else {
-            System.out.println("\nTim thay " + results.size() + " sach:");
+            System.out.println("\n========== TIM THAY " + results.size() + " SACH ==========");
+            
+            boolean once = true;
+            // Dữ liệu từng sách
             for (Book book : results) {
-                book.showINFO();
-                System.out.println("--------------------------------------------------");
+                if(book instanceof ComicBook && once){
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
+                    System.out.printf(formatCB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Họa sĩ", "vol");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
+                    once = false;
+                }
+                if(book instanceof ComicBook){
+                    book.showINFO();
+                }
             }
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+\n\n");
+            once = true;
+            for (Book book : results) {
+                if(book instanceof FictionBook && once){
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+");
+                    System.out.printf(formatFB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Sub genre");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+");
+                    once = false;
+                }
+                if(book instanceof FictionBook){
+                    book.showINFO();
+                }
+            }
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+\n\n");
+            once = true;
+            for (Book book : results) {
+                if(book instanceof ReferenceBook && once){
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+");
+                    System.out.printf(formatRB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Muon/Mua");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+");
+                    once = false;
+                }
+                if(book instanceof ReferenceBook){
+                    book.showINFO();
+                }
+            }
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+\n\n");
+            once = true;
+            for (Book book : results) {
+                if(book instanceof TextBook && once){
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+");
+                    System.out.printf(formatTB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Mon hoc", "Xuat ban");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+");
+                    once = false;
+                }
+                if(book instanceof TextBook){
+                    book.showINFO();
+                }
+            }
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+\n\n");
         }
     }
 
@@ -264,18 +371,48 @@ public class BookManager {
         
         // TODO: Implement logic thêm sách
         switch (type) {
-            case 1:     break;
-            case 2:     break;
-            case 3:     break;
-            case 4:     break;
-            default:System.out.println(type + " khong hop le");
+            case 1: addTextBook();         break;
+            case 2: addFictionBook();      break;
+            case 3: addComicBook();        break;
+            case 4: addReferenceBook();    break;
+            default:System.out.println(type + " khong hop le\n");
                     return;
         }
     }
+
     //Thêm text book
     public void addTextBook() {
-        
+        TextBook tb = new TextBook();
+        tb.enterInfo();
+        allBooks.add(tb);
+        saveTextBooks(); // lưu vào file csv
+        System.out.println("Them thanh cong!\n");
     }
+    // thêm Comic Book
+    public void addComicBook() {
+        ComicBook cb = new ComicBook();
+        cb.enterInfo();
+        allBooks.add(cb);
+        saveComicBooks();
+        System.out.println("Them thanh cong!\n");
+    }
+    // thêm Fiction Book
+    public void addFictionBook() {
+        FictionBook fb = new FictionBook();
+        fb.enterInfo();
+        allBooks.add(fb);
+        saveComicBooks();
+        System.out.println("Them thanh cong!\n");
+    }
+    // thêm Reference Book
+    public void addReferenceBook() {
+        ReferenceBook rb = new ReferenceBook();
+        rb.enterInfo();
+        allBooks.add(rb);
+        saveReferenceBooks();
+        System.out.println("Them thanh cong!\n");
+    }
+
 
     // 4. Xóa sách
     public void remove() {
@@ -288,8 +425,8 @@ public class BookManager {
             System.out.println("Khong tim thay sach!");
             return;
         }
-        
-        book.showINFO();
+        System.out.println("======== Thong tin sach ============");
+        book.showInfo_1();
         System.out.print("Xac nhan xoa (Y/N)? ");
         String confirm = sc.nextLine();
         
@@ -314,8 +451,142 @@ public class BookManager {
             return;
         }
         
-        // TODO: Implement logic cập nhật
-        System.out.println("Chuc nang dang phat trien!");
+        System.out.println("\n--- THONG TIN SACH HIEN TAI ---");
+        book.showInfo_1();
+        
+        System.out.println("\n--- CAP NHAT THONG TIN ---");
+        System.out.println("1. Cap nhat ten sach");
+        System.out.println("2. Cap nhat tac gia");
+        System.out.println("3. Cap nhat so luong");
+        System.out.println("4. Cap nhat so luong con lai");
+        System.out.println("5. Cap nhat thong tin chi tiet (theo loai sach)");
+        System.out.println("0. Huy");
+        System.out.print("Chon thong tin can cap nhat: ");
+        
+        int choice = sc.nextInt();
+        sc.nextLine(); // Clear buffer
+        
+        switch (choice) {
+            case 1:
+                System.out.print("Nhap ten sach moi: ");
+                String newName = sc.nextLine();
+                book.setName(newName);
+                System.out.println("Da cap nhat ten sach!\n");
+                break;
+                
+            case 2:
+                System.out.print("Nhap tac gia moi: ");
+                String newAuthor = sc.nextLine();
+                book.setAuthor(newAuthor);
+                System.out.println("Da cap nhat tac gia!\n");
+                break;
+                
+            case 3:
+                System.out.print("Nhap so luong moi: ");
+                int newQuantity = sc.nextInt();
+                book.setQuantity(newQuantity);
+                System.out.println("Da cap nhat so luong!\n");
+                break;
+                
+            case 4:
+                System.out.print("Nhap so luong con lai moi: ");
+                int newRemaining = sc.nextInt();
+                if (newRemaining > book.getQuantity()) {
+                    System.out.println("Loi: So luong con lai khong the lon hon tong so luong!\n");
+                } else {
+                    book.setRemaining(newRemaining);
+                    System.out.println("Da cap nhat so luong con lai!\n");
+                }
+                break;
+                
+            case 5:
+                updateSpecificBookInfo(book);
+                break;
+                
+            case 0:
+                System.out.println("Huy cap nhat!");
+                return;
+                
+            default:
+                System.out.println("Lua chon khong hop le!");
+                return;
+        }
+        
+        // Lưu thay đổi vào file
+        saveAllBooks();
+        System.out.println("\n--- THONG TIN SAU KHI CAP NHAT ---");
+        book.showInfo_1();
+    }
+    
+    // Cập nhật thông tin đặc thù theo từng loại sách
+    private void updateSpecificBookInfo(Book book) {
+        if (book instanceof TextBook) {
+            TextBook tb = (TextBook) book;
+            System.out.println("1. Cap nhat mon hoc (Subject)");
+            System.out.println("2. Cap nhat ban (Edition)");
+            System.out.print("Chon: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+            
+            switch (choice) {
+                case 1:
+                    System.out.print("Nhap mon hoc moi: ");
+                    String subject = sc.nextLine();
+                    tb.setSubject(subject);
+                    System.out.println("Da cap nhat mon hoc!\n");
+                    break;
+                case 2:
+                    System.out.print("Nhap ban moi: ");
+                    int edition = sc.nextInt();
+                    tb.setEdition(edition);
+                    System.out.println("Da cap nhat ban!\n");
+                    break;
+                default:
+                    System.out.println("Lua chon khong hop le!\n");
+            }
+            
+        } else if (book instanceof FictionBook) {
+            FictionBook fb = (FictionBook) book;
+            System.out.print("Nhap the loai phu moi (Sub Genre): ");
+            String subGenre = sc.nextLine();
+            fb.setSubGenre(subGenre);
+            System.out.println("Da cap nhat the loai phu!\n");
+            
+        } else if (book instanceof ComicBook) {
+            ComicBook cb = (ComicBook) book;
+            System.out.println("1. Cap nhat hoa si (Artist)");
+            System.out.println("2. Cap nhat so tap (Volume Number)");
+            System.out.print("Chon: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+            
+            switch (choice) {
+                case 1:
+                    System.out.print("Nhap ten hoa si moi: ");
+                    String artist = sc.nextLine();
+                    cb.setArtist(artist);
+                    System.out.println("Da cap nhat hoa si!\n");
+                    break;
+                case 2:
+                    System.out.print("Nhap so tap moi: ");
+                    int volume = sc.nextInt();
+                    cb.setVolumeNumber(volume);
+                    System.out.println("Da cap nhat so tap!\n");
+                    break;
+                default:
+                    System.out.println("Lua chon khong hop le!\n");
+            }
+            
+        } else if (book instanceof ReferenceBook) {
+            ReferenceBook rb = (ReferenceBook) book;
+            System.out.println("Cap nhat trang thai chi doc:");
+            System.out.println("1. Co (Read Only)");
+            System.out.println("2. Khong (Cho muon)");
+            System.out.print("Chon: ");
+            int choice = sc.nextInt();
+            rb.setReadOnly(choice == 1);
+            System.out.println("Da cap nhat trang thai!\n");
+        }
     }
 
     // 6. Lọc theo loại sách
@@ -338,7 +609,6 @@ public class BookManager {
                 case 4: if (book instanceof ReferenceBook) filtered.add(book); break;
             }
         }
-        
         displaySearchResults(filtered);
     }
 
@@ -357,9 +627,13 @@ public class BookManager {
             System.out.println("Khong co sach nao con trong kho!");
         } else {
             System.out.println("Co " + available.size() + " sach con trong kho:");
+            System.out.println("+-------------------------------------+---------------------------+------------+");
+            System.out.printf("| %-35s | %-25s | %-10s |\n", "Ten sach", "Loai sach", "Con lai");
+            System.out.println("+-------------------------------------+---------------------------+------------+");
             for (Book book : available) {
-                System.out.println("- " + book.getName() + " (Con lai: " + book.getRemaining() + ")");
+                System.out.printf("| %-35s | %-25s | %-10s |\n", book.getName(), book.getBookType(), book.getRemaining());
             }
+            System.out.println("+-------------------------------------+---------------------------+------------+");
         }
     }
 
