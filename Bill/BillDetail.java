@@ -35,7 +35,9 @@ public class BillDetail {
         BookManager BM = new BookManager();
         // Giả định BM.getAllBooks() trả về List<Book>
         for( Book b : BM.getAllBooks()){
+            System.out.println(b.getBookID());
             if( b.getBookID().equals(bookID)){
+                System.out.println("Da tim thay!");
                 return b.getPrice();
             }
         }

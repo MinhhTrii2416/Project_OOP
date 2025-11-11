@@ -173,6 +173,7 @@ public class BillManager implements DataService {
                 
                 // Kiểm tra sự tồn tại của sách
                 for( Book b : BM.getAllBooks() ){ // Giả định BM.getAllBooks() hoạt động
+                    System.out.println(b.getBookID());
                     if( b.getBookID().equals(bookID)){
                         bookFound = true;
                         break; 
@@ -191,7 +192,7 @@ public class BillManager implements DataService {
                 }
             }
             if (!bookFound) break; // Thoát khỏi vòng lặp thêm chi tiết nếu sách không được tìm thấy
-
+            Book.resetAllCounters();
             
             System.out.print("Nhap vao so luong cuon sach: ");
             if (sc.hasNextInt()) {

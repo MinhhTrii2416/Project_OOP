@@ -161,7 +161,7 @@ public class BookManager {
     }
 
     // reset ID
-    private void resetBookIDs() {
+    public void resetBookIDs() {
         Book.resetAllCounters();
     }
 
