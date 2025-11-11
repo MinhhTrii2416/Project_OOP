@@ -58,11 +58,6 @@ public class Librarian extends Person {
             System.out.println("------------------------------------------");
             System.out.print("Hay nhap vao lua chon: ");
             lua_chon = sc.nextInt();
-            // try {
-            //     lua_chon = Integer.parseInt(s); // chuyển sang int
-            // } catch (NumberFormatException e) {
-            //     System.out.println("Loi! Ban phai nhap so nguyen!");
-            // }
             // lọc lựa chọn
             switch(lua_chon){
                 case 1:
