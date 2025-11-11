@@ -1,13 +1,13 @@
 package Bill;
 
 import java.util.*;
-import Person.*;
 
 public class Bill {
     private String bill_ID;
     private double total;
-    private String reader;
-    private String librarian;
+    // Đổi tên biến sang ID để rõ ràng
+    private String readerID; 
+    private String librarianID;
     private String date;
     private ArrayList<BillDetail> billDetails = new ArrayList<>();
 
@@ -18,11 +18,13 @@ public class Bill {
     public double getTotal() { return total; }
     public void setTotal(double total) { this.total = total; }
 
-    public String getReader() { return reader; }
-    public void setReader(String reader) { this.reader = reader; }
+    // Phương thức đã được sửa tên để đồng bộ với BillManager
+    public String getReaderID() { return readerID; } 
+    public void setReaderID(String readerID) { this.readerID = readerID; } 
 
-    public String getLibrarian() { return librarian; }
-    public void setLibrarian(String librarian) { this.librarian = librarian; }
+    // Phương thức đã được sửa tên để đồng bộ với BillManager
+    public String getLibrarianID() { return librarianID; } 
+    public void setLibrarianID(String librarianID) { this.librarianID = librarianID; } 
 
     public String getDate() { return date; }
     public void setDate(String date) { this.date = date; }
@@ -31,10 +33,11 @@ public class Bill {
 
     public Bill() {}
 
-    public Bill(String bill_ID, String reader, String librarian, String date) {
+    // Sửa constructor để dùng ID
+    public Bill(String bill_ID, String readerID, String librarianID, String date) {
         this.bill_ID = bill_ID;
-        this.reader = reader;
-        this.librarian = librarian;
+        this.readerID = readerID;
+        this.librarianID = librarianID;
         this.date = date;
         this.total = 0;
     }
@@ -59,8 +62,8 @@ public class Bill {
         System.out.println("\n===== HOA ĐON MUA SACH =====");
         System.out.println("Ma hoa đon: " + bill_ID);
         System.out.println("Ngay lap: " + date);
-        System.out.println("Ma nguoi doc: " + this.reader);
-        System.out.println("Ma thu thu: " + this.librarian);
+        System.out.println("Ma nguoi doc: " + this.readerID);
+        System.out.println("Ma thu thu: " + this.librarianID);
         System.out.println("----------------------------------");
         for (BillDetail detail : billDetails) {
             detail.showINFO();
