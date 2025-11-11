@@ -59,6 +59,8 @@ public class LoanTicket {
     public Librarian getLibrarian() { return this.librarian; }
     public LocalDate getDueDate() { return this.dueDate; }
     public void setDueDate(LocalDate dueDate) {this.dueDate = dueDate;}
+    public List<LoanDetail> getLoanDetails() {return this.loanDetails;}
+    
 
     // + showLoanTicket()
     public void showLoanTicket() {
@@ -79,5 +81,9 @@ public class LoanTicket {
         }
         System.out.println("-------------------------");
     }
+
+    
+
+    
 
 }

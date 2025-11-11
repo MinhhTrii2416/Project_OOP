@@ -31,7 +31,7 @@ public class LoanDetail  {
 
     // Getters và Setters
     public int getQuantity() { return this.quantity; }  
-    public Book getItem() { return this.item; }  
+    public Book getBook() { return this.item; }  
     public LocalDate getActualReturnDate() { return this.actualReturnDate; }
     public void setActualReturnDate(LocalDate actualReturnDate) { this.actualReturnDate = actualReturnDate; }
 
@@ -47,5 +47,7 @@ public class LoanDetail  {
             System.out.println("\t  Status: Not returned");
         }
     }
+
+    
 
 }
