@@ -81,6 +81,13 @@ public abstract class Book {
     public abstract void showInfo_1(); // Hiển thị thông tin trên 1 dòng
     public abstract void enterInfo();
 
+    // Reset tất cả các bộ đếm ID về giá trị ban đầu
+    public static void resetAllCounters() {
+        automatic_ID1 = 1;
+        automatic_ID2 = 1;
+        automatic_ID3 = 1;
+        automatic_ID4 = 1;
+    }
 
 // helper funtions
 

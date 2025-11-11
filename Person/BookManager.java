@@ -145,10 +145,18 @@ public class BookManager {
                 case 5: updateBook(); break;
                 case 6: filterByType(); break;
                 case 7: checkAvailability(); break;
-                case 0: System.out.println("Thoat quan ly sach!"); break;
+                case 0: 
+                    resetBookIDs(); // Reset các bộ đếm ID trước khi thoát
+                    System.out.println("Thoat quan ly sach!");
+                    break;
                 default: System.out.println("Lua chon khong hop le!");
             }
         } while (choice != 0);
+    }
+
+    // reset ID
+    private void resetBookIDs() {
+        Book.resetAllCounters();
     }
 
     // 1. Hiển thị tất cả sách
