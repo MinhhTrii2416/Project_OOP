@@ -20,14 +20,16 @@ public class TextBook extends Book{
         this.subject = "null";
         this.edition = 0;
         this.setBookType("Text Book");
-        this.bookID = "textB_" + automatic_ID;
+        this.bookID = "textB_" + automatic_ID4;
+        automatic_ID4++;
     }  
     public TextBook(String name, String author, int quantity, int remaining, String subject, int edition) {
         super(author, name, quantity, remaining);
         this.subject  = subject;
         this.edition = edition;
         this.setBookType("Text Book");
-        this.bookID = "textB_" + automatic_ID;
+        this.bookID = "textB_" + automatic_ID4;
+        automatic_ID4++;
     }
     public TextBook(TextBook textBook) {
         this.author = textBook.author;
@@ -37,7 +39,8 @@ public class TextBook extends Book{
         this.subject = textBook.subject;
         this.edition = textBook.edition;
         this.bookType = textBook.bookType;
-        this.bookID = "textB_" + automatic_ID;
+        this.bookID = "textB_" + automatic_ID4;
+        automatic_ID4++;
     }
 
 

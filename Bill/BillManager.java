@@ -1,4 +1,4 @@
-package bill;
+package Bill;
 
 import dataService.DataService;
 import java.util.*;

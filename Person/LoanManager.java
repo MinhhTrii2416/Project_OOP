@@ -45,11 +45,11 @@ public class LoanManager implements DataService {
                 // Chỉ lấy details của ticketID này
                 if (csvTicketID.equals(ticketID)) {
                     String bookID = data[1];
-                    int quantity = Integer.parseInt(data[3]);
+                    int quantity = Integer.parseInt(data[2]); // Sửa từ data[3] → data[2]
 
                     // Xử lý actualReturnDate (có thể rỗng)
-                    LocalDate returnDate = (data.length > 4 && !data[4].isEmpty())
-                            ? LocalDate.parse(data[4])
+                    LocalDate returnDate = (data.length > 3 && !data[3].isEmpty())
+                            ? LocalDate.parse(data[3]) // Sửa từ data[4] → data[3]
                             : null;
 
                     // Tìm Book object theo bookID
@@ -167,8 +167,8 @@ public class LoanManager implements DataService {
     // Hàm ghi danh sách chi tiết phiếu mượn vào file LoanDetail.csv
     public void updateLoanDetail() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("./data/LoanDetail.csv"))) {
-            // Ghi header
-            bw.write("ticketID,bookID,bookName,quantity,actualReturnDate\n");
+            // Ghi header (bỏ cột bookName)
+            bw.write("ticketID,bookID,quantity,actualReturnDate\n");
 
             for (LoanTicket ticket : list) {
                 String ticketID = ticket.getTicketID();
@@ -177,10 +177,10 @@ public class LoanManager implements DataService {
                             ? detail.getActualReturnDate().format(DateTimeFormatter.ISO_LOCAL_DATE)
                             : "";
 
-                    String line = String.format("%s,%s,%s,%d,%s\n",
+                    // Bỏ cột bookName
+                    String line = String.format("%s,%s,%d,%s\n",
                             ticketID,
-                            (detail.getBook() != null) ? detail.getBook().getBookID() : "", // Lấy BookID
-                            (detail.getBook() != null) ? detail.getBook().getName() : "", // Lấy Book Name
+                            (detail.getBook() != null) ? detail.getBook().getBookID() : "",
                             detail.getQuantity(),
                             actualReturnDateStr);
                     bw.write(line);
@@ -279,7 +279,6 @@ public class LoanManager implements DataService {
 
         if (foundTicket != null) {
             System.out.println("---------------THONG TIN PHIEU MUON-------------");
-            // Sử dụng hàm showLoanTicket đã định dạng đẹp mắt trước đó
             foundTicket.showLoanTicket();
         } else {
             System.out.println("Khong tim thay phieu muon nao co ID nay!");
@@ -329,7 +328,11 @@ public class LoanManager implements DataService {
 
         // 4. Thiết lập ngày mượn và ngày đáo hạn
         LocalDate borrowDate = LocalDate.now();
-        LocalDate dueDate = borrowDate.plusDays(7); // Ví dụ: mượn 7 ngày
+        int songay;
+        System.out.print("Nhap so ngay se tra: ");
+        songay = sc.nextInt();
+        sc.nextLine();
+        LocalDate dueDate = borrowDate.plusDays(songay);
         System.out.println("Ngay muon mac dinh: " + borrowDate.format(DATE_FORMAT));
         System.out.println("Ngay dao han: " + dueDate.format(DATE_FORMAT));
 
@@ -354,24 +357,20 @@ public class LoanManager implements DataService {
             int quantity = -1;
             do {
                 System.out.print(
-                        "Nhap so luong sach '" + book.getName() + "' muon (toi da: " + book.getQuantity() + "): ");
-                if (sc.hasNextInt()) {
-                    quantity = sc.nextInt();
-                    sc.nextLine(); // Clear buffer
-                    if (quantity <= 0 || quantity > book.getQuantity()) {
-                        System.out.println("So luong khong hop le hoac vuot qua so luong con lai.");
-                        quantity = -1; // Đặt lại để lặp lại
-                    }
-                } else {
-                    System.out.println("Du lieu khong hop le. Vui long nhap lai.");
-                    sc.next();
-                    sc.nextLine();
+                        "Nhap so luong sach '" + book.getName() + "' muon (toi da: " + book.getRemaining() + "): ");
+                quantity = sc.nextInt();
+                sc.nextLine(); // Clear buffer
+                if (quantity <= 0 || quantity > book.getRemaining()) {
+                    System.out.println("So luong khong hop le hoac vuot qua so luong con lai.");
+                    quantity = -1; // Đặt lại để lặp lại
                 }
             } while (quantity <= 0);
 
-            // TODO: Trừ số lượng sách khỏi BookManager.list (cần implement trong
-            // BookManager)
-            // bookManager.decreaseQuantity(bookID, quantity);
+            // Trừ số lượng sách khỏi BookManager
+            if (!bookManager.borrowBook(bookID, quantity)) {
+                System.out.println("Khong the muon sach. Vui long thu lai.");
+                continue;
+            }
 
             LoanDetail detail = new LoanDetail(quantity, book, null); // actualReturnDate là null
             loanDetails.add(detail);
@@ -390,8 +389,7 @@ public class LoanManager implements DataService {
         // 7. Cập nhật files
         updateLoanTicket();
         updateLoanDetail();
-        // TODO: Cần cập nhật cả file Book.csv nếu đã trừ số lượng sách
-        // bookManager.updateBookList();
+        bookManager.saveAllBooks(); // Lưu thay đổi số lượng sách vào file
 
         System.out.println("Tao phieu muon **" + ticketID + "** thanh cong!");
     }
@@ -447,10 +445,17 @@ public class LoanManager implements DataService {
                     System.out.println("Xac nhan huy xoa phieu muon!");
                     return;
                 case 1:
+                    // Hoàn lại số lượng sách trước khi xóa phiếu
+                    for (LoanDetail detail : ticketToRemove.getLoanDetails()) {
+                        if (detail.getBook() != null) {
+                            bookManager.returnBook(detail.getBook().getBookID(), detail.getQuantity());
+                        }
+                    }
+                    
                     list.remove(ticketToRemove);
-                    updateLoanTicket(); // Thêm dòng này
-                    updateLoanDetail(); // Thêm dòng này (nếu cần cập nhật chi tiết)
-                    // TODO: Cần hoàn lại số lượng sách trong BookManager.list và update Book.csv
+                    updateLoanTicket();
+                    updateLoanDetail();
+                    bookManager.saveAllBooks(); // Lưu thay đổi số lượng sách
                     System.out.println("Xac nhan xoa phieu muon " + ticketID + " khoi danh sach!");
                     return;
                 default:

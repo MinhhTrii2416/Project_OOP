@@ -15,14 +15,16 @@ public class FictionBook extends Book{
     public FictionBook() {
         super();
         this.subGenre = "null";
-        this.bookID = "fictionB_" + automatic_ID;
+        this.bookID = "fictionB_" + automatic_ID2;
+        automatic_ID2++;
         setBookType("Fiction Book");
     }  
     public FictionBook(String name, String author, int quantity, int remaining, String subGenre) {
         super(author, name, quantity, remaining);
         this.subGenre = subGenre;
         setBookType("Fiction Book");
-        this.bookID = "fictionB_" + automatic_ID;
+        this.bookID = "fictionB_" + automatic_ID2;
+        automatic_ID2++;
     }
     public FictionBook(FictionBook fictBook) {
         this.author = fictBook.author;
@@ -31,7 +33,8 @@ public class FictionBook extends Book{
         this.remaining = fictBook.remaining;
         this.subGenre = fictBook.subGenre;
         this.bookType = fictBook.bookType;
-        this.bookID = "fictionB_" + automatic_ID;
+        this.bookID = "fictionB_" + automatic_ID2;
+        automatic_ID2++;
     }
 
 

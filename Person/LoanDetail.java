@@ -19,8 +19,9 @@ public class LoanDetail  {
     public LoanDetail(int quantity, Book item, LocalDate actualReturnDate) {
         if (quantity <= 0) 
             throw new IllegalArgumentException("Quantity must be a positive number.");    
-        if (item == null ) 
-            throw new IllegalArgumentException("Item (Book) must not be null or empty.");     
+        // Tạm thời bỏ validation này để debug
+        // if (item == null ) 
+        //     throw new IllegalArgumentException("Item (Book) must not be null or empty.");     
         if (actualReturnDate != null && actualReturnDate.isAfter(LocalDate.now())) 
             throw new IllegalArgumentException("Actual return date cannot be in the future.");
         
@@ -40,11 +41,11 @@ public class LoanDetail  {
         
         String itemName = (this.item != null) ? this.item.getName() : "Unknown book";
         
-        System.out.println("\t- Book: " + itemName + " - Quantity: " + this.getQuantity());
+        System.out.print("\t- Book: " + itemName + " - Quantity: " + this.getQuantity());
         if (this.actualReturnDate != null) {
-            System.out.println("\t  Returned on: " + this.getActualReturnDate());
+            System.out.println(" - Returned on: " + this.getActualReturnDate());
         } else {
-            System.out.println("\t  Status: Not returned");
+            System.out.println(" -  Status: Not returned");
         }
     }
 

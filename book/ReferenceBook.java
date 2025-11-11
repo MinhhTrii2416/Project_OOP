@@ -14,13 +14,15 @@ public class ReferenceBook extends Book{
         super();
         this.isReadOnly = true;
         this.setBookType("Reference Book");
-        bookID = "referenceB_" + automatic_ID;
+        bookID = "referenceB_" + automatic_ID3;
+        automatic_ID3++;
     }  
     public ReferenceBook(String name, String author, int quantity, int remaining, Boolean isReadOnly) {
         super(author, name, quantity, remaining);
         this.isReadOnly = isReadOnly;
         this.setBookType("Reference Book");
-        bookID = "referenceB_" + automatic_ID;
+        bookID = "referenceB_" + automatic_ID3;
+        automatic_ID3++;
     }
     public ReferenceBook(ReferenceBook referBook) {
         this.author = referBook.author;
@@ -29,7 +31,8 @@ public class ReferenceBook extends Book{
         this.remaining = referBook.remaining;
         this.isReadOnly = referBook.isReadOnly;
         this.bookType = referBook.bookType;
-        bookID = "referenceB_" + automatic_ID;
+        bookID = "referenceB_" + automatic_ID3;
+        automatic_ID3++;
     }
 
 
