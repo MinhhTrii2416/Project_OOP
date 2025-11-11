@@ -19,9 +19,10 @@ public class FictionBook extends Book{
         automatic_ID2++;
         setBookType("Fiction Book");
     }  
-    public FictionBook(String name, String author, int quantity, int remaining, String subGenre) {
+    public FictionBook(String name, String author, int quantity, int remaining, double price, String subGenre) {
         super(author, name, quantity, remaining);
         this.subGenre = subGenre;
+        this.price = price;
         setBookType("Fiction Book");
         this.bookID = "fictionB_" + automatic_ID2;
         automatic_ID2++;
@@ -48,11 +49,11 @@ public class FictionBook extends Book{
 
     @Override
     public void showINFO() {
-        String formatFB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-25s |\n";
+        String formatFB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-12.0f | %-15s | %-25s |\n";
 
         System.out.printf(formatFB, this.getBookID(), this.getName(), this.getAuthor(),
-                                    this.getQuantity(), this.getRemaining(), this.getBookType(),
-                                    this.getSubGenre());
+                                    this.getQuantity(), this.getRemaining(), this.getPrice(),
+                                    this.getBookType(), this.getSubGenre());
     }
 
     @Override
@@ -62,6 +63,7 @@ public class FictionBook extends Book{
         System.out.println("Tac gia: " + this.getAuthor());
         System.out.println("So luong: " + this.getQuantity());
         System.out.println("Con lai: " + this.getRemaining());
+        System.out.println("Gia: " + this.getPrice() + " VND");
         System.out.println("Loai sach: " + this.getBookType());
         System.out.println("The loai phu: " + this.getSubGenre());
     }
@@ -71,6 +73,7 @@ public class FictionBook extends Book{
     public void enterInfo(){
         String name, author, subGenre;
         int quantity, remaining;
+        double price;
         boolean ok = false;
 
         do {
@@ -85,9 +88,11 @@ public class FictionBook extends Book{
             quantity = scan.nextInt();
             System.out.print("Nhap so luong con lai: ");
             remaining = scan.nextInt();
+            System.out.print("Nhap gia: ");
+            price = scan.nextDouble();
             scan.nextLine();
 
-            if(name == "" || author == "" || subGenre == "" || quantity < 0 || remaining < 0 || quantity < remaining) {
+            if(name == "" || author == "" || subGenre == "" || quantity < 0 || remaining < 0 || quantity < remaining || price < 0) {
                 System.out.println("1 vai thong tin khong hop le!");
                 System.out.println("vui long nhap lai!");
                 ok = false;
@@ -99,6 +104,7 @@ public class FictionBook extends Book{
         this.setBookType("Fiction book");
         this.setName(name);
         this.setQuantity(quantity); this.setRemaining(remaining);
+        this.setPrice(price);
 
     }
 }

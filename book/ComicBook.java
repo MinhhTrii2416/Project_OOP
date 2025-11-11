@@ -23,10 +23,11 @@ public class ComicBook  extends Book{
         this.bookID = "comicB_" + automatic_ID1;
         automatic_ID1++;
     }  
-    public ComicBook(String name, String author, int quantity, int remaining, String artist, int volNumber) {
+    public ComicBook(String name, String author, int quantity, int remaining, double price, String artist, int volNumber) {
         super(author, name, quantity, remaining);
         this.artist = artist;
         this.volumeNumber = volNumber;
+        this.price = price;
         this.setBookType("Comic Book");
         this.bookID = "comicB_" + automatic_ID1;
         automatic_ID1++;
@@ -54,11 +55,11 @@ public class ComicBook  extends Book{
 
     @Override
     public void showINFO() {
-        String formatCB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-20s | %-5s |\n";
+        String formatCB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-12.0f | %-15s | %-20s | %-5s |\n";
 
         System.out.printf(formatCB, this.getBookID(), this.getName(), this.getAuthor(),
-                                    this.getQuantity(), this.getRemaining(), this.getBookType(),
-                                    this.getArtist(), this.getVolumeNumber());
+                                    this.getQuantity(), this.getRemaining(), this.getPrice(),
+                                    this.getBookType(), this.getArtist(), this.getVolumeNumber());
     }
 
     @Override
@@ -68,6 +69,7 @@ public class ComicBook  extends Book{
         System.out.println("Tac gia: " + this.getAuthor());
         System.out.println("So luong: " + this.getQuantity());
         System.out.println("Con lai: " + this.getRemaining());
+        System.out.println("Gia: " + this.getPrice() + " VND");
         System.out.println("Loai sach: " + this.getBookType());
         System.out.println("Hoa si: " + this.getArtist());
         System.out.println("So tap: " + this.getVolumeNumber());
@@ -77,6 +79,7 @@ public class ComicBook  extends Book{
     public void enterInfo(){
         String name, author, artist;
         int quantity, remaining, volNumber;
+        double price;
         boolean ok = false;
 
         do {
@@ -91,11 +94,13 @@ public class ComicBook  extends Book{
             quantity = scan.nextInt();
             System.out.print("Nhap so luong con lai: ");
             remaining = scan.nextInt();
+            System.out.print("Nhap gia: ");
+            price = scan.nextDouble();
             System.out.print("Nhap tap cua truyen: ");
             volNumber = scan.nextInt();
             scan.nextLine();
 
-            if(name == "" || author == "" || artist == "" || volNumber < 0 ||quantity < 0 || remaining < 0 || quantity < remaining) {
+            if(name == "" || author == "" || artist == "" || volNumber < 0 ||quantity < 0 || remaining < 0 || quantity < remaining || price < 0) {
                 System.out.println("1 vai thong tin khong hop le!");
                 System.out.println("vui long nhap lai!");
                 ok = false;
@@ -108,6 +113,7 @@ public class ComicBook  extends Book{
         this.setName(name);
         this.setQuantity(quantity);
         this.setRemaining(remaining);
+        this.setPrice(price);
         this.setVolumeNumber(volNumber);
     }
 }

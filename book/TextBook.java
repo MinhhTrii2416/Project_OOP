@@ -23,10 +23,11 @@ public class TextBook extends Book{
         this.bookID = "textB_" + automatic_ID4;
         automatic_ID4++;
     }  
-    public TextBook(String name, String author, int quantity, int remaining, String subject, int edition) {
+    public TextBook(String name, String author, int quantity, int remaining, double price, String subject, int edition) {
         super(author, name, quantity, remaining);
         this.subject  = subject;
         this.edition = edition;
+        this.price = price;
         this.setBookType("Text Book");
         this.bookID = "textB_" + automatic_ID4;
         automatic_ID4++;
@@ -55,11 +56,11 @@ public class TextBook extends Book{
     
     @Override
     public void showINFO() {
-        String formatTB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-25s | %-10s |\n";
+        String formatTB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-12.0f | %-15s | %-25s | %-10s |\n";
         
         System.out.printf(formatTB, this.getBookID(), this.getName(), this.getAuthor(),
-                                    this.getQuantity(), this.getRemaining(), this.getBookType(),
-                                    this.getSubject(), this.getEdition());
+                                    this.getQuantity(), this.getRemaining(), this.getPrice(),
+                                    this.getBookType(), this.getSubject(), this.getEdition());
     }
 
     @Override
@@ -69,6 +70,7 @@ public class TextBook extends Book{
         System.out.println("Tac gia: " + this.getAuthor());
         System.out.println("So luong: " + this.getQuantity());
         System.out.println("Con lai: " + this.getRemaining());
+        System.out.println("Gia: " + this.getPrice() + " VND");
         System.out.println("Loai sach: " + this.getBookType());
         System.out.println("Mon hoc: " + this.getSubject());
         System.out.println("Lan xuat ban: " + this.getEdition());
@@ -79,6 +81,7 @@ public class TextBook extends Book{
     public void enterInfo(){
         String name, author, subject;
         int quantity, remaining, edition;
+        double price;
         boolean ok;
 
         do {
@@ -93,11 +96,13 @@ public class TextBook extends Book{
             quantity = scan.nextInt();
             System.out.print("Nhap so luong con lai: ");
             remaining = scan.nextInt();
+            System.out.print("Nhap gia: ");
+            price = scan.nextDouble();
             System.out.print("Lan xuat ban thu: ");
             edition = scan.nextInt();
             scan.nextLine();
 
-            if(name == "" || author == "" || subject == "" || edition < 0 || quantity < 0 || remaining < 0 || quantity < remaining) {
+            if(name == "" || author == "" || subject == "" || edition < 0 || quantity < 0 || remaining < 0 || quantity < remaining || price < 0) {
                 System.out.println("1 vai thong tin khong hop le!");
                 System.out.println("vui long nhap lai!");
                 ok = false;
@@ -111,6 +116,7 @@ public class TextBook extends Book{
         this.setName(name);
         this.setQuantity(quantity);
         this.setRemaining(remaining);
+        this.setPrice(price);
         this.setSubject(subject);
         this.setEdition(edition);
 

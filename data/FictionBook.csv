@@ -1,11 +1,11 @@
-name,author,quantity,remaining,subGenre
-Nha Gia Kim,Paulo Coelho,25,20,Phieu luu
-Mat Biec,Nguyen Nhat Anh,30,22,Lang man
-Cho Toi Xin Mot Ve Di Tuoi Tho,Nguyen Nhat Anh,28,25,Tam ly
-Sherlock Holmes,Arthur Conan Doyle,20,15,Trinh tham
-Harry Potter Va Hon Da Phu Thuy,J.k. Rowling,35,28,Phep thuat
-Dat Rung Phuong Nam,Doan Gioi,22,18,Hien thuc
-So Do Do,Nguyen Nhat Anh,26,20,Tuoi tre
-1984,George Orwell,18,14,Khoa hoc vien tuong
-Noi Buon Chien Tranh,Bao Ninh,15,12,Chien tranh
-Toi Thay Hoa Vang Tren Co Xanh,Nguyen Nhat Anh,32,28,Lang man
+name,author,quantity,remaining,price,subGenre
+Nha Gia Kim,Paulo Coelho,25,20,85000,Phieu luu
+Mat Biec,Nguyen Nhat Anh,30,22,95000,Lang man
+Cho Toi Xin Mot Ve Di Tuoi Tho,Nguyen Nhat Anh,28,25,88000,Tam ly
+Sherlock Holmes,Arthur Conan Doyle,20,15,120000,Trinh tham
+Harry Potter Va Hon Da Phu Thuy,J.k. Rowling,35,28,150000,Phep thuat
+Dat Rung Phuong Nam,Doan Gioi,22,18,75000,Hien thuc
+So Do Do,Nguyen Nhat Anh,26,20,82000,Tuoi tre
+1984,George Orwell,18,14,110000,Khoa hoc vien tuong
+Noi Buon Chien Tranh,Bao Ninh,15,12,98000,Chien tranh
+Toi Thay Hoa Vang Tren Co Xanh,Nguyen Nhat Anh,32,28,92000,Lang man

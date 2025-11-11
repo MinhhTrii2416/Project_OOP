@@ -17,9 +17,10 @@ public class ReferenceBook extends Book{
         bookID = "referenceB_" + automatic_ID3;
         automatic_ID3++;
     }  
-    public ReferenceBook(String name, String author, int quantity, int remaining, Boolean isReadOnly) {
+    public ReferenceBook(String name, String author, int quantity, int remaining, double price, Boolean isReadOnly) {
         super(author, name, quantity, remaining);
         this.isReadOnly = isReadOnly;
+        this.price = price;
         this.setBookType("Reference Book");
         bookID = "referenceB_" + automatic_ID3;
         automatic_ID3++;
@@ -46,12 +47,12 @@ public class ReferenceBook extends Book{
     
     @Override
     public void showINFO() {
-        String formatRB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-20s |\n";
+        String formatRB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-12.0f | %-15s | %-20s |\n";
 
         String boolToText = this.isReadOnly() ? "Chi doc" : "Duoc muon/mua";
         System.out.printf(formatRB, this.getBookID(), this.getName(), this.getAuthor(),
-                                    this.getQuantity(), this.getRemaining(), this.getBookType(),
-                                    boolToText);
+                                    this.getQuantity(), this.getRemaining(), this.getPrice(),
+                                    this.getBookType(), boolToText);
     }
 
     @Override
@@ -61,6 +62,7 @@ public class ReferenceBook extends Book{
         System.out.println("Tac gia: " + this.getAuthor());
         System.out.println("So luong: " + this.getQuantity());
         System.out.println("Con lai: " + this.getRemaining());
+        System.out.println("Gia: " + this.getPrice() + " VND");
         System.out.println("Loai sach: " + this.getBookType());
         System.out.println("Trang thai: " + (this.isReadOnly() ? "Chi doc" : "Duoc muon/mua"));
     }
@@ -70,6 +72,7 @@ public class ReferenceBook extends Book{
     public void enterInfo(){
         String name, author;
         int quantity, remaining;
+        double price;
         boolean ok, isReadOnly;
 
         do {
@@ -85,9 +88,11 @@ public class ReferenceBook extends Book{
             quantity = scan.nextInt();
             System.out.print("Nhap so luong con lai: ");
             remaining = scan.nextInt();
+            System.out.print("Nhap gia: ");
+            price = scan.nextDouble();
             scan.nextLine();
 
-            if(name == "" || author == "" || quantity < 0 || remaining < 0 || quantity < remaining) {
+            if(name == "" || author == "" || quantity < 0 || remaining < 0 || quantity < remaining || price < 0) {
                 System.out.println("1 vai thong tin khong hop le!");
                 System.out.println("vui long nhap lai!");
                 ok = false;
@@ -100,6 +105,7 @@ public class ReferenceBook extends Book{
         this.setName(name);
         this.setQuantity(quantity);
         this.setRemaining(remaining);
+        this.setPrice(price);
         this.setReadOnly(isReadOnly);
 
     }

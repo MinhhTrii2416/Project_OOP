@@ -1,11 +1,11 @@
-name,author,quantity,remaining,artist,volumeNumber
-One Piece,Oda Eiichiro,40,35,Oda Eiichiro,107
-Naruto,Kishimoto Masashi,35,30,Kishimoto Masashi,72
-Doraemon,Fujiko F. Fujio,50,45,Fujiko F. Fujio,45
-Conan,Aoyama Gosho,45,38,Aoyama Gosho,104
-Dragon Ball,Toriyama Akira,38,32,Toriyama Akira,42
-Attack On Titan,Isayama Hajime,30,25,Isayama Hajime,34
-Death Note,Tsugumi Ohba,28,22,Takeshi Obata,12
-Shin Cau Be But Chi,Yoshito Usui,42,38,Yoshito Usui,50
-Dac Nhan Tam,Dale Carnegie,25,20,Van Chi,1
-Demon Slayer,Koyoharu Gotouge,36,30,Koyoharu Gotouge,23
+name,author,quantity,remaining,price,artist,volumeNumber
+One Piece,Oda Eiichiro,40,35,25000,Oda Eiichiro,107
+Naruto,Kishimoto Masashi,35,30,24000,Kishimoto Masashi,72
+Doraemon,Fujiko F. Fujio,50,45,18000,Fujiko F. Fujio,45
+Conan,Aoyama Gosho,45,38,22000,Aoyama Gosho,104
+Dragon Ball,Toriyama Akira,38,32,23000,Toriyama Akira,42
+Attack On Titan,Isayama Hajime,30,25,28000,Isayama Hajime,34
+Death Note,Tsugumi Ohba,28,22,26000,Takeshi Obata,12
+Shin Cau Be But Chi,Yoshito Usui,42,38,20000,Yoshito Usui,50
+Dac Nhan Tam,Dale Carnegie,25,20,65000,Van Chi,1
+Demon Slayer,Koyoharu Gotouge,36,30,27000,Koyoharu Gotouge,23

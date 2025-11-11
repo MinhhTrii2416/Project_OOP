@@ -38,10 +38,11 @@ public class BookManager {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                // name,author,quantity,remaining,subject,edition
+                // name,author,quantity,remaining,price,subject,edition
                 TextBook book = new TextBook(data[0], data[1], 
                     Integer.parseInt(data[2]), Integer.parseInt(data[3]), 
-                    data[4], Integer.parseInt(data[5]));
+                    Double.parseDouble(data[4]),
+                    data[5], Integer.parseInt(data[6]));
                 books.add(book);
             }
         } catch (IOException e) {
@@ -59,9 +60,10 @@ public class BookManager {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                // name,author,quantity,remaining,subGenre
-                FictionBook book = new FictionBook(data[0], data[1], 
-                    Integer.parseInt(data[2]), Integer.parseInt(data[3]), data[4]);
+                // name,author,quantity,remaining,price,subGenre
+                FictionBook book = new FictionBook(data[0], data[1],
+                    Integer.parseInt(data[2]), Integer.parseInt(data[3]),
+                    Double.parseDouble(data[4]), data[5]);
                 books.add(book);
             }
         } catch (IOException e) {
@@ -79,10 +81,12 @@ public class BookManager {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                // name,author,quantity,remaining,artist,volumeNumber
+                // name,author,quantity,remaining,price,artist,volumeNumber
                 ComicBook book = new ComicBook(data[0], data[1], 
                     Integer.parseInt(data[2]), Integer.parseInt(data[3]), 
-                    data[4], Integer.parseInt(data[5]));
+                    Double.parseDouble(data[4]),
+                    data[5], Integer.parseInt(data[6]));
+                book.setPrice(Double.parseDouble(data[4]));
                 books.add(book);
             }
         } catch (IOException e) {
@@ -100,10 +104,12 @@ public class BookManager {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                // name,author,quantity,remaining,isReadOnly
+                // name,author,quantity,remaining,price,isReadOnly
                 ReferenceBook book = new ReferenceBook(data[0], data[1], 
                     Integer.parseInt(data[2]), Integer.parseInt(data[3]), 
-                    Boolean.parseBoolean(data[4]));
+                    Double.parseDouble(data[4]),
+                    Boolean.parseBoolean(data[5]));
+                book.setPrice(Double.parseDouble(data[4]));
                 books.add(book);
             }
         } catch (IOException e) {
@@ -170,55 +176,55 @@ public class BookManager {
         boolean once = true;
         for (Book book : allBooks) {
                 if(book instanceof ComicBook && once){
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
-                    System.out.printf(formatCB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Hoa si", "vol");
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+-------+");
+                    System.out.printf(formatCB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Gia (VND)", "Loai sach", "Hoa si", "vol");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+-------+");
                     once = false;
                 }
                 if(book instanceof ComicBook){
                     book.showINFO();
                 }
             }
-            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+\n\n");
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+-------+\n\n");
             once = true;
             for (Book book : allBooks) {
                 if(book instanceof FictionBook && once){
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+");
-                    System.out.printf(formatFB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Sub genre");
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+");
+                    System.out.printf(formatFB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Gia (VND)", "Loai sach", "Sub genre");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+");
                     once = false;
                 }
                 if(book instanceof FictionBook){
                     book.showINFO();
                 }
             }
-            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+\n\n");
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+\n\n");
             once = true;
             for (Book book : allBooks) {
                 if(book instanceof ReferenceBook && once){
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+");
-                    System.out.printf(formatRB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Muon/Mua");
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+");
+                    System.out.printf(formatRB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Gia (VND)", "Loai sach", "Muon/Mua");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+");
                     once = false;
                 }
                 if(book instanceof ReferenceBook){
                     book.showINFO();
                 }
             }
-            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+\n\n");
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+\n\n");
             once = true;
             for (Book book : allBooks) {
                 if(book instanceof TextBook && once){
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+");
-                    System.out.printf(formatTB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Mon hoc", "Xuat ban");
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+------------+");
+                    System.out.printf(formatTB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Gia (VND)", "Loai sach", "Mon hoc", "Xuat ban");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+------------+");
                     once = false;
                 }
                 if(book instanceof TextBook){
                     book.showINFO();
                 }
             }
-            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+\n\n");
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+------------+\n\n");
     }
 
     // 2. Tìm kiếm sách
@@ -286,11 +292,11 @@ public class BookManager {
     }
 
     // Header bảng
-    //                  book id - name - author - soluong - remain - type - ...
-    String formatCB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-20s | %-5s |\n";
-    String formatTB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-25s | %-10s |\n";
-    String formatRB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-20s |\n";
-    String formatFB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-15s | %-25s |\n";
+    //                  book id - name - author - soluong - remain - price - type - ...
+    String formatCB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-12s | %-15s | %-20s | %-5s |\n";
+    String formatTB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-12s | %-15s | %-25s | %-10s |\n";
+    String formatRB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-12s | %-15s | %-20s |\n";
+    String formatFB = "| %-15s | %-35s | %-25s | %-8s | %-8s | %-12s | %-15s | %-25s |\n";
     // Hiển thị kết quả tìm kiếm
     private void displaySearchResults(List<Book> results) {
         if (results.isEmpty()) {
@@ -302,55 +308,55 @@ public class BookManager {
             // Dữ liệu từng sách
             for (Book book : results) {
                 if(book instanceof ComicBook && once){
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
-                    System.out.printf(formatCB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Haa si", "vol");
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+-------+");
+                    System.out.printf(formatCB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Gia (VND)", "Loai sach", "Hoa si", "vol");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+-------+");
                     once = false;
                 }
                 if(book instanceof ComicBook){
                     book.showINFO();
                 }
             }
-            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+\n\n");
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+-------+\n\n");
             once = true;
             for (Book book : results) {
                 if(book instanceof FictionBook && once){
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+");
-                    System.out.printf(formatFB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Sub genre");
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+");
+                    System.out.printf(formatFB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Gia (VND)", "Loai sach", "Sub genre");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+");
                     once = false;
                 }
                 if(book instanceof FictionBook){
                     book.showINFO();
                 }
             }
-            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+\n\n");
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+\n\n");
             once = true;
             for (Book book : results) {
                 if(book instanceof ReferenceBook && once){
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+");
-                    System.out.printf(formatRB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Muon/Mua");
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+");
+                    System.out.printf(formatRB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Gia (VND)", "Loai sach", "Muon/Mua");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+");
                     once = false;
                 }
                 if(book instanceof ReferenceBook){
                     book.showINFO();
                 }
             }
-            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+\n\n");
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+----------------------+\n\n");
             once = true;
             for (Book book : results) {
                 if(book instanceof TextBook && once){
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+");
-                    System.out.printf(formatTB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Mon hoc", "Xuat ban");
-                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+------------+");
+                    System.out.printf(formatTB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Gia (VND)", "Loai sach", "Mon hoc", "Xuat ban");
+                    System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+------------+");
                     once = false;
                 }
                 if(book instanceof TextBook){
                     book.showINFO();
                 }
             }
-            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+---------------------------+------------+\n\n");
+            if(!once) System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+--------------+-----------------+---------------------------+------------+\n\n");
         }
     }
 
@@ -467,7 +473,8 @@ public class BookManager {
         System.out.println("2. Cap nhat tac gia");
         System.out.println("3. Cap nhat so luong");
         System.out.println("4. Cap nhat so luong con lai");
-        System.out.println("5. Cap nhat thong tin chi tiet (theo loai sach)");
+        System.out.println("5. Cap nhat gia sach");
+        System.out.println("6. Cap nhat thong tin chi tiet (theo loai sach)");
         System.out.println("0. Huy");
         System.out.print("Chon thong tin can cap nhat: ");
         
@@ -508,6 +515,17 @@ public class BookManager {
                 break;
                 
             case 5:
+                System.out.print("Nhap gia moi: ");
+                double newPrice = sc.nextDouble();
+                if (newPrice < 0) {
+                    System.out.println("Loi: Gia khong the am!\n");
+                } else {
+                    book.setPrice(newPrice);
+                    System.out.println("Da cap nhat gia sach!\n");
+                }
+                break;
+                
+            case 6:
                 updateSpecificBookInfo(book);
                 break;
                 
@@ -685,7 +703,7 @@ public class BookManager {
     private void saveTextBooks() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("./data/TextBook.csv"))) {
             // Ghi header
-            bw.write("name,author,quantity,remaining,subject,edition");
+            bw.write("name,author,quantity,remaining,price,subject,edition");
             bw.newLine();
             
             // Ghi từng sách
@@ -696,6 +714,7 @@ public class BookManager {
                             tb.getAuthor() + "," +
                             tb.getQuantity() + "," +
                             tb.getRemaining() + "," +
+                            tb.getPrice() + "," +
                             tb.getSubject() + "," +
                             tb.getEdition());
                     bw.newLine();
@@ -712,7 +731,7 @@ public class BookManager {
     private void saveFictionBooks() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("./data/FictionBook.csv"))) {
             // Ghi header
-            bw.write("name,author,quantity,remaining,subGenre");
+            bw.write("name,author,quantity,remaining,price,subGenre");
             bw.newLine();
             
             // Ghi từng sách
@@ -723,6 +742,7 @@ public class BookManager {
                             fb.getAuthor() + "," +
                             fb.getQuantity() + "," +
                             fb.getRemaining() + "," +
+                            fb.getPrice() + "," +
                             fb.getSubGenre());
                     bw.newLine();
                 }
@@ -738,7 +758,7 @@ public class BookManager {
     private void saveComicBooks() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("./data/ComicBook.csv"))) {
             // Ghi header
-            bw.write("name,author,quantity,remaining,artist,volumeNumber");
+            bw.write("name,author,quantity,remaining,price,artist,volumeNumber");
             bw.newLine();
             
             // Ghi từng sách
@@ -749,6 +769,7 @@ public class BookManager {
                             cb.getAuthor() + "," +
                             cb.getQuantity() + "," +
                             cb.getRemaining() + "," +
+                            cb.getPrice() + "," +
                             cb.getArtist() + "," +
                             cb.getVolumeNumber());
                     bw.newLine();
@@ -765,7 +786,7 @@ public class BookManager {
     private void saveReferenceBooks() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("./data/ReferenceBook.csv"))) {
             // Ghi header
-            bw.write("name,author,quantity,remaining,isReadOnly");
+            bw.write("name,author,quantity,remaining,price,isReadOnly");
             bw.newLine();
             
             // Ghi từng sách
@@ -776,6 +797,7 @@ public class BookManager {
                             rb.getAuthor() + "," +
                             rb.getQuantity() + "," +
                             rb.getRemaining() + "," +
+                            rb.getPrice() + "," +
                             rb.isReadOnly());
                     bw.newLine();
                 }
