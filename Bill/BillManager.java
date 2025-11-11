@@ -29,7 +29,7 @@ public class BillManager implements DataService {
             choose = sc.nextInt();
             sc.nextLine();
             switch (choose) {
-                case 1 -> showList();
+                case 1 -> showList(list);
                 case 2 -> search();
                 case 3 -> add();
                 case 4 -> remove();
@@ -49,24 +49,6 @@ public class BillManager implements DataService {
                 "Ma HD", "Nguoi doc", "Thu thu", "Ngay lap", "Tong tien");
         System.out.println("--------------------------------------------------------------------------------");
         for (Bill b : list1) {
-            System.out.printf("| %-10s | %-20s | %-20s | %-15s | %-10.2f |\n",
-                    b.getBill_ID(),
-                    b.getReader() != null ? b.getReader().getName() : "Khong ro",
-                    b.getLibrarian() != null ? b.getLibrarian().getName() : "Khong ro",
-                    b.getDate(),
-                    b.getTotal());
-        }
-    }
-
-    public void showList() {
-        if (list.isEmpty()) {
-            System.out.println("Danh sach hoa don trong!");
-            return;
-        }
-        System.out.printf("| %-10s | %-20s | %-20s | %-15s | %-10s |\n",
-                "Ma HD", "Nguoi doc", "Thu thu", "Ngay lap", "Tong tien");
-        System.out.println("--------------------------------------------------------------------------------");
-        for (Bill b : list) {
             System.out.printf("| %-10s | %-20s | %-20s | %-15s | %-10.2f |\n",
                     b.getBill_ID(),
                     b.getReader() != null ? b.getReader().getName() : "Khong ro",
