@@ -78,7 +78,7 @@ public class LoanManager implements DataService {
             br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
+                String[] data = line.split(";");
                 if (data[0].equals(readerID)) {
                     // readerID,Name,gender,address,phoneNumber,email
                     return new Reader(data[0], data[1], data[2], data[3], data[4], data[5]);
@@ -90,13 +90,13 @@ public class LoanManager implements DataService {
         return null;
     }
 
-    // Hàm tìm Librarian theo ID
+    // Tìm Librarian theo ID
     private Librarian findLibrarianByID(String librarianID) {
         try (BufferedReader br = new BufferedReader(new FileReader("./data/Librarian.csv"))) {
             br.readLine();
             String line;
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
+                String[] data = line.split(";"); // Sửa từ "," thành ";"
                 if (data[5].equals(librarianID)) {
                     // Name,gender,phoneNumber,email,address,librarianID,shift,salary,password
                     return new Librarian(data[0], data[1], data[2], data[3], data[4],
@@ -117,7 +117,7 @@ public class LoanManager implements DataService {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                // ticketID,readerID,librarianID,borrowDate,dueDate,status
+                // ticketID,readerID,librarianID,borrowDate,dueDate
 
                 // Tìm Reader và Librarian objects
                 Reader reader = findReaderByID(data[1]);
