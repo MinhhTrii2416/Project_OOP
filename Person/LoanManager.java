@@ -235,33 +235,6 @@ public class LoanManager implements DataService {
     }
 
     // 1. Hàm in danh sách phiếu mượn (showList)
-    public void showList(List<LoanTicket> list1) {
-        System.out.println("\n--- DANH SÁCH PHIẾU MƯỢN ---");
-        System.out.printf("| %-10s | %-20s | %-20s | %-20s | %-20s |\n",
-                "TicketID", "Borrower", "Librarian", "BorrowDate", "DueDate");
-        System.out.println(
-                "--------------------------------------------------------------------------------------------------------------");
-
-        if (list1.isEmpty()) {
-            System.out.println(
-                    "| Không có phiếu mượn nào trong danh sách.                                                                 |");
-        } else {
-            for (LoanTicket t : list1) {
-                String borrowerName = (t.getReader() != null) ? t.getReader().getName() : "N/A";
-                String librarianName = (t.getLibrarian() != null) ? t.getLibrarian().getName() : "N/A";
-
-                System.out.printf("| %-10s | %-20s | %-20s | %-20s | %-20s |\n",
-                        t.getTicketID(),
-                        borrowerName,
-                        librarianName,
-                        t.getBorrowDate(),
-                        t.getDueDate());
-            }
-        }
-        System.out.println(
-                "--------------------------------------------------------------------------------------------------------------");
-    }
-
     public void showList() {
         System.out.println("\n--- DANH SÁCH PHIẾU MƯỢN ---");
         System.out.printf("| %-10s | %-20s | %-20s | %-20s | %-20s |\n",
