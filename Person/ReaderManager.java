@@ -5,6 +5,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
+import java.time.LocalDate;
 public class ReaderManager implements DataService{
     private ArrayList<Reader> list = loadListReader();
     Scanner sc = new Scanner(System.in);
@@ -25,6 +28,7 @@ public class ReaderManager implements DataService{
             System.out.println("-          3.Them nguoi doc.                    -");
             System.out.println("-          4.Xoa nguoi doc.                     -");
             System.out.println("-          5.Sua thong tin nguoi doc.           -");
+            System.out.println("-          6.Xuat tien phat.                    -");
             System.out.println("-          0. Thoat.                            -");
             System.out.println("-------------------------------------------------");
             System.out.print("Nhap vao lua chon: ");
@@ -35,7 +39,12 @@ public class ReaderManager implements DataService{
                 case 3: add(); break;
                 case 4: remove(); break;
                 case 5: update(); break;
-                case 0: System.out.println("Thoat chuc nang quan li nguoi doc!\n"); break;
+                case 6: showFine(); break;
+                case 0: 
+                    // Reset Book ID counters khi thoát (vì showFine() gọi LoanManager có BookManager)
+                    book.Book.resetAllCounters();
+                    System.out.println("Thoat chuc nang quan li nguoi doc!\n"); 
+                    break;
                 default:
                     System.out.println("Khon co lua chon ban nhap hay nhap lai!");
             }
@@ -471,5 +480,83 @@ public class ReaderManager implements DataService{
         catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void showFine() {
+        LoanManager loanManager = new LoanManager();
+        ArrayList<LoanTicket> loanTickets = loanManager.getList();
+        LocalDate today = LocalDate.now();
+        
+        // Map để lưu tổng tiền phạt của mỗi reader
+        HashMap<String, Double> fineMap = new HashMap<>();
+        HashMap<String, Reader> readerMap = new HashMap<>();
+        
+        // Duyệt qua tất cả phiếu mượn
+        for (LoanTicket ticket : loanTickets) {
+            Reader reader = ticket.getReader();
+            if (reader == null) continue;
+            
+            String readerID = reader.getReaderID();
+            double totalFine = 0.0;
+            
+            // Kiểm tra từng loan detail trong ticket
+            for (LoanDetail detail : ticket.getLoanDetails()) {
+                // Chỉ tính phạt nếu chưa trả hoặc trả trễ
+                if (detail.getActualReturnDate() == null) {
+                    // Chưa trả: tính từ dueDate đến hôm nay
+                    if (today.isAfter(ticket.getDueDate())) {
+                        int daysLate = (int) java.time.temporal.ChronoUnit.DAYS.between(ticket.getDueDate(), today);
+                        if (daysLate > 0 && detail.getBook() != null) {
+                            double fine = detail.getBook().calcFine(daysLate) * detail.getQuantity();
+                            totalFine += fine;
+                        }
+                    }
+                } else {
+                    // Đã trả: kiểm tra xem có trả trễ không
+                    if (detail.getActualReturnDate().isAfter(ticket.getDueDate())) {
+                        int daysLate = (int) java.time.temporal.ChronoUnit.DAYS.between(
+                            ticket.getDueDate(), detail.getActualReturnDate());
+                        if (daysLate > 0 && detail.getBook() != null) {
+                            double fine = detail.getBook().calcFine(daysLate) * detail.getQuantity();
+                            totalFine += fine;
+                        }
+                    }
+                }
+            }
+            
+            // Cộng dồn tiền phạt cho reader
+            if (totalFine > 0) {
+                fineMap.put(readerID, fineMap.getOrDefault(readerID, 0.0) + totalFine);
+                readerMap.put(readerID, reader);
+            }
+        }
+        
+        // Hiển thị kết quả
+        if (fineMap.isEmpty()) {
+            System.out.println("\n=== KHONG CO NGUOI DOC NAO BI PHAT ===");
+            return;
+        }
+        
+        System.out.println("\n==================== DANH SACH TIEN PHAT ====================");
+        System.out.printf("| %-10s | %-25s | %-20s | %-15s |\n", 
+            "Reader ID", "Ho Ten", "So dien thoai", "Tien phat (VND)");
+        System.out.println("--------------------------------------------------------------");
+        
+        double grandTotal = 0.0;
+        for (Map.Entry<String, Double> entry : fineMap.entrySet()) {
+            Reader reader = readerMap.get(entry.getKey());
+            double fine = entry.getValue();
+            grandTotal += fine;
+            
+            System.out.printf("| %-10s | %-25s | %-20s | %,15.0f |\n",
+                reader.getReaderID(),
+                reader.getName(),
+                reader.getPhoneNumber(),
+                fine);
+        }
+        
+        System.out.println("--------------------------------------------------------------");
+        System.out.printf("| %-58s | %,15.0f |\n", "TONG CONG", grandTotal);
+        System.out.println("==============================================================\n");
     }
 }

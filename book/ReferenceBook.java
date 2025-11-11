@@ -39,8 +39,9 @@ public class ReferenceBook extends Book{
 
 // methods
     @Override
-    public double calcFine() {
-        double result = 0;
+    public double calcFine(int songay) {
+        if(isReadOnly()) return 0;
+        double result = 1000 * songay;
         
         return result;
     }

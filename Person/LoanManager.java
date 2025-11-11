@@ -55,6 +55,10 @@ public class LoanManager implements DataService {
                     // Tìm Book object theo bookID
                     Book book = findBookByID(bookID);
 
+                    if(book == null) {
+                        System.out.println("Read book from loan detail is null");
+                    }
+
                     // Tạo LoanDetail
                     LoanDetail detail = new LoanDetail(quantity, book, returnDate);
                     details.add(detail);
@@ -226,6 +230,8 @@ public class LoanManager implements DataService {
                     remove();
                     break;
                 case 0:
+                    // Reset Book ID counters khi thoát
+                    Book.resetAllCounters();
                     System.out.println("Thoat chuc nang quan li phieu muon!\n");
                     break;
                 default:

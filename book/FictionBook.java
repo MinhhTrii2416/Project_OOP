@@ -41,8 +41,8 @@ public class FictionBook extends Book{
 
 //methods
     @Override
-    public double calcFine() {
-        double result = 0;
+    public double calcFine(int songay) {
+        double result = 5000 * songay;
 
         return result;
     }

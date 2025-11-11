@@ -47,8 +47,8 @@ public class ComicBook  extends Book{
 
 // methods
     @Override
-    public double calcFine() {
-        double result = 0;
+    public double calcFine(int songay) {
+        double result = songay * 3000;
         
         return result;
     }

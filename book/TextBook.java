@@ -47,9 +47,8 @@ public class TextBook extends Book{
 
 // methods
     @Override
-    public double calcFine() {
-        double result = 0;
-        
+    public double calcFine(int songay) {
+        double result = 2000 * songay;
         return result;
     }
 

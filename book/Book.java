@@ -80,7 +80,7 @@ public abstract class Book {
     }
 
 // methods - funtions
-    public abstract double calcFine(); // Calculate the fine;
+    public abstract double calcFine(int songay); // Calculate the fine;
     public abstract void showINFO();
     public abstract void showInfo_1(); // Hiển thị thông tin trên 1 dòng
     public abstract void enterInfo();
