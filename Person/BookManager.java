@@ -163,7 +163,7 @@ public class BookManager {
         for (Book book : allBooks) {
                 if(book instanceof ComicBook && once){
                     System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
-                    System.out.printf(formatCB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Họa sĩ", "vol");
+                    System.out.printf(formatCB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Hoa si", "vol");
                     System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
                     once = false;
                 }
@@ -295,7 +295,7 @@ public class BookManager {
             for (Book book : results) {
                 if(book instanceof ComicBook && once){
                     System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
-                    System.out.printf(formatCB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Họa sĩ", "vol");
+                    System.out.printf(formatCB, "Book ID", "Ten sach", "Tac gia", "So luong", "Con lai", "Loai sach", "Haa si", "vol");
                     System.out.println("+-----------------+-------------------------------------+---------------------------+----------+----------+-----------------+----------------------+-------+");
                     once = false;
                 }
