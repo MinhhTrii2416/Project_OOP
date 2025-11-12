@@ -32,6 +32,7 @@ public class BillDetail {
 
     // Hàm lấy giá sách, trả về 0 nếu không tìm thấy
     private double GiaSach(String bookID){
+        Book.resetAllCounters();
         BookManager BM = new BookManager();
         // Giả định BM.getAllBooks() trả về List<Book>
         for( Book b : BM.getAllBooks()){
