@@ -46,11 +46,7 @@ public class BillDetail {
 
     public void showINFO() {
         double price = GiaSach(bookID);
-        System.out.println("=== Thông tin chi tiết hóa đơn ===");
-        System.out.println("Ma sach: " + this.bookID);
-        System.out.println("So luong: " + this.quantity);
-        System.out.println("Gia/cuon: " + price); 
-        System.out.println("Tong tien chi tiet: " + this.cost); 
-        System.out.println("----------------------------------");
+        System.out.printf("| %-15s | %-10d | %,15.0f | %,15.0f |\n",
+            this.bookID, this.quantity, price, this.cost);
     }
 }
