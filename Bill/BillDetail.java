@@ -34,15 +34,13 @@ public class BillDetail {
     private double GiaSach(String bookID){
         Book.resetAllCounters();
         BookManager BM = new BookManager();
-        // Giả định BM.getAllBooks() trả về List<Book>
+        // Tìm sách theo ID và lấy giá
         for( Book b : BM.getAllBooks()){
-            System.out.println(b.getBookID());
             if( b.getBookID().equals(bookID)){
-                System.out.println("Da tim thay!");
                 return b.getPrice();
             }
         }
-        return 0.0; // Sửa lỗi: Phải có return 0.0 nếu không tìm thấy sách
+        return 0.0; // Trả về 0 nếu không tìm thấy sách
     }
 
 
