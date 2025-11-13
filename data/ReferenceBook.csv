@@ -1,11 +1,11 @@
 name,author,quantity,remaining,price,isReadOnly
-Tu Dien Tieng Viet,Hoang Phe,10,10,250000,true
-Tu Dien Anh Viet,Oxford University,15,15,350000,true
-Bach Khoa Toan Thu Viet Nam,Vien Bao Tang Lich Su,8,8,500000,true
-Atlas The Gioi,National Geographic,12,12,280000,true
-Lich Su Viet Nam,Tran Quoc Vuong,10,8,185000,false
-Dai Tu Dien Tieng Viet,Nguyen Nhu Y,6,6,420000,true
-Tu Dien Khoa Hoc,Vien Khoa Hoc,9,9,310000,true
-Encyclopedia Britannica,Britannica Group,5,5,650000,true
-Toan Tap Nghe Thuat,Pham Van Khoa,7,5,225000,false
-Tu Dien Y Hoc,Nguyen Van Ba,8,8,390000,true
+Tu Dien Tieng Viet,Hoang Phe,10,10,250000.0,true
+Tu Dien Anh Viet,Oxford University,15,15,350000.0,true
+Bach Khoa Toan Thu Viet Nam,Vien Bao Tang Lich Su,8,8,500000.0,true
+Atlas The Gioi,National Geographic,12,12,280000.0,true
+Lich Su Viet Nam,Tran Quoc Vuong,10,8,185000.0,false
+Dai Tu Dien Tieng Viet,Nguyen Nhu Y,6,6,420000.0,true
+Tu Dien Khoa Hoc,Vien Khoa Hoc,9,9,310000.0,true
+Encyclopedia Britannica,Britannica Group,5,5,650000.0,true
+Toan Tap Nghe Thuat,Pham Van Khoa,7,5,225000.0,false
+Tu Dien Y Hoc,Nguyen Van Ba,8,8,390000.0,true

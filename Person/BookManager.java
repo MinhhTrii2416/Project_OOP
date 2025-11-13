@@ -243,7 +243,7 @@ public class BookManager {
             case 1: searchByName(); break;
             case 2: searchByAuthor(); break;
             case 3: searchByID(); break;
-            default: System.out.println("Lua chon khong hop le!");
+            default: System.out.println("Lua chon khong hop le!"); return;
         }
     }
 
