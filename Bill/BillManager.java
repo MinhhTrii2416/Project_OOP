@@ -1,15 +1,16 @@
 package Bill;
 
 import dataService.DataService;
-import java.util.*;
 import java.io.*;
-import java.time.*;
-import java.time.format.*;
-// Sửa import theo package Person đã cung cấp
-import Person.ReaderManager; 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
+
 import Person.LibrarianManager;
-import Person.BookManager; // Sửa package import
-import book.Book; // Class Book nằm trong package book
+import Person.ReaderManager;
+import book.Book;
+import book.BookManager;
 
 public class BillManager implements DataService {
     private ArrayList<Bill> list = loadListBill();

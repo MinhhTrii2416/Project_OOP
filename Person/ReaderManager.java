@@ -1,16 +1,17 @@
 package Person;
+
 import dataService.DataService;
-import java.util.*;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import book.Book;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.time.LocalDate;
+import loan.LoanDetail;
+import loan.LoanManager;
+import loan.LoanTicket;
 public class ReaderManager implements DataService{
     private ArrayList<Reader> list = loadListReader();
     Scanner sc = new Scanner(System.in);

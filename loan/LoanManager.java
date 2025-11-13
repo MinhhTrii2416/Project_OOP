@@ -1,9 +1,14 @@
-package Person;
+package loan;
 
 import book.Book;
+import book.BookManager;
 import dataService.DataService;
 
 import java.util.*;
+
+import Person.Librarian;
+import Person.Reader;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

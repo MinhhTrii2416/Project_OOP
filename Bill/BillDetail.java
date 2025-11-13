@@ -1,10 +1,7 @@
 package Bill;
 
-import Person.BookManager; // Đổi import thành Person.BookManager
-import book.Book; // Giữ nguyên import Book
-import Person.ReaderManager; 
-import Person.LibrarianManager;
-// Bỏ Person.* vì đã import cụ thể
+import book.Book;
+import book.BookManager;
 
 public class BillDetail {
     private String bookID;     

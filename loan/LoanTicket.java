@@ -1,8 +1,11 @@
-package Person;
+package loan;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import Person.Librarian;
+import Person.Reader;
 
 public class LoanTicket {
     private String ticketID; 

@@ -1,6 +1,11 @@
 package Person;
+
 import java.util.Scanner;
-import Bill.*;
+
+import Bill.BillManager;
+import book.BookManager;
+import loan.LoanManager;
+
 public class Librarian extends Person {
     private String librarianID;
     private String shift;
