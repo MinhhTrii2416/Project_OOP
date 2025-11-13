@@ -153,7 +153,7 @@ public class LoanManager implements DataService {
             bw.write("ticketID,readerID,librarianID,borrowDate,dueDate\n");
 
             for (LoanTicket t : list) {
-                String line = String.format("%s,%s,%s,%s,%s,%s\n",
+                String line = String.format("%s,%s,%s,%s,%s\n",
                         t.getTicketID(),
                         (t.getReader() != null) ? t.getReader().getReaderID() : "", // Lấy ID
                         (t.getLibrarian() != null) ? t.getLibrarian().getLibrarianID() : "", // Lấy ID

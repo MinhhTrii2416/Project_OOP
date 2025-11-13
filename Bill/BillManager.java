@@ -46,7 +46,10 @@ public class BillManager implements DataService {
                 case 3 -> add();
                 case 4 -> remove();
                 case 5 -> viewDetail();
-                case 0 -> System.out.println("Thoat trinh quan ly hoa don!\n");
+                case 0 -> {
+                    Book.resetAllCounters(); // Reset Book ID counters khi thoát (vì add() gọi BookManager)
+                    System.out.println("Thoat trinh quan ly hoa don!\n");
+                }
                 default -> System.out.println("Lua chon khong hop le!");
             }
         } while (choose != 0);
@@ -159,6 +162,7 @@ public class BillManager implements DataService {
 
         String bookID = "";
         int quantity = 0; 
+        Book.resetAllCounters(); // Reset trước khi tạo BookManager
         BookManager BM = new BookManager();
         int choose = 1;
 

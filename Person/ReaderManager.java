@@ -5,6 +5,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import book.Book;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.time.LocalDate;
@@ -372,7 +375,7 @@ public class ReaderManager implements DataService{
             choose = sc.nextInt();
             sc.nextLine();
             switch(choose){
-                case 0: break;
+                case 0: Book.resetAllCounters(); break;
                 case 1:
                     updateReaderID(ur); 
                     break;
@@ -473,7 +476,7 @@ public class ReaderManager implements DataService{
         bw.write("readerID;Name;gender;address;phoneNumber;email");
         bw.newLine();
         for(Reader r : list){
-            bw.write(r.getReaderID() + "," + r.getName() + ";" + r.getGender() + ";" + r.getAddress() + ";" + r.getPhoneNumber() + ";" + r.getEmail());
+            bw.write(r.getReaderID() + ";" + r.getName() + ";" + r.getGender() + ";" + r.getAddress() + ";" + r.getPhoneNumber() + ";" + r.getEmail());
             bw.newLine();
             }
         }

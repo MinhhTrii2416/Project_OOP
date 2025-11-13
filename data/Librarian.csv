@@ -2,7 +2,6 @@ Name;gender;phoneNumber;email;address;librarianID;shift;salary;password
 Nguyen Van A;Male;0901234567;a@gmail.com;123 Nguyen Trai, Dong Da, Ha Noi;L001;Morning;8000000.0;123
 Tran Thi B;Female;0902345678;b@gmail.com;45 Le Duan, Hai Chau, Da Nang;L002;Evening;8200000.0;abcd
 Le Van C;Male;0903456789;c@gmail.com;78 Nguyen Hue, Phu Hoi, Hue;L003;Morning;7800000.0;pass1
-Pham Thi D;Female;0904567890;d@gmail.com;56 Tran Hung Dao, District 1, Ho Chi Minh City;L008;Night;15000.0;pass2
 Hoang Minh E;Male;0905678901;e@gmail.com;89 Lach Tray, Ngo Quyen, Hai Phong;L004;Morning;8100000.0;minh123
 Do Thi F;Female;0906789012;f@gmail.com;102 Tran Phu, Loc Tho, Nha Trang;L005;Evening;8300000.0;fpass
 Vo Van G;Male;0907890123;g@gmail.com;67 Nguyen Van Cu, Ninh Kieu, Can Tho;L006;Morning;7950000.0;gvo123

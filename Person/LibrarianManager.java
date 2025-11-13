@@ -77,6 +77,7 @@ public class LibrarianManager {
                 case 0: break;
                 default:
                     System.out.println("Khong tim thay lua chon cua ban hay nhap lai!");
+                    break;
             }
         }
     }
