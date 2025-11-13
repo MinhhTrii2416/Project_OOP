@@ -1,13 +1,12 @@
-package Person;
+package book;
 
-import book.*;
-import java.util.*;
-
-import org.w3c.dom.Text;
-
+import dataService.DataService;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-public class BookManager {
+public class BookManager implements DataService {
 
     private List<Book> allBooks = new ArrayList<>();
     private Scanner sc = new Scanner(System.in);
@@ -27,7 +26,6 @@ public class BookManager {
         allBooks.addAll(loadFictionBooks());
         allBooks.addAll(loadComicBooks());
         allBooks.addAll(loadReferenceBooks());
-        System.out.println("Loaded " + allBooks.size() + " books in total.");
     }
 
     // Load TextBooks từ CSV

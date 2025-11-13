@@ -65,10 +65,21 @@ public class Bill {
         System.out.println("Ma nguoi doc: " + this.readerID);
         System.out.println("Ma thu thu: " + this.librarianID);
         System.out.println("----------------------------------");
-        for (BillDetail detail : billDetails) {
-            detail.showINFO();
+        
+        System.out.println("DANH SACH SACH DUOC MUA:");
+        if (billDetails.isEmpty()) {
+            System.out.println("(Khong co chi tiet hoa don)");
+        } else {
+            System.out.printf("| %-15s | %-10s | %-15s | %-15s |\n", 
+                "Ma sach", "So luong", "Gia/cuon", "Thanh tien");
+            System.out.println("---------------------------------------------------------------------");
+            for (BillDetail detail : billDetails) {
+                detail.showINFO();
+            }
+            System.out.println("---------------------------------------------------------------------");
         }
-        System.out.println("TONG CONG: " + total);
+        
+        System.out.printf("TONG CONG: %,.0f VND\n", total);
         System.out.println("===============================");
     }
 }

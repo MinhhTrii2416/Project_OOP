@@ -1,15 +1,16 @@
 package Bill;
 
 import dataService.DataService;
-import java.util.*;
 import java.io.*;
-import java.time.*;
-import java.time.format.*;
-// Sửa import theo package Person đã cung cấp
-import Person.ReaderManager; 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
+
 import Person.LibrarianManager;
-import Person.BookManager; // Sửa package import
-import book.Book; // Class Book nằm trong package book
+import Person.ReaderManager;
+import book.Book;
+import book.BookManager;
 
 public class BillManager implements DataService {
     private ArrayList<Bill> list = loadListBill();
@@ -296,19 +297,39 @@ public class BillManager implements DataService {
                 if (data.length < 5) continue;
                 // Bill đã được sửa để nhận ID
                 Bill bill = new Bill(data[0], data[1], data[2], data[3]); 
-                // Sửa lỗi: Khối try cần có catch
-                try {
-                    bill.setTotal(Double.parseDouble(data[4]));
-                } catch (NumberFormatException e) {
-                    bill.setTotal(0);
-                    System.out.println("Loi du lieu total o hoa don: " + data[0]);
-                }
+                
+                // Load BillDetail cho Bill này
+                loadBillDetailsForBill(bill);
+                
+                // Tính lại total từ billDetails
+                bill.calculateTotal();
+                
                 list.add(bill);
             }
         } catch (IOException e) { // Thêm khối catch cho BufferedReader
             e.printStackTrace();
         }
         return list;
+    }
+
+    // Hàm load BillDetail cho một Bill từ file BillDetail.csv
+    private void loadBillDetailsForBill(Bill bill) {
+        try (BufferedReader br = new BufferedReader(new FileReader("./data/BillDetail.csv"))) {
+            br.readLine(); // Skip header
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 3 && data[0].equals(bill.getBill_ID())) {
+                    String bookID = data[1];
+                    int quantity = Integer.parseInt(data[2]);
+                    
+                    BillDetail detail = new BillDetail(bookID, quantity);
+                    bill.addBillDetail(detail);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Hàm cập nhật file
@@ -322,6 +343,25 @@ public class BillManager implements DataService {
                 // Sử dụng getReaderID() và getLibrarianID()
                 bw.write(b.getBill_ID() + "," + b.getReaderID() + "," + b.getLibrarianID() + "," + b.getDate() + "," + b.getTotal());
                 bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // Cập nhật BillDetail.csv
+        updateBillDetailFile();
+    }
+    
+    // Hàm cập nhật file BillDetail.csv
+    private void updateBillDetailFile() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("./data/BillDetail.csv"))) {
+            bw.write("bill_ID,bookID,quantity,cost");
+            bw.newLine();
+            for (Bill b : list) {
+                for (BillDetail detail : b.getBillDetails()) {
+                    bw.write(b.getBill_ID() + "," + detail.getItem() + "," + detail.getQuantity() + "," + detail.getCost());
+                    bw.newLine();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

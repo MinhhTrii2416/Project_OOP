@@ -1,10 +1,7 @@
 package Bill;
 
-import Person.BookManager; // Đổi import thành Person.BookManager
-import book.Book; // Giữ nguyên import Book
-import Person.ReaderManager; 
-import Person.LibrarianManager;
-// Bỏ Person.* vì đã import cụ thể
+import book.Book;
+import book.BookManager;
 
 public class BillDetail {
     private String bookID;     
@@ -34,25 +31,19 @@ public class BillDetail {
     private double GiaSach(String bookID){
         Book.resetAllCounters();
         BookManager BM = new BookManager();
-        // Giả định BM.getAllBooks() trả về List<Book>
+        // Tìm sách theo ID và lấy giá
         for( Book b : BM.getAllBooks()){
-            System.out.println(b.getBookID());
             if( b.getBookID().equals(bookID)){
-                System.out.println("Da tim thay!");
                 return b.getPrice();
             }
         }
-        return 0.0; // Sửa lỗi: Phải có return 0.0 nếu không tìm thấy sách
+        return 0.0; // Trả về 0 nếu không tìm thấy sách
     }
 
 
     public void showINFO() {
         double price = GiaSach(bookID);
-        System.out.println("=== Thông tin chi tiết hóa đơn ===");
-        System.out.println("Ma sach: " + this.bookID);
-        System.out.println("So luong: " + this.quantity);
-        System.out.println("Gia/cuon: " + price); 
-        System.out.println("Tong tien chi tiet: " + this.cost); 
-        System.out.println("----------------------------------");
+        System.out.printf("| %-15s | %-10d | %,15.0f | %,15.0f |\n",
+            this.bookID, this.quantity, price, this.cost);
     }
 }

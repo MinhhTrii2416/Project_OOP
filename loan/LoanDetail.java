@@ -1,4 +1,4 @@
-package Person;
+package loan;
 
 import java.time.LocalDate;
 import book.Book;

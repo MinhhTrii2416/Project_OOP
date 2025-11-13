@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class LibrarianManager {
+import dataService.DataService;
+
+public class LibrarianManager implements DataService {
     Scanner sc = new Scanner(System.in);
     protected ArrayList<Librarian> list = loadListLib();    // cập nhập mật khẩu mới của thủ thư bên Librarian.java
     public void menu(){
@@ -115,7 +117,7 @@ public class LibrarianManager {
     }
 
     //hàm thêm thủ thư
-    private void add(){
+    public void add(){
         sc.nextLine();
         String name, gender, phoneNumber, address, email, librarianID = null, shift, password = null;
         Double salary;

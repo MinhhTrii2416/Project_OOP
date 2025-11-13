@@ -1,9 +1,14 @@
-package Person;
+package loan;
 
 import book.Book;
+import book.BookManager;
 import dataService.DataService;
 
 import java.util.*;
+
+import Person.Librarian;
+import Person.Reader;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -44,11 +49,11 @@ public class LoanManager implements DataService {
                 // Chỉ lấy details của ticketID này
                 if (csvTicketID.equals(ticketID)) {
                     String bookID = data[1];
-                    int quantity = Integer.parseInt(data[2]); // Sửa từ data[3] → data[2]
+                    int quantity = Integer.parseInt(data[2]); 
 
                     // Xử lý actualReturnDate (có thể rỗng)
                     LocalDate returnDate = (data.length > 3 && !data[3].isEmpty())
-                            ? LocalDate.parse(data[3]) // Sửa từ data[4] → data[3]
+                            ? LocalDate.parse(data[3]) 
                             : null;
 
                     // Tìm Book object theo bookID
