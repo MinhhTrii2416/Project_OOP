@@ -12,6 +12,7 @@ import Person.Reader;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class LoanManager implements DataService {
     // - <list>(LoanTicket) loanTicketList
@@ -209,6 +210,9 @@ public class LoanManager implements DataService {
             System.out.println("-             2.Tim thong tin phieu muon.       -");
             System.out.println("-             3.Tao phieu muon moi.             -");
             System.out.println("-             4.Xoa phieu muon.                 -");
+            System.out.println("-             5.Tra sach.                       -");
+            System.out.println("-             6.Xem danh sach phieu phat.       -");
+            System.out.println("-             7.Dong phat.                      -");
             System.out.println("-             0. Thoat.                         -");
             System.out.println("-------------------------------------------------");
             System.out.print("Nhap vao lua chon: ");
@@ -232,6 +236,15 @@ public class LoanManager implements DataService {
                     break;
                 case 4:
                     remove();
+                    break;
+                case 5:
+                    TraSach();
+                    break;
+                case 6:
+                    viewFineList();
+                    break;
+                case 7:
+                    payFine();
                     break;
                 case 0:
                     // Reset Book ID counters khi thoát
@@ -490,6 +503,300 @@ public class LoanManager implements DataService {
                 default:
                     System.out.println("Loi! Hay nhap lai!");
             }
+        }
+    } 
+
+    // hàm check mã phiếu mượn có trong danh sách mượn không
+    public boolean checkID(String id){
+        for(LoanTicket t : list){
+            if(t.getTicketID().equals(id)){
+                return true;
+            }
+        }
+        return false;        
+    }
+    // hàm kiểm tra mã sách đó có mượn trong phiếu mượn không
+    public boolean checkIdBook(LoanTicket lt, String idBook){
+        for( LoanDetail ld : lt.getLoanDetails() ){
+            Book item = ld.getBook();
+            if(item.getBookID().equals(idBook)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    // 5. Hàm trả sách (cập nhật lại)
+    public void TraSach() {
+        sc.nextLine(); // Clear buffer
+        String loanTicketId;
+        
+        // Nhập mã phiếu mượn
+        LoanTicket lt = null;
+        do {
+            System.out.print("Hay nhap vao ma phieu muon ban muon tra: ");
+            loanTicketId = sc.nextLine();
+            
+            if (!checkID(loanTicketId)) {
+                System.out.println("Khong co ma phieu muon nay trong danh sach! Hay nhap lai!");
+            } else {
+                lt = findTicketByID(loanTicketId);
+                break;
+            }
+        } while (true);
+        
+        // Hiển thị thông tin phiếu mượn
+        System.out.println("\n========== THONG TIN PHIEU MUON ==========");
+        lt.showLoanTicket();
+        
+        // Kiểm tra xem có sách nào chưa trả không
+        boolean hasUnreturnedBooks = false;
+        for (LoanDetail detail : lt.getLoanDetails()) {
+            if (detail.getActualReturnDate() == null) {
+                hasUnreturnedBooks = true;
+                break;
+            }
+        }
+        
+        if (!hasUnreturnedBooks) {
+            System.out.println("\nTat ca sach trong phieu muon nay da duoc tra!");
+            return;
+        }
+        
+        // Chọn sách muốn trả
+        String idBook;
+        LoanDetail selectedDetail = null;
+        do {
+            System.out.print("\nNhap vao ma sach ban muon tra: ");
+            idBook = sc.nextLine();
+            
+            if (!checkIdBook(lt, idBook)) {
+                System.out.println("Khong co sach nay trong phieu muon! Hay nhap lai!");
+            } else {
+                // Tìm detail tương ứng
+                for (LoanDetail detail : lt.getLoanDetails()) {
+                    if (detail.getBook() != null && 
+                        detail.getBook().getBookID().equals(idBook)) {
+                        
+                        // Kiểm tra xem sách này đã trả chưa
+                        if (detail.getActualReturnDate() != null) {
+                            System.out.println("Sach nay da duoc tra truoc do vao ngay: " 
+                                + detail.getActualReturnDate());
+                            selectedDetail = null;
+                            break;
+                        }
+                        
+                        selectedDetail = detail;
+                        break;
+                    }
+                }
+                
+                if (selectedDetail != null) {
+                    break;
+                }
+            }
+        } while (true);
+        
+        // Xác nhận trả sách
+        System.out.println("\n========== XAC NHAN TRA SACH ==========");
+        System.out.println("Sach: " + selectedDetail.getBook().getName());
+        System.out.println("So luong: " + selectedDetail.getQuantity());
+        System.out.println("Ngay muon: " + lt.getBorrowDate());
+        System.out.println("Ngay dao han: " + lt.getDueDate());
+        
+        System.out.print("\nXac nhan tra sach? (Y/N): ");
+        String confirm = sc.nextLine();
+        
+        if (!confirm.equalsIgnoreCase("Y")) {
+            System.out.println("Da huy tra sach!");
+            return;
+        }
+        
+        // Ghi nhận ngày trả
+        LocalDate returnDate = LocalDate.now();
+        selectedDetail.setActualReturnDate(returnDate);
+        
+        // Cập nhật số lượng sách trong kho
+        bookManager.returnBook(selectedDetail.getBook().getBookID(), 
+                            selectedDetail.getQuantity());
+        
+        // Kiểm tra trễ hạn và tạo phạt nếu cần
+        checkAndCreateFine(lt, selectedDetail, returnDate);
+        
+        // Lưu vào file
+        updateLoanDetail();
+        bookManager.saveAllBooks();
+        
+        System.out.println("\n========== TRA SACH THANH CONG ==========");
+        System.out.println("Da tra " + selectedDetail.getQuantity() + " cuon sach: " 
+            + selectedDetail.getBook().getName());
+        System.out.println("Ngay tra: " + returnDate);
+    }
+
+    // Hàm kiểm tra và tạo phạt nếu trả trễ
+    private void checkAndCreateFine(LoanTicket ticket, LoanDetail detail, 
+                                    LocalDate returnDate) {
+        LocalDate dueDate = ticket.getDueDate();
+        
+        // Kiểm tra xem có trả trễ không
+        if (returnDate.isAfter(dueDate)) {
+            long daysLate = ChronoUnit.DAYS.between(dueDate, returnDate);
+            
+            if (daysLate > 0) {
+                // Tính tiền phạt
+                double finePerDay = detail.getBook().calcFine(1);
+                double totalFine = finePerDay * daysLate;
+                
+                System.out.println("\n========== CANH BAO: TRA TRE ==========");
+                System.out.println("So ngay tre: " + daysLate + " ngay");
+                System.out.println("Tien phat moi ngay: " + String.format("%,.0f", finePerDay) + " VND");
+                System.out.println("Tong tien phat: " + String.format("%,.0f", totalFine) + " VND");
+                System.out.println("=======================================");
+                
+                // Tạo bản ghi phạt
+                createFineRecord(ticket.getTicketID(), 
+                            detail.getBook().getBookID(),
+                            detail.getQuantity(),
+                            finePerDay,
+                            (int) daysLate,
+                            "Chua dong phat");
+            }
+        } else {
+            System.out.println("\nSach duoc tra dung han. Khong co phat!");
+        }
+    }
+
+    // Hàm tạo bản ghi phạt vào file Fine.csv
+    private void createFineRecord(String ticketID, String bookID, int quantity,
+                                double finePerDay, int daysLate, String status) {
+        try {
+            File fineFile = new File("./data/Fine.csv");
+            boolean fileExists = fineFile.exists();
+            
+            // Mở file ở chế độ append
+            BufferedWriter bw = new BufferedWriter(new FileWriter(fineFile, true));
+            
+            // Nếu file chưa tồn tại, ghi header
+            if (!fileExists) {
+                bw.write("MaPhieuMuon,MaSach,SoLuong,GiaPhatMotNgay,SoNgayTre,TrangThai");
+                bw.newLine();
+            }
+            
+            // Ghi dữ liệu phạt
+            String line = String.format("%s,%s,%d,%.0f,%d,%s",
+                ticketID, bookID, quantity, finePerDay, daysLate, status);
+            bw.write(line);
+            bw.newLine();
+            
+            bw.close();
+            System.out.println("Da luu thong tin phat vao file Fine.csv");
+            
+        } catch (IOException e) {
+            System.err.println("Loi khi ghi file Fine.csv: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Hàm xem danh sách phạt
+    public void viewFineList() {
+        System.out.println("\n========== DANH SACH PHAT ==========");
+        
+        try (BufferedReader br = new BufferedReader(new FileReader("./data/Fine.csv"))) {
+            String line = br.readLine(); // Skip header
+            
+            if (line == null) {
+                System.out.println("Chua co ban ghi phat nao!");
+                return;
+            }
+            
+            // In header
+            System.out.println("+---------------+---------------+----------+------------------+--------------+-------------------+");
+            System.out.printf("| %-13s | %-13s | %-8s | %-16s | %-12s | %-17s |\n",
+                "Ma Phieu", "Ma Sach", "So Luong", "Phat/Ngay (VND)", "Ngay Tre", "Trang Thai");
+            System.out.println("+---------------+---------------+----------+------------------+--------------+-------------------+");
+            
+            // Đọc và in dữ liệu
+            boolean hasData = false;
+            while ((line = br.readLine()) != null) {
+                hasData = true;
+                String[] data = line.split(",");
+                
+                if (data.length >= 6) {
+                    System.out.printf("| %-13s | %-13s | %-8s | %,16.0f | %-12s | %-17s |\n",
+                        data[0], data[1], data[2], 
+                        Double.parseDouble(data[3]),
+                        data[4], data[5]);
+                }
+            }
+            
+            if (!hasData) {
+                System.out.println("|                            Chua co ban ghi phat nao!                           |");
+            }
+            
+            System.out.println("+---------------+---------------+----------+------------------+--------------+-------------------+");
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Chua co file Fine.csv. Chua co ban ghi phat nao!");
+        } catch (IOException e) {
+            System.err.println("Loi khi doc file Fine.csv: " + e.getMessage());
+        }
+    }
+
+    // Hàm đóng phạt
+    public void payFine() {
+        sc.nextLine();
+        System.out.print("Nhap ma phieu muon can dong phat: ");
+        String ticketID = sc.nextLine();
+        
+        System.out.print("Nhap ma sach: ");
+        String bookID = sc.nextLine();
+        
+        try {
+            // Đọc tất cả dữ liệu
+            List<String> lines = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader("./data/Fine.csv"));
+            
+            String header = br.readLine();
+            lines.add(header);
+            
+            String line;
+            boolean found = false;
+            
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                
+                // Kiểm tra trùng mã phiếu và mã sách
+                if (data[0].equals(ticketID) && data[1].equals(bookID)) {
+                    // Cập nhật trạng thái
+                    data[5] = "Da dong phat";
+                    line = String.join(",", data);
+                    found = true;
+                    System.out.println("Da cap nhat trang thai dong phat!");
+                }
+                
+                lines.add(line);
+            }
+            br.close();
+            
+            if (!found) {
+                System.out.println("Khong tim thay ban ghi phat!");
+                return;
+            }
+            
+            // Ghi lại file
+            BufferedWriter bw = new BufferedWriter(new FileWriter("./data/Fine.csv"));
+            for (String l : lines) {
+                bw.write(l);
+                bw.newLine();
+            }
+            bw.close();
+            
+            System.out.println("Da dong phat thanh cong!");
+            
+        } catch (IOException e) {
+            System.err.println("Loi khi xu ly file Fine.csv: " + e.getMessage());
         }
     }
 }
