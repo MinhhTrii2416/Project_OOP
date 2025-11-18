@@ -53,5 +53,6 @@ abstract public class Person {
         if(Pnumber.length() < 10 || Pnumber.length() > 11) return false;
         return true;
     }
+    
     abstract public void showINFO();
 }

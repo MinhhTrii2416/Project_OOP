@@ -84,9 +84,4 @@ public class LoanTicket {
         }
         System.out.println("-------------------------");
     }
-
-    
-
-    
-
 }

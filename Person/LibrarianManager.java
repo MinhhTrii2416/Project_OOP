@@ -129,11 +129,12 @@ public class LibrarianManager implements DataService {
             // Lấy phần số từ mã (bỏ chữ "L")
             if (id != null && id.startsWith("L") && id.length() > 1) {
                 try {
-                    int number = Integer.parseInt(id.substring(1));
-                    if (number > maxNumber) {
+                        int number = Integer.parseInt(id.substring(1));
+                        if (number > maxNumber) {
                         maxNumber = number;
                     }
-                } catch (NumberFormatException e) {
+                } 
+                catch (NumberFormatException e) {
                 }
             }
         }
