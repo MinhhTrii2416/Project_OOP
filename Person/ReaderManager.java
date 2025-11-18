@@ -134,7 +134,7 @@ public class ReaderManager implements DataService{
     // hàm tự tạo mã cho người đọc mới
     private String idNew(){
         if (list.isEmpty()) {
-            return "RD001"; // Nếu chưa có người đọc nào, bắt đầu từ RD001
+            return "R001"; // Nếu chưa có người đọc nào, bắt đầu từ RD001
         }
         
         // Tìm số thứ tự lớn nhất hiện có
@@ -142,9 +142,9 @@ public class ReaderManager implements DataService{
         for (Reader reader : list) {
             String id = reader.getReaderID();
             // Lấy phần số từ mã (bỏ chữ "RD")
-            if (id != null && id.startsWith("RD") && id.length() > 2) {
+            if (id != null && id.startsWith("R") && id.length() > 2) {
                 try {
-                    int number = Integer.parseInt(id.substring(2));
+                    int number = Integer.parseInt(id.substring(1));
                     if (number > maxNumber) {
                         maxNumber = number;
                     }
@@ -156,14 +156,14 @@ public class ReaderManager implements DataService{
         
         // Tạo mã mới = số lớn nhất + 1
         int newNumber = maxNumber + 1;
-        return String.format("RD%03d", newNumber); // Format: RD001, RD002,...
+        return String.format("R%03d", newNumber); // Format: RD001, RD002,...
     }
 
     // hàm thêm người đọc
     public void add(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Hay nhap vao cac thong tin nguoi doc moi");
-        String readerID, name, gender, address, phoneNumber, email;
+        String readerID, name, gender, address, phoneNumber = "", email = "";
         readerID = idNew();
         System.out.print("Nhap vao ten nguoi doc: ");
         name = sc.nextLine();
@@ -171,10 +171,37 @@ public class ReaderManager implements DataService{
         gender = sc.nextLine();
         System.out.print("Nhap vao dia chi cua nguoi doc: ");
         address = sc.nextLine();
-        System.out.print("Nhap vao so dien thoai nguoi doc: ");
-        phoneNumber = sc.nextLine();
-        System.out.print("Nhap vao email nguoi doc: ");
-        email = sc.nextLine();
+        
+        // Validation phone number
+        boolean validPhone = false;
+        while (!validPhone) {
+            System.out.print("Nhap vao so dien thoai nguoi doc: ");
+            phoneNumber = sc.nextLine();
+            if (new Person() {
+                @Override
+                public void showINFO() {}
+            }.checkPhoneNum(phoneNumber)) {
+                validPhone = true;
+            } else {
+                System.out.println("So dien thoai khong hop le! (Phai co 10-11 so)");
+            }
+        }
+        
+        // Validation email
+        boolean validEmail = false;
+        while (!validEmail) {
+            System.out.print("Nhap vao email nguoi doc: ");
+            email = sc.nextLine();
+            if (new Person() {
+                @Override
+                public void showINFO() {}
+            }.checkEmail(email)) {
+                validEmail = true;
+            } else {
+                System.out.println("Email khong hop le! (VD: user@example.com)");
+            }
+        }
+        
         System.out.printf("| %-10s | %-20s | %-10s | %-40s | %-15s | %-30s |\n", readerID, name, gender, address, phoneNumber, email);
         int xac_nhan = -1;
         while(xac_nhan != 0){
@@ -459,16 +486,40 @@ public class ReaderManager implements DataService{
     // update so dien thoai 
     private void updatePhoneNumber(Reader ur){
         String phoneNumber;
-        System.out.print("Nhap vao so dien thoai ban muon sua: ");
-        phoneNumber = sc.nextLine();
-        ur.setPhoneNumber(phoneNumber);
+        boolean validPhone = false;
+        while (!validPhone) {
+            System.out.print("Nhap vao so dien thoai ban muon sua: ");
+            phoneNumber = sc.nextLine();
+            if (new Person() {
+                @Override
+                public void showINFO() {}
+            }.checkPhoneNum(phoneNumber)) {
+                ur.setPhoneNumber(phoneNumber);
+                validPhone = true;
+                System.out.println("Cap nhat so dien thoai thanh cong!");
+            } else {
+                System.out.println("So dien thoai khong hop le! (Phai co 10-11 so)");
+            }
+        }
     }
     // update email
     private void updateEmail(Reader ur){
         String email;
-        System.out.print("Nhap vao email moi: ");
-        email = sc.nextLine();
-        ur.setEmail(email);
+        boolean validEmail = false;
+        while (!validEmail) {
+            System.out.print("Nhap vao email moi: ");
+            email = sc.nextLine();
+            if (new Person() {
+                @Override
+                public void showINFO() {}
+            }.checkEmail(email)) {
+                ur.setEmail(email);
+                validEmail = true;
+                System.out.println("Cap nhat email thanh cong!");
+            } else {
+                System.out.println("Email khong hop le! (VD: user@example.com)");
+            }
+        }
     }
 
 
