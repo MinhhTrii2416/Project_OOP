@@ -26,6 +26,7 @@ public class BookManager implements DataService {
         allBooks.addAll(loadFictionBooks());
         allBooks.addAll(loadComicBooks());
         allBooks.addAll(loadReferenceBooks());
+        // System.out.println("Loaded " + allBooks.size() + " books in total.");
     }
 
     // Load TextBooks từ CSV

@@ -116,20 +116,39 @@ public class LibrarianManager implements DataService {
         else showList(kq);
     }
 
+    // hàm tự tạo mã thủ thư mới
+    private String idNew(){
+         if (list.isEmpty()) {
+            return "L001"; 
+        }
+        
+        // Tìm số thứ tự lớn nhất hiện có
+        int maxNumber = 0;
+        for (Librarian librarian : list) {
+            String id = librarian.getLibrarianID();
+            // Lấy phần số từ mã (bỏ chữ "L")
+            if (id != null && id.startsWith("L") && id.length() > 1) {
+                try {
+                    int number = Integer.parseInt(id.substring(1));
+                    if (number > maxNumber) {
+                        maxNumber = number;
+                    }
+                } catch (NumberFormatException e) {
+                }
+            }
+        }
+        
+        // Tạo mã mới = số lớn nhất + 1
+        int newNumber = maxNumber + 1;
+        return String.format("L%03d", newNumber); // Format: L001, L002,...
+    }
+
     //hàm thêm thủ thư
     public void add(){
         sc.nextLine();
         String name, gender, phoneNumber, address, email, librarianID = null, shift, password = null;
         Double salary;
-        boolean flag = false;
-        while(!flag){
-            System.out.print("Nhap vao id thu thu ban can tao: ");  
-            librarianID = sc.nextLine();
-            if(checkID(librarianID)){
-                System.out.println("Id nay da duoc tao hay nhap ID khac!");
-            }
-            else flag = true;
-        }
+        librarianID = idNew();
         System.out.print("Nhap vao ten thu thu can tao: ");
         name = sc.nextLine();
         System.out.print("Nhap vao gioi tinh thu thu can tao: ");
@@ -140,13 +159,13 @@ public class LibrarianManager implements DataService {
         address = sc.nextLine();
         System.out.print("Nhap vao emai cua thu thu: ");
         email = sc.nextLine();
-        System.out.print("Nhap vao chuc vu cua thu thu: ");
+        System.out.print("Nhap vao ca lam thu thu: ");
         shift = sc.nextLine();
         System.out.print("Hay nhap vao luong cua thu thu nay: ");
         salary = sc.nextDouble();
         sc.nextLine();
         // nhập password hai lần
-        flag = false;
+        boolean flag = false;
         String password1;
         while(!flag){
             System.out.print("Nhap password ban muon tao: "); password = sc.nextLine();

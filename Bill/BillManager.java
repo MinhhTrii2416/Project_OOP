@@ -93,29 +93,35 @@ public class BillManager implements DataService {
         }
     }
 
+    // Hàm tự tạo mã bill
+    private String idNew(){
+        if (list.isEmpty()) {
+            return "HD001";
+        }
+        
+        int maxNumber = 0;
+        for (Bill bill : list) {
+            String id = bill.getBill_ID();
+            if (id != null && id.startsWith("HD") && id.length() > 2) {
+                try {
+                    int number = Integer.parseInt(id.substring(2));
+                    maxNumber = Math.max(maxNumber, number);
+                } catch (NumberFormatException e) {
+                    // Ignore invalid format
+                }
+            }
+        }
+        
+        return String.format("HD%03d", maxNumber + 1);
+    }
+
     // Hàm thêm hóa đơn: Kiểm tra ID người đọc, thủ thư, và sách. Dùng ngày hệ thống
     public void add() {
         String librarianID = null, readerID = null, billID = null;
         int count = 0;
 
-        // 1. Nhập và kiểm tra ID hóa đơn (Kiểm tra trùng lặp)
-        while(count < maxAttempts){
-            System.out.print("Nhap ma hoa don: ");
-            billID = sc.nextLine();
-            if( checkID(billID) ){
-                System.out.println("Ma BillID nay da co. Hay tao ma BillID moi!");
-                ++count;
-            }
-            else{
-                break; 
-            }
-            if( count >= maxAttempts){
-                System.out.println("Da qua so lan nhap ma hoa don! Dung them hoa don.");
-                return;
-            }
-        }
-        if (count >= maxAttempts) return;
-
+        // 1. Gọi hàm tự tạo mã bill
+        billID = idNew();
 
         // 2. Nhập và kiểm tra ID người đọc (Kiểm tra tồn tại)
         ReaderManager RM = new ReaderManager();
@@ -178,7 +184,6 @@ public class BillManager implements DataService {
                 
                 // Kiểm tra sự tồn tại của sách
                 for( Book b : BM.getAllBooks() ){ // Giả định BM.getAllBooks() hoạt động
-                    System.out.println(b.getBookID());
                     if( b.getBookID().equals(bookID)){
                         bookFound = true;
                         break; 

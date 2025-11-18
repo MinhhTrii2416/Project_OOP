@@ -131,22 +131,40 @@ public class ReaderManager implements DataService{
         }
     }
 
+    // hàm tự tạo mã cho người đọc mới
+    private String idNew(){
+        if (list.isEmpty()) {
+            return "RD001"; // Nếu chưa có người đọc nào, bắt đầu từ RD001
+        }
+        
+        // Tìm số thứ tự lớn nhất hiện có
+        int maxNumber = 0;
+        for (Reader reader : list) {
+            String id = reader.getReaderID();
+            // Lấy phần số từ mã (bỏ chữ "RD")
+            if (id != null && id.startsWith("RD") && id.length() > 2) {
+                try {
+                    int number = Integer.parseInt(id.substring(2));
+                    if (number > maxNumber) {
+                        maxNumber = number;
+                    }
+                } catch (NumberFormatException e) {
+                    // Bỏ qua nếu format không đúng
+                }
+            }
+        }
+        
+        // Tạo mã mới = số lớn nhất + 1
+        int newNumber = maxNumber + 1;
+        return String.format("RD%03d", newNumber); // Format: RD001, RD002,...
+    }
+
     // hàm thêm người đọc
     public void add(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Hay nhap vao cac thong tin nguoi doc moi");
         String readerID, name, gender, address, phoneNumber, email;
-        boolean flag = false;
-        do{
-            System.out.print("Nhap vao ID can tao: ");
-            readerID = sc.nextLine();
-            if(!checkID(readerID)){
-                flag = true;
-            }
-            else{
-                System.out.println("Id nay da co hay nhap lai!");
-            }
-        }while(!flag);
+        readerID = idNew();
         System.out.print("Nhap vao ten nguoi doc: ");
         name = sc.nextLine();
         System.out.print("Nhap vao gioi tinh nguoi doc: ");

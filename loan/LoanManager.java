@@ -295,22 +295,41 @@ public class LoanManager implements DataService {
         }
     }
 
+    // hàm tự tạo mã phiếu mượn mới
+    private String idNew(){
+          if (list.isEmpty()) {
+            return "LT_001"; // Nếu chưa có phiếu mượn nào, bắt đầu từ LT_001
+        }
+        
+        // Tìm số thứ tự lớn nhất hiện có
+        int maxNumber = 0;
+        for (LoanTicket ticket : list) {
+            String id = ticket.getTicketID();
+            // Lấy phần số từ mã (bỏ chữ "LT_")
+            if (id != null && id.startsWith("LT_") && id.length() > 3) {
+                try {
+                    int number = Integer.parseInt(id.substring(3)); // Bỏ "LT_"
+                    if (number > maxNumber) {
+                        maxNumber = number;
+                    }
+                } catch (NumberFormatException e) {
+                    // Bỏ qua nếu format không đúng
+                }
+            }
+        }
+        
+        // Tạo mã mới = số lớn nhất + 1
+        int newNumber = maxNumber + 1;
+        return String.format("LT_%03d", newNumber); // Format: LT_001, LT_002,...
+    } 
+
     // 3. Hàm thêm phiếu mượn mới (add)
     public void add() {
         sc.nextLine(); // Clear buffer
         System.out.println("\n--- THEM PHIEU MUON MOI ---");
 
         // 1. Nhập và kiểm tra ID phiếu mượn
-        String ticketID;
-        LoanTicket existingTicket;
-        do {
-            System.out.print("Nhap ID phieu muon (vi du: LT001): ");
-            ticketID = sc.nextLine();
-            existingTicket = findTicketByID(ticketID); // Cần tạo hàm findTicketByID
-            if (existingTicket != null) {
-                System.out.println("ID phieu muon da ton tai. Vui long nhap ID khac.");
-            }
-        } while (existingTicket != null);
+        String ticketID = idNew();
 
         // 2. Nhập và kiểm tra Reader
         Reader reader = null;
