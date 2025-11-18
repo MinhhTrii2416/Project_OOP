@@ -17,7 +17,7 @@ public class Reader extends Person{
         super(Name, gender, phoneNumber, email, address);
         this.readerID = readerID;
     }
-    //@Override
+    @Override
     public void showINFO(){
         System.out.println("Thong tin nguoi doc: ");
         System.out.println("Name: " + this.Name);

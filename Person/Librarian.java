@@ -42,10 +42,6 @@ public class Librarian extends Person {
         System.out.println("Salary: " + this.salary);
         System.out.println("Password: " + this.password);
     }
-    // đăng nhập
-    public void Login(){
-        
-    }
     // làm menu chính cho thủ thư
     public void menuMain(){
         Scanner sc = new Scanner(System.in);
@@ -137,7 +133,6 @@ public class Librarian extends Person {
                     // cập nhập vô file csv
                     LibrarianManager LM = new LibrarianManager();
                     for(Librarian l: LM.list){
-                        System.out.println("TEST!");
                         if(l.getLibrarianID().equals(this.librarianID)){
                             l.setPassword(password1);
                             break;
