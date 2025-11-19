@@ -700,42 +700,48 @@ public class LoanManager implements DataService {
     }
 
     // Hàm xem danh sách phạt
-    public void viewFineList() {
+   public void viewFineList() {
         System.out.println("\n========== DANH SACH PHAT ==========");
         
         try (BufferedReader br = new BufferedReader(new FileReader("./data/Fine.csv"))) {
-            String line = br.readLine(); // Skip header
+            String line = br.readLine();
             
             if (line == null) {
                 System.out.println("Chua co ban ghi phat nao!");
                 return;
             }
             
-            // In header
-            System.out.println("+---------------+---------------+----------+------------------+--------------+-------------------+");
-            System.out.printf("| %-13s | %-13s | %-8s | %-16s | %-12s | %-17s |\n",
-                "Ma Phieu", "Ma Sach", "So Luong", "Phat/Ngay (VND)", "Ngay Tre", "Trang Thai");
-            System.out.println("+---------------+---------------+----------+------------------+--------------+-------------------+");
+            System.out.println("+---------------+---------------+----------+------------------+--------------+------------------+-------------------+");
+            System.out.printf("| %-13s | %-13s | %-8s | %-16s | %-12s | %-16s | %-17s |\n",
+                "Ma Phieu", "Ma Sach", "So Luong", "Phat/Ngay (VND)", "Ngay Tre", "Tong Phat (VND)", "Trang Thai");
+            System.out.println("+---------------+---------------+----------+------------------+--------------+------------------+-------------------+");
             
-            // Đọc và in dữ liệu
             boolean hasData = false;
             while ((line = br.readLine()) != null) {
                 hasData = true;
                 String[] data = line.split(",");
                 
                 if (data.length >= 6) {
-                    System.out.printf("| %-13s | %-13s | %-8s | %,16.0f | %-12s | %-17s |\n",
+                    // TÍNH TongPhat = GiaPhatMotNgay * SoNgayTre * SoLuong
+                    int quantity = Integer.parseInt(data[2]);
+                    double finePerDay = Double.parseDouble(data[3]);
+                    int daysLate = Integer.parseInt(data[4]);
+                    double totalFine = finePerDay * daysLate * quantity;
+                    
+                    System.out.printf("| %-13s | %-13s | %-8s | %,16.0f | %-12s | %,16.0f | %-17s |\n",
                         data[0], data[1], data[2], 
-                        Double.parseDouble(data[3]),
-                        data[4], data[5]);
+                        finePerDay,
+                        data[4], 
+                        totalFine,  // TÍNH RA
+                        data[5]);   // TrangThai ở INDEX 5
                 }
             }
             
             if (!hasData) {
-                System.out.println("|                            Chua co ban ghi phat nao!                           |");
+                System.out.println("|                              Chua co ban ghi phat nao!                                |");
             }
             
-            System.out.println("+---------------+---------------+----------+------------------+--------------+-------------------+");
+            System.out.println("+---------------+---------------+----------+------------------+--------------+------------------+-------------------+");
             
         } catch (FileNotFoundException e) {
             System.out.println("Chua co file Fine.csv. Chua co ban ghi phat nao!");
@@ -747,14 +753,105 @@ public class LoanManager implements DataService {
     // Hàm đóng phạt
     public void payFine() {
         sc.nextLine();
-        System.out.print("Nhap ma phieu muon can dong phat: ");
-        String ticketID = sc.nextLine();
+        String ticketID;
+        LoanTicket ticket = null;
         
-        System.out.print("Nhap ma sach: ");
-        String bookID = sc.nextLine();
+        do {
+            System.out.print("Nhap ma phieu muon can dong phat: ");
+            ticketID = sc.nextLine();
+            
+            if (!checkID(ticketID)) {
+                System.out.println("Khong tim thay phieu muon nay! Hay nhap lai!");
+            } else {
+                ticket = findTicketByID(ticketID);
+                break;
+            }
+        } while (true);
+        
+        ArrayList<String[]> finesForTicket = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("./data/Fine.csv"))) {
+            br.readLine();
+            String line;
+            
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 6 && data[0].equals(ticketID)) {
+                    if (data[5].trim().equals("Chua dong phat")) {
+                        finesForTicket.add(data);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Loi khi doc file Fine.csv!");
+            return;
+        }
+        
+        if (finesForTicket.isEmpty()) {
+            System.out.println("\nPhieu muon nay khong co phat nao hoac da dong het phat!");
+            return;
+        }
+        
+        System.out.println("\n========== THONG TIN PHIEU MUON ==========");
+        ticket.showLoanTicket();
+        
+        System.out.println("\n========== DANH SACH PHAT CHUA DONG ==========");
+        System.out.println("+--------------+--------------------------------+----------+------------+--------------------+");
+        System.out.printf("| %-12s | %-30s | %-8s | %-10s | %-18s |\n",
+            "Ma Sach", "Ten Sach", "So Luong", "Ngay Tre", "Tien Phat (VND)");
+        System.out.println("+--------------+--------------------------------+----------+------------+--------------------+");
+        
+        for (String[] fine : finesForTicket) {
+            String bookID = fine[1];
+            
+            // TÍNH TongPhat
+            int qty = Integer.parseInt(fine[2]);
+            double finePerDay = Double.parseDouble(fine[3]);
+            int days = Integer.parseInt(fine[4]);
+            double totalFine = finePerDay * days * qty;
+            
+            String bookName = "Unknown";
+            Book book = bookManager.findBookByID(bookID);
+            if (book != null) {
+                bookName = book.getName();
+            }
+            
+            if (bookName.length() > 30) {
+                bookName = bookName.substring(0, 27) + "...";
+            }
+            
+            System.out.printf("| %-12s | %-30s | %-8s | %-10s | %,18.0f |\n",
+                bookID, bookName, fine[2], days, totalFine);
+        }
+        System.out.println("+--------------+--------------------------------+----------+------------+--------------------+");
+        
+        String bookID;
+        boolean validBook = false;
+        
+        do {
+            System.out.print("\nNhap ma sach can dong phat (hoac 'all' de dong het): ");
+            bookID = sc.nextLine();
+            
+            if (bookID.equalsIgnoreCase("all")) {
+                validBook = true;
+                break;
+            }
+            
+            boolean found = false;
+            for (String[] fine : finesForTicket) {
+                if (fine[1].equals(bookID)) {
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (!found) {
+                System.out.println("Ma sach khong co trong danh sach phat! Hay nhap lai!");
+            } else {
+                validBook = true;
+            }
+        } while (!validBook);
         
         try {
-            // Đọc tất cả dữ liệu
             List<String> lines = new ArrayList<>();
             BufferedReader br = new BufferedReader(new FileReader("./data/Fine.csv"));
             
@@ -762,30 +859,38 @@ public class LoanManager implements DataService {
             lines.add(header);
             
             String line;
-            boolean found = false;
+            int updateCount = 0;
+            double totalPaid = 0.0;
             
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 
-                // Kiểm tra trùng mã phiếu và mã sách
-                if (data[0].equals(ticketID) && data[1].equals(bookID)) {
-                    // Cập nhật trạng thái
-                    data[5] = "Da dong phat";
-                    line = String.join(",", data);
-                    found = true;
-                    System.out.println("Da cap nhat trang thai dong phat!");
+                if (data.length >= 6 && data[0].equals(ticketID)) {
+                    if (bookID.equalsIgnoreCase("all") || data[1].equals(bookID)) {
+                        if (data[5].trim().equals("Chua dong phat")) {  // INDEX 5
+                            // TÍNH TongPhat
+                            double finePerDay = Double.parseDouble(data[3]);
+                            int days = Integer.parseInt(data[4]);
+                            int qty = Integer.parseInt(data[2]);
+                            totalPaid += (finePerDay * days * qty);
+                            
+                            data[5] = "Da dong phat";  // CẬP NHẬT INDEX 5
+                            line = String.join(",", data);
+                            updateCount++;
+                        }
+                    }
                 }
                 
                 lines.add(line);
             }
             br.close();
             
-            if (!found) {
-                System.out.println("Khong tim thay ban ghi phat!");
+            // kiểm tra xem có cập nhập đúng không
+            if (updateCount == 0) {
+                System.out.println("Khong co phat nao duoc cap nhat!");
                 return;
             }
             
-            // Ghi lại file
             BufferedWriter bw = new BufferedWriter(new FileWriter("./data/Fine.csv"));
             for (String l : lines) {
                 bw.write(l);
@@ -793,7 +898,16 @@ public class LoanManager implements DataService {
             }
             bw.close();
             
-            System.out.println("Da dong phat thanh cong!");
+            System.out.println("\n========== DONG PHAT THANH CONG ==========");
+            System.out.println("Ma phieu muon: " + ticketID);
+            if (bookID.equalsIgnoreCase("all")) {
+                System.out.println("Da dong tat ca phat cua phieu nay");
+            } else {
+                System.out.println("Ma sach: " + bookID);
+            }
+            System.out.println("So luong phat da dong: " + updateCount);
+            System.out.println("Tong so tien da dong: " + String.format("%,.0f", totalPaid) + " VND");
+            System.out.println("==========================================");
             
         } catch (IOException e) {
             System.err.println("Loi khi xu ly file Fine.csv: " + e.getMessage());
