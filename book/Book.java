@@ -82,7 +82,7 @@ public abstract class Book {
 // methods - funtions
     public abstract double calcFine(int songay); // Calculate the fine;
     public abstract void showINFO();
-    public abstract void showInfo_1(); // Hiển thị thông tin trên 1 dòng
+    public abstract void showInfo_1(); 
     public abstract void enterInfo();
 
     // Reset tất cả các bộ đếm ID về giá trị ban đầu
